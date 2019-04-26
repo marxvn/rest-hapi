@@ -15,7 +15,7 @@ let logging = require('loggin')
 let logger = logging.getLogger('tests')
 logger.logLevel = 'ERROR'
 let testHelper = require('../../utilities/test-helper')
-let Joi = require('joi')
+let Joi = require('@hapi/joi')
 let Q = require('q')
 
 // test('handler-helper-factory exists and has expected members', function (t) {

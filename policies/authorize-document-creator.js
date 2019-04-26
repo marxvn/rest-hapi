@@ -1,6 +1,6 @@
 'use strict'
 
-const Boom = require('boom')
+const Boom = require('@hapi/boom')
 const _ = require('lodash')
 const config = require('../config')
 
@@ -12,7 +12,7 @@ const internals = {}
  * @param logger
  * @returns {authorizeDocumentCreatorForModel}
  */
-internals.authorizeDocumentCreator = function(model, logger) {
+internals.authorizeDocumentCreator = function (model, logger) {
   const authorizeDocumentCreatorForModel = function authorizeDocumentCreatorForModel(
     request,
     h
@@ -33,7 +33,7 @@ internals.authorizeDocumentCreator.applyPoint = 'onPreHandler'
  * @param logger
  * @returns {authorizeDocumentCreatorToReadForModel}
  */
-internals.authorizeDocumentCreatorToRead = function(model, logger) {
+internals.authorizeDocumentCreatorToRead = function (model, logger) {
   const authorizeDocumentCreatorToReadForModel = function authorizeDocumentCreatorToReadForModel(
     request,
     h
@@ -54,7 +54,7 @@ internals.authorizeDocumentCreatorToRead.applyPoint = 'onPreHandler'
  * @param logger
  * @returns {authorizeDocumentCreatorToUpdateForModel}
  */
-internals.authorizeDocumentCreatorToUpdate = function(model, logger) {
+internals.authorizeDocumentCreatorToUpdate = function (model, logger) {
   const authorizeDocumentCreatorToUpdateForModel = function authorizeDocumentCreatorToUpdateForModel(
     request,
     h
@@ -75,7 +75,7 @@ internals.authorizeDocumentCreatorToUpdate.applyPoint = 'onPreHandler'
  * @param logger
  * @returns {authorizeDocumentCreatorToDeleteForModel}
  */
-internals.authorizeDocumentCreatorToDelete = function(model, logger) {
+internals.authorizeDocumentCreatorToDelete = function (model, logger) {
   const authorizeDocumentCreatorToDeleteForModel = function authorizeDocumentCreatorToDeleteForModel(
     request,
     h
@@ -96,7 +96,7 @@ internals.authorizeDocumentCreatorToDelete.applyPoint = 'onPreHandler'
  * @param logger
  * @returns {authorizeDocumentCreatorToAssociateForModel}
  */
-internals.authorizeDocumentCreatorToAssociate = function(model, logger) {
+internals.authorizeDocumentCreatorToAssociate = function (model, logger) {
   const authorizeDocumentCreatorToAssociateForModel = function authorizeDocumentCreatorToAssociateForModel(
     request,
     h
@@ -119,7 +119,7 @@ internals.authorizeDocumentCreatorToAssociate.applyPoint = 'onPreHandler'
  * @param logger
  * @returns {*}
  */
-internals.addScope = function(action, request, h, logger) {
+internals.addScope = function (action, request, h, logger) {
   const Log = logger.bind()
   try {
     let scopeType = ''
@@ -153,7 +153,7 @@ internals.addScope = function(action, request, h, logger) {
     }
 
     if (_.isArray(request.payload)) {
-      request.payload.forEach(function(document) {
+      request.payload.forEach(function (document) {
         let scope = {}
         scope[scopeType] = []
 

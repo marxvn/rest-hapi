@@ -1,6 +1,6 @@
 'use strict'
 
-const Boom = require('boom')
+const Boom = require('@hapi/boom')
 const _ = require('lodash')
 
 const internals = {}
@@ -11,7 +11,7 @@ const internals = {}
  * @param logger
  * @returns {addDocumentScopeForModel}
  */
-internals.addDocumentScope = function(model, logger) {
+internals.addDocumentScope = function (model, logger) {
   const addDocumentScopeForModel = function addDocumentScopeForModel(
     request,
     h
@@ -23,7 +23,7 @@ internals.addDocumentScope = function(model, logger) {
       if (scope) {
         for (let scopeType in scope) {
           if (_.isArray(request.payload)) {
-            request.payload.forEach(function(document) {
+            request.payload.forEach(function (document) {
               document.scope = document.scope || {}
               document.scope[scopeType] = document.scope[scopeType] || []
               document.scope[scopeType] = document.scope[scopeType].concat(

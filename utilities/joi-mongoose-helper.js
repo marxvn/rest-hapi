@@ -1,6 +1,6 @@
 'use strict'
 
-let Joi = require('joi')
+let Joi = require('@hapi/joi')
 Joi.objectId = require('joi-objectid')(Joi)
 let _ = require('lodash')
 let validationHelper = require('./validation-helper')
@@ -21,7 +21,7 @@ const internals = {}
  * @param logger: A logging object.
  * @returns {*}: A Joi object
  */
-internals.generateJoiReadModel = function(model, logger) {
+internals.generateJoiReadModel = function (model, logger) {
   const Log = logger.bind()
   validationHelper.validateModel(model, Log)
 
@@ -81,7 +81,7 @@ internals.generateJoiReadModel = function(model, logger) {
         // EXPL: remove the key for the current model
         if (associationModel._inner.children) {
           associationModel._inner.children = associationModel._inner.children.filter(
-            function(key) {
+            function (key) {
               return key.key !== model.modelName
             }
           )
@@ -129,7 +129,7 @@ internals.generateJoiReadModel = function(model, logger) {
  * @param logger: A logging object.
  * @returns {*}: A Joi object
  */
-internals.generateJoiUpdateModel = function(model, logger) {
+internals.generateJoiUpdateModel = function (model, logger) {
   const Log = logger.bind()
   validationHelper.validateModel(model, Log)
 
@@ -148,8 +148,8 @@ internals.generateJoiUpdateModel = function(model, logger) {
 
     let canUpdateAssociation = association
       ? association.type === 'ONE_ONE' ||
-        association.type === 'MANY_ONE' ||
-        association.type === '_MANY'
+      association.type === 'MANY_ONE' ||
+      association.type === '_MANY'
       : false
 
     if (internals.isValidField(fieldName, field, model)) {
@@ -189,7 +189,7 @@ internals.generateJoiUpdateModel = function(model, logger) {
  * @param logger: A logging object.
  * @returns {*}: A Joi object
  */
-internals.generateJoiCreateModel = function(model, logger) {
+internals.generateJoiCreateModel = function (model, logger) {
   const Log = logger.bind()
   validationHelper.validateModel(model, Log)
 
@@ -208,8 +208,8 @@ internals.generateJoiCreateModel = function(model, logger) {
 
     let canCreateAssociation = association
       ? association.type === 'ONE_ONE' ||
-        association.type === 'MANY_ONE' ||
-        association.type === '_MANY'
+      association.type === 'MANY_ONE' ||
+      association.type === '_MANY'
       : false
 
     if (internals.isValidField(fieldName, field, model)) {
@@ -250,7 +250,7 @@ internals.generateJoiCreateModel = function(model, logger) {
  * @param logger: A logging object.
  * @returns {*}: A Joi object
  */
-internals.generateJoiListQueryModel = function(model, logger) {
+internals.generateJoiListQueryModel = function (model, logger) {
   const Log = logger.bind()
   let queryModel = {
     $skip: Joi.number()
@@ -288,25 +288,25 @@ internals.generateJoiListQueryModel = function(model, logger) {
         .items(Joi.string().valid(readableFields))
         .description(
           'A list of basic fields to be included in each resource. Valid values include: ' +
-            readableFields.toString().replace(/,/g, ', ')
+          readableFields.toString().replace(/,/g, ', ')
         ),
       Joi.string().valid(readableFields)
     )
     queryModel.$text = Joi.any().description(
       'A full text search parameter. Takes advantage of indexes for efficient searching. Also implements stemming ' +
-        'with searches. Prefixing search terms with a "-" will exclude results that match that term.'
+      'with searches. Prefixing search terms with a "-" will exclude results that match that term.'
     )
     queryModel.$term = Joi.any().description(
       "A regex search parameter. Slower than `$text` search but supports partial matches and doesn't require " +
-        'indexing. This can be refined using the `$searchFields` parameter.'
+      'indexing. This can be refined using the `$searchFields` parameter.'
     )
     queryModel.$searchFields = Joi.alternatives().try(
       Joi.array()
         .items(Joi.string().valid(queryableFields))
         .description(
           'A set of fields to apply the `$term` search parameter to. If this parameter is not included, the `$term` ' +
-            'search parameter is applied to all searchable fields. Valid values include: ' +
-            queryableFields.toString().replace(/,/g, ', ')
+          'search parameter is applied to all searchable fields. Valid values include: ' +
+          queryableFields.toString().replace(/,/g, ', ')
         ),
       Joi.string().valid(queryableFields)
     )
@@ -315,9 +315,9 @@ internals.generateJoiListQueryModel = function(model, logger) {
         .items(Joi.string().valid(sortableFields))
         .description(
           'A set of fields to sort by. Including field name indicates it should be sorted ascending, while prepending ' +
-            "'-' indicates descending. The default sort direction is 'ascending' (lowest value to highest value). Listing multiple" +
-            'fields prioritizes the sort starting with the first field listed. Valid values include: ' +
-            sortableFields.toString().replace(/,/g, ', ')
+          "'-' indicates descending. The default sort direction is 'ascending' (lowest value to highest value). Listing multiple" +
+          'fields prioritizes the sort starting with the first field listed. Valid values include: ' +
+          sortableFields.toString().replace(/,/g, ', ')
         ),
       Joi.string().valid(sortableFields)
     )
@@ -336,7 +336,7 @@ internals.generateJoiListQueryModel = function(model, logger) {
         .description('An optional field for raw mongoose queries.')
     }
 
-    _.each(queryableFields, function(fieldName) {
+    _.each(queryableFields, function (fieldName) {
       const joiModel = internals.generateJoiModelFromFieldType(
         model.schema.paths[fieldName].options,
         Log
@@ -357,9 +357,9 @@ internals.generateJoiListQueryModel = function(model, logger) {
         .items(Joi.string())
         .description(
           'A set of complex object properties to populate. Valid first level values include ' +
-            Object.keys(associations)
-              .toString()
-              .replace(/,/g, ', ')
+          Object.keys(associations)
+            .toString()
+            .replace(/,/g, ', ')
         ),
       Joi.string()
     )
@@ -383,7 +383,7 @@ internals.generateJoiListQueryModel = function(model, logger) {
  * @param logger: A logging object.
  * @returns {*}: A Joi object
  */
-internals.generateJoiFindQueryModel = function(model, logger) {
+internals.generateJoiFindQueryModel = function (model, logger) {
   const Log = logger.bind()
   let queryModel = {}
 
@@ -395,7 +395,7 @@ internals.generateJoiFindQueryModel = function(model, logger) {
         .items(Joi.string().valid(readableFields))
         .description(
           'A list of basic fields to be included in each resource. Valid values include: ' +
-            readableFields.toString().replace(/,/g, ', ')
+          readableFields.toString().replace(/,/g, ', ')
         ),
       Joi.string().valid(readableFields)
     )
@@ -408,9 +408,9 @@ internals.generateJoiFindQueryModel = function(model, logger) {
         .items(Joi.string())
         .description(
           'A set of complex object properties to populate. Valid first level values include ' +
-            Object.keys(associations)
-              .toString()
-              .replace(/,/g, ', ')
+          Object.keys(associations)
+            .toString()
+            .replace(/,/g, ', ')
         ),
       Joi.string()
     )
@@ -437,7 +437,7 @@ internals.generateJoiFindQueryModel = function(model, logger) {
  * @param logger: A logging object
  * @returns {*}: A Joi object
  */
-internals.generateJoiFieldModel = function(
+internals.generateJoiFieldModel = function (
   model,
   field,
   fieldName,
@@ -528,7 +528,7 @@ internals.generateJoiFieldModel = function(
  * @param logger: A logging object.
  * @returns {*}: A Joi object.
  */
-internals.generateJoiModelFromFieldType = function(field, logger) {
+internals.generateJoiModelFromFieldType = function (field, logger) {
   let model
 
   // assert(field.type, "incorrect field format");
@@ -644,7 +644,7 @@ internals.generateJoiModelFromFieldType = function(field, logger) {
  * Provides easy access to the Joi ObjectId type.
  * @returns {*|{type}}
  */
-internals.joiObjectId = function() {
+internals.joiObjectId = function () {
   // EXPL: Rather than converting all objectIds to string for response, we allow raw mongoose.Types.ObjectId objects
   let objectIdModel = Joi.object({
     _bsontype: Joi.any().required(),
@@ -661,7 +661,7 @@ internals.joiObjectId = function() {
  * Returns true if arg is a true ObjectId or ObjectId string, false otherwise.
  * @returns {boolean}
  */
-internals.isObjectId = function(arg) {
+internals.isObjectId = function (arg) {
   let result = Joi.validate(arg, internals.joiObjectId())
 
   if (result.error) {
@@ -678,7 +678,7 @@ internals.isObjectId = function(arg) {
  * @param model: A mongoose model object
  * @returns {boolean}
  */
-internals.isValidField = function(fieldName, field, model) {
+internals.isValidField = function (fieldName, field, model) {
   const invalidFieldNames = ['__t', '__v']
 
   if (!_.isObject(field)) {

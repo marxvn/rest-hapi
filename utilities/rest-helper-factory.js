@@ -1,6 +1,6 @@
 'use strict'
 
-let Joi = require('joi')
+let Joi = require('@hapi/joi')
 Joi.objectId = require('joi-objectid')(Joi)
 let _ = require('lodash')
 let assert = require('assert')
@@ -14,7 +14,7 @@ let restHapiPolicies = require('./policy-generator')
 // TODO: remove "options"?
 // TODO: change model "alias" to "routeAlias" (or remove the option)
 
-module.exports = function(logger, mongoose, server) {
+module.exports = function (logger, mongoose, server) {
   let HandlerHelper = require('./handler-helper-factory')()
 
   let headersValidation
@@ -36,7 +36,7 @@ module.exports = function(logger, mongoose, server) {
      * @param model: A mongoose model.
      * @param options: options object.
      */
-    generateRoutes: function(server, model, options) {
+    generateRoutes: function (server, model, options) {
       // TODO: generate multiple DELETE routes at /RESOURCE and at
       // TODO: /RESOURCE/{ownerId}/ASSOCIATION that take a list of Id's as a payload
       try {
@@ -142,7 +142,7 @@ module.exports = function(logger, mongoose, server) {
      * @param options: Options object.
      * @param logger: A logging object.
      */
-    generateListEndpoint: function(server, model, options, logger) {
+    generateListEndpoint: function (server, model, options, logger) {
       // This line must come first
       validationHelper.validateModel(model, logger)
       const Log = logger.bind(chalk.yellow('List'))
@@ -267,7 +267,7 @@ module.exports = function(logger, mongoose, server) {
      * @param options: Options object.
      * @param logger: A logging object.
      */
-    generateFindEndpoint: function(server, model, options, logger) {
+    generateFindEndpoint: function (server, model, options, logger) {
       // This line must come first
       validationHelper.validateModel(model, logger)
       const Log = logger.bind(chalk.yellow('Find'))
@@ -390,7 +390,7 @@ module.exports = function(logger, mongoose, server) {
      * @param options: Options object.
      * @param logger: A logging object.
      */
-    generateCreateEndpoint: function(server, model, options, logger) {
+    generateCreateEndpoint: function (server, model, options, logger) {
       // This line must come first
       validationHelper.validateModel(model, logger)
       const Log = logger.bind(chalk.yellow('Create'))
@@ -581,7 +581,7 @@ module.exports = function(logger, mongoose, server) {
      * @param options: Options object.
      * @param logger: A logging object.
      */
-    generateDeleteOneEndpoint: function(server, model, options, logger) {
+    generateDeleteOneEndpoint: function (server, model, options, logger) {
       // This line must come first
       validationHelper.validateModel(model, logger)
       const Log = logger.bind(chalk.yellow('DeleteOne'))
@@ -713,7 +713,7 @@ module.exports = function(logger, mongoose, server) {
      * @param logger: A logging object.
      */
     // TODO: handle partial deletes (return list of ids that failed/were not found)
-    generateDeleteManyEndpoint: function(server, model, options, logger) {
+    generateDeleteManyEndpoint: function (server, model, options, logger) {
       // This line must come first
       validationHelper.validateModel(model, logger)
       const Log = logger.bind(chalk.yellow('DeleteMany'))
@@ -848,7 +848,7 @@ module.exports = function(logger, mongoose, server) {
      * @param options: Options object.
      * @param logger: A logging object.
      */
-    generateUpdateEndpoint: function(server, model, options, logger) {
+    generateUpdateEndpoint: function (server, model, options, logger) {
       // This line must come first
       validationHelper.validateModel(model, logger)
       const Log = logger.bind(chalk.yellow('Update'))
@@ -999,7 +999,7 @@ module.exports = function(logger, mongoose, server) {
      * @param options: Options object.
      * @param logger: A logging object.
      */
-    generateAssociationAddOneEndpoint: function(
+    generateAssociationAddOneEndpoint: function (
       server,
       ownerModel,
       association,
@@ -1028,9 +1028,9 @@ module.exports = function(logger, mongoose, server) {
       if (config.logRoutes) {
         Log.note(
           'Generating addOne association endpoint for ' +
-            ownerModelName +
-            ' -> ' +
-            associationName
+          ownerModelName +
+          ' -> ' +
+          associationName
         )
       }
 
@@ -1055,7 +1055,7 @@ module.exports = function(logger, mongoose, server) {
           Log
         )
         payloadValidation._inner.children = payloadValidation._inner.children.filter(
-          function(key) {
+          function (key) {
             return key.key !== ownerModelName && key.key !== childModelName
           }
         )
@@ -1099,11 +1099,11 @@ module.exports = function(logger, mongoose, server) {
           if (config.logScopes) {
             Log.debug(
               'Scope for PUT/' +
-                ownerAlias +
-                '/{ownerId}/' +
-                childAlias +
-                '/{childId}' +
-                ':',
+              ownerAlias +
+              '/{ownerId}/' +
+              childAlias +
+              '/{childId}' +
+              ':',
               scope
             )
           }
@@ -1203,7 +1203,7 @@ module.exports = function(logger, mongoose, server) {
      * @param options: Options object.
      * @param logger: A logging object.
      */
-    generateAssociationRemoveOneEndpoint: function(
+    generateAssociationRemoveOneEndpoint: function (
       server,
       ownerModel,
       association,
@@ -1232,9 +1232,9 @@ module.exports = function(logger, mongoose, server) {
       if (config.logRoutes) {
         Log.note(
           'Generating removeOne association endpoint for ' +
-            ownerModelName +
-            ' -> ' +
-            associationName
+          ownerModelName +
+          ' -> ' +
+          associationName
         )
       }
 
@@ -1281,11 +1281,11 @@ module.exports = function(logger, mongoose, server) {
           if (config.logScopes) {
             Log.debug(
               'Scope for DELETE/' +
-                ownerAlias +
-                '/{ownerId}/' +
-                childAlias +
-                '/{childId}' +
-                ':',
+              ownerAlias +
+              '/{ownerId}/' +
+              childAlias +
+              '/{childId}' +
+              ':',
               scope
             )
           }
@@ -1384,7 +1384,7 @@ module.exports = function(logger, mongoose, server) {
      * @param options: Options object.
      * @param logger: A logging object.
      */
-    generateAssociationAddManyEndpoint: function(
+    generateAssociationAddManyEndpoint: function (
       server,
       ownerModel,
       association,
@@ -1413,9 +1413,9 @@ module.exports = function(logger, mongoose, server) {
       if (config.logRoutes) {
         Log.note(
           'Generating addMany association endpoint for ' +
-            ownerModelName +
-            ' -> ' +
-            associationName
+          ownerModelName +
+          ' -> ' +
+          associationName
         )
       }
 
@@ -1440,7 +1440,7 @@ module.exports = function(logger, mongoose, server) {
           Log
         )
         payloadValidation._inner.children = payloadValidation._inner.children.filter(
-          function(key) {
+          function (key) {
             return key.key !== ownerModelName && key.key !== childModelName
           }
         )
@@ -1595,7 +1595,7 @@ module.exports = function(logger, mongoose, server) {
      * @param options: Options object.
      * @param logger: A logging object.
      */
-    generateAssociationRemoveManyEndpoint: function(
+    generateAssociationRemoveManyEndpoint: function (
       server,
       ownerModel,
       association,
@@ -1624,9 +1624,9 @@ module.exports = function(logger, mongoose, server) {
       if (config.logRoutes) {
         Log.note(
           'Generating removeMany association endpoint for ' +
-            ownerModelName +
-            ' -> ' +
-            associationName
+          ownerModelName +
+          ' -> ' +
+          associationName
         )
       }
 
@@ -1684,10 +1684,10 @@ module.exports = function(logger, mongoose, server) {
           if (config.logScopes) {
             Log.debug(
               'Scope for DELETE/' +
-                ownerAlias +
-                '/{ownerId}/' +
-                childAlias +
-                ':',
+              ownerAlias +
+              '/{ownerId}/' +
+              childAlias +
+              ':',
               scope
             )
           }
@@ -1783,7 +1783,7 @@ module.exports = function(logger, mongoose, server) {
      * @param options: Options object.
      * @param logger: A logging object.
      */
-    generateAssociationGetAllEndpoint: function(
+    generateAssociationGetAllEndpoint: function (
       server,
       ownerModel,
       association,
@@ -1808,9 +1808,9 @@ module.exports = function(logger, mongoose, server) {
       if (config.logRoutes) {
         Log.note(
           'Generating list association endpoint for ' +
-            ownerModelName +
-            ' -> ' +
-            associationName
+          ownerModelName +
+          ' -> ' +
+          associationName
         )
       }
 

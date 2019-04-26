@@ -1,11 +1,11 @@
-let Joi = require('joi')
+let Joi = require('@hapi/joi')
 // NOTE: Install bcrypt then uncomment the line below
 // let bcrypt = require('bcryptjs')
 let RestHapi = require('rest-hapi')
 
 // TODO: assign a unique text index to email field
 
-module.exports = function(mongoose) {
+module.exports = function (mongoose) {
   let modelName = 'user'
   let Types = mongoose.Schema.Types
   let Schema = new mongoose.Schema({
@@ -54,7 +54,7 @@ module.exports = function(mongoose) {
       },
       extraEndpoints: [
         // Password Update Endpoint
-        function(server, model, options, logger) {
+        function (server, model, options, logger) {
           const Log = logger.bind('Password Update')
           let Boom = require('boom')
 
@@ -62,7 +62,7 @@ module.exports = function(mongoose) {
 
           Log.note('Generating Password Update endpoint for ' + collectionName)
 
-          let handler = async function(request, h) {
+          let handler = async function (request, h) {
             try {
               let hashedPassword = model.generatePasswordHash(
                 request.payload.password
@@ -112,7 +112,7 @@ module.exports = function(mongoose) {
         }
       ],
       create: {
-        pre: function(payload, logger) {
+        pre: function (payload, logger) {
           let hashedPassword = mongoose
             .model('user')
             .generatePasswordHash(payload.password)
@@ -124,7 +124,7 @@ module.exports = function(mongoose) {
       }
     },
 
-    generatePasswordHash: function(password) {
+    generatePasswordHash: function (password) {
       let hash = password
       // NOTE: Uncomment these two lines once bcrypt is installed
       // let salt = bcrypt.genSaltSync(10)

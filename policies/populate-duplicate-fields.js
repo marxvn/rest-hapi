@@ -1,6 +1,6 @@
 'use strict'
 
-const Boom = require('boom')
+const Boom = require('@hapi/boom')
 const _ = require('lodash')
 
 const internals = {}
@@ -11,7 +11,7 @@ const internals = {}
  * @param logger
  * @returns {populateDuplicateFields}
  */
-internals.populateDuplicateFields = function(model, mongoose, logger) {
+internals.populateDuplicateFields = function (model, mongoose, logger) {
   const populateDuplicateFieldsForModel = async function addDocumentScopeForModel(
     request,
     h
@@ -40,8 +40,8 @@ internals.populateDuplicateFields = function(model, mongoose, logger) {
 
               let promise = childModel
                 .findOne({ _id: doc[key] })
-                .then(function(result) {
-                  const docsToUpdate = payload.filter(function(docToFind) {
+                .then(function (result) {
+                  const docsToUpdate = payload.filter(function (docToFind) {
                     return docToFind[key] === result._id.toString()
                   })
                   // EXPL: Populate each duplicated field for this association.

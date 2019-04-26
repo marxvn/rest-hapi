@@ -1,6 +1,6 @@
 'use strict'
 
-const Boom = require('boom')
+const Boom = require('@hapi/boom')
 const _ = require('lodash')
 
 const internals = {}
@@ -11,7 +11,7 @@ const internals = {}
  * @param logger
  * @returns {trackDuplicatedFields}
  */
-internals.trackDuplicatedFields = function(model, mongoose, logger) {
+internals.trackDuplicatedFields = function (model, mongoose, logger) {
   const trackDuplicatedFieldsForModel = async function addDocumentScopeForModel(
     request,
     h
@@ -51,7 +51,7 @@ internals.trackDuplicatedFields.applyPoint = 'onPostHandler'
  * @param logger
  * @returns {*}
  */
-internals.trackFields = function(model, mongoose, payload, result, logger) {
+internals.trackFields = function (model, mongoose, payload, result, logger) {
   const Log = logger.bind('trackFields')
   let promises = []
   for (const key in payload) {
@@ -59,7 +59,7 @@ internals.trackFields = function(model, mongoose, payload, result, logger) {
     // EXPL: Check each field that was updated. If the field has been duplicated, update each duplicate
     // field to match the new value.
     if (field && field.duplicated) {
-      field.duplicated.forEach(function(duplicate) {
+      field.duplicated.forEach(function (duplicate) {
         const childModel = mongoose.model(duplicate.model)
         const newProp = {}
         newProp[duplicate.as] = result[key]
@@ -84,7 +84,7 @@ internals.trackFields = function(model, mongoose, payload, result, logger) {
  * @param newProp
  * @param logger
  */
-internals.findAndUpdate = async function(
+internals.findAndUpdate = async function (
   mongoose,
   childModel,
   query,
@@ -94,7 +94,7 @@ internals.findAndUpdate = async function(
   let result = await childModel.find(query)
   let promises = []
 
-  result.forEach(function(doc) {
+  result.forEach(function (doc) {
     promises.push(
       internals.updateField(mongoose, childModel, doc._id, newProp, logger)
     )
@@ -112,7 +112,7 @@ internals.findAndUpdate = async function(
  * @param newProp
  * @param logger
  */
-internals.updateField = async function(
+internals.updateField = async function (
   mongoose,
   childModel,
   _id,

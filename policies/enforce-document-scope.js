@@ -1,6 +1,6 @@
 'use strict'
 
-const Boom = require('boom')
+const Boom = require('@hapi/boom')
 const _ = require('lodash')
 const config = require('../config')
 
@@ -10,7 +10,7 @@ const internals = {}
 // TODO: update get query to filter based on scopes in pre rather than "commenting out" unauthorized docs
 // TODO (cont): in post. This should make authorization "transparent" and work with pagination
 
-internals.enforceDocumentScopePre = function(model, logger) {
+internals.enforceDocumentScopePre = function (model, logger) {
   const enforceDocumentScopePreForModel = async function enforceDocumentScopePreForModel(
     request,
     h
@@ -43,7 +43,7 @@ internals.enforceDocumentScopePre = function(model, logger) {
         if (request.params._id) {
           ids = [request.params._id]
         } else {
-          ids = request.payload.map(function(item) {
+          ids = request.payload.map(function (item) {
             return item._id
           })
         }
@@ -67,10 +67,10 @@ internals.enforceDocumentScopePre = function(model, logger) {
         !config.enableDocumentScopeFail &&
         !request.params._id
       ) {
-        let unauthorizedIds = result.unauthorizedDocs.map(function(document) {
+        let unauthorizedIds = result.unauthorizedDocs.map(function (document) {
           return document._id.toString()
         })
-        request.payload = request.payload.filter(function(item) {
+        request.payload = request.payload.filter(function (item) {
           return unauthorizedIds.indexOf(item._id) < 0
         })
         return h.continue
@@ -92,7 +92,7 @@ internals.enforceDocumentScopePre = function(model, logger) {
 }
 internals.enforceDocumentScopePre.applyPoint = 'onPreHandler'
 
-internals.enforceDocumentScopePost = function(model, logger) {
+internals.enforceDocumentScopePost = function (model, logger) {
   const enforceDocumentScopePostForModel = function enforceDocumentScopePostForModel(
     request,
     h
@@ -139,12 +139,12 @@ internals.enforceDocumentScopePost = function(model, logger) {
         } else if (request.params._id || config.enableDocumentScopeFail) {
           throw Boom.forbidden('Insufficient document scope.')
         } else {
-          let unauthorizedIds = result.unauthorizedDocs.map(function(document) {
+          let unauthorizedIds = result.unauthorizedDocs.map(function (document) {
             return document._id.toString()
           })
           // EXPL: replace unauthorized docs with an error
           request.response.source.docs = request.response.source.docs.map(
-            function(document) {
+            function (document) {
               if (unauthorizedIds.indexOf(document._id.toString()) < 0) {
                 return document
               } else {
@@ -173,7 +173,7 @@ internals.enforceDocumentScopePost = function(model, logger) {
 }
 internals.enforceDocumentScopePost.applyPoint = 'onPostHandler'
 
-internals.verifyScopeById = async function(
+internals.verifyScopeById = async function (
   model,
   documentIds,
   action,
@@ -189,12 +189,12 @@ internals.verifyScopeById = async function(
   return internals.verifyScope(documents, action, userScope, logger)
 }
 
-internals.verifyScope = function(documents, action, userScope, logger) {
+internals.verifyScope = function (documents, action, userScope, logger) {
   const Log = logger.bind()
   let authorized = true
   let unauthorizedDocs = []
   try {
-    unauthorizedDocs = documents.filter(function(document) {
+    unauthorizedDocs = documents.filter(function (document) {
       if (document.scope && !_.isEmpty(document.scope)) {
         let documentScope = document.scope.rootScope || []
         let actionScope = []
@@ -261,7 +261,7 @@ internals.verifyScope = function(documents, action, userScope, logger) {
   return { authorized: authorized, unauthorizedDocs: unauthorizedDocs }
 }
 
-internals.compareScopes = function(userScope, documentScope, logger) {
+internals.compareScopes = function (userScope, documentScope, logger) {
   userScope = userScope || []
   let fobiddenScope = []
   let requiredScope = []
@@ -269,14 +269,14 @@ internals.compareScopes = function(userScope, documentScope, logger) {
   let scopeSatisfied = false
 
   // EXPL: if the user scope contains any of the forbidden scope values, the user is unauthorized
-  fobiddenScope = documentScope.reduce(function(scope, scopeValue) {
+  fobiddenScope = documentScope.reduce(function (scope, scopeValue) {
     if (scopeValue[0] === '!') {
       scope.push(scopeValue.substr(1))
     }
     return scope
   }, [])
 
-  scopeSatisfied = fobiddenScope.reduce(function(satisfied, scopeValue) {
+  scopeSatisfied = fobiddenScope.reduce(function (satisfied, scopeValue) {
     if (userScope.includes(scopeValue)) {
       return false
     }
@@ -288,14 +288,14 @@ internals.compareScopes = function(userScope, documentScope, logger) {
   }
 
   // EXPL: if the user scope does not contain all of the required scope values, the user is unauthorized
-  requiredScope = documentScope.reduce(function(scope, scopeValue) {
+  requiredScope = documentScope.reduce(function (scope, scopeValue) {
     if (scopeValue[0] === '+') {
       scope.push(scopeValue.substr(1))
     }
     return scope
   }, [])
 
-  scopeSatisfied = requiredScope.reduce(function(satisfied, scopeValue) {
+  scopeSatisfied = requiredScope.reduce(function (satisfied, scopeValue) {
     if (!userScope.includes(scopeValue)) {
       return false
     }
@@ -307,11 +307,11 @@ internals.compareScopes = function(userScope, documentScope, logger) {
   }
 
   // EXPL: if the user scope does not contain any of the general scope values, the user is unauthorized
-  generalScope = documentScope.filter(function(scopeValue) {
+  generalScope = documentScope.filter(function (scopeValue) {
     return scopeValue[0] !== '!' && scopeValue[0] !== '+'
   })
 
-  scopeSatisfied = generalScope.reduce(function(satisfied, scopeValue) {
+  scopeSatisfied = generalScope.reduce(function (satisfied, scopeValue) {
     if (userScope.includes(scopeValue)) {
       return true
     }

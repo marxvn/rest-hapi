@@ -7,7 +7,7 @@ const TestHelper = require('../../utilities/test-helper')
 const Decache = require('decache')
 const Q = require('q')
 const QueryString = require('query-string')
-const Hapi = require('hapi')
+const Hapi = require('@hapi/hapi')
 
 const MongoMemoryServer = require('mongodb-memory-server').MongoMemoryServer
 const mongoServer = new MongoMemoryServer({
@@ -30,22 +30,22 @@ const internals = {
   previous: {}
 }
 
-internals.onFinish = function() {
+internals.onFinish = function () {
   process.exit()
 }
 
 Test.onFinish(internals.onFinish)
 
-Test('end to end tests', function(t) {
+Test('end to end tests', function (t) {
   mongoServer
     .getConnectionString()
     .then(() => {
-      return t.test('basic CRUD tests', function(t) {
+      return t.test('basic CRUD tests', function (t) {
         return (
           Q.when()
             // basic "Create" works
-            .then(function() {
-              return t.test('basic "Create" works', function(t) {
+            .then(function () {
+              return t.test('basic "Create" works', function (t) {
                 // <editor-fold desc="Arrange">
                 const RestHapi = require('../../rest-hapi')
                 const server = Hapi.Server()
@@ -71,7 +71,7 @@ Test('end to end tests', function(t) {
                         config: config
                       }
                     })
-                    .then(function() {
+                    .then(function () {
                       server.start()
 
                       const method = 'POST'
@@ -102,13 +102,13 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Act">
-                    .then(function(injectOptions) {
+                    .then(function (injectOptions) {
                       return server.inject(injectOptions)
                     })
                     // </editor-fold>
 
                     // <editor-fold desc="Assert">
-                    .then(function(response) {
+                    .then(function (response) {
                       t.equals(
                         response.result.name,
                         'test',
@@ -118,13 +118,13 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Restore">
-                    .then(function() {
+                    .then(function () {
                       Decache('../../rest-hapi')
 
-                      Object.keys(Mongoose.models).forEach(function(key) {
+                      Object.keys(Mongoose.models).forEach(function (key) {
                         delete Mongoose.models[key]
                       })
-                      Object.keys(Mongoose.modelSchemas).forEach(function(key) {
+                      Object.keys(Mongoose.modelSchemas).forEach(function (key) {
                         delete Mongoose.modelSchemas[key]
                       })
                     })
@@ -133,8 +133,8 @@ Test('end to end tests', function(t) {
               })
             })
             // basic "List" works
-            .then(function() {
-              return t.test('basic "List" works', function(t) {
+            .then(function () {
+              return t.test('basic "List" works', function (t) {
                 // <editor-fold desc="Arrange">
                 const RestHapi = require('../../rest-hapi')
                 const server = new Hapi.Server()
@@ -160,7 +160,7 @@ Test('end to end tests', function(t) {
                         config: config
                       }
                     })
-                    .then(function() {
+                    .then(function () {
                       server.start()
 
                       const method = 'GET'
@@ -189,13 +189,13 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Act">
-                    .then(function(injectOptions) {
+                    .then(function (injectOptions) {
                       return server.inject(injectOptions)
                     })
                     // </editor-fold>
 
                     // <editor-fold desc="Assert">
-                    .then(function(response) {
+                    .then(function (response) {
                       t.equals(
                         response.result.docs[0].name,
                         'test',
@@ -206,13 +206,13 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Restore">
-                    .then(function() {
+                    .then(function () {
                       Decache('../../rest-hapi')
 
-                      Object.keys(Mongoose.models).forEach(function(key) {
+                      Object.keys(Mongoose.models).forEach(function (key) {
                         delete Mongoose.models[key]
                       })
-                      Object.keys(Mongoose.modelSchemas).forEach(function(key) {
+                      Object.keys(Mongoose.modelSchemas).forEach(function (key) {
                         delete Mongoose.modelSchemas[key]
                       })
                     })
@@ -224,8 +224,8 @@ Test('end to end tests', function(t) {
               })
             })
             // basic "Find" works
-            .then(function() {
-              return t.test('basic "Find" works', function(t) {
+            .then(function () {
+              return t.test('basic "Find" works', function (t) {
                 // <editor-fold desc="Arrange">
                 const RestHapi = require('../../rest-hapi')
                 const server = new Hapi.Server()
@@ -251,7 +251,7 @@ Test('end to end tests', function(t) {
                         config: config
                       }
                     })
-                    .then(function() {
+                    .then(function () {
                       server.start()
 
                       const method = 'GET'
@@ -282,13 +282,13 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Act">
-                    .then(function(injectOptions) {
+                    .then(function (injectOptions) {
                       return server.inject(injectOptions)
                     })
                     // </editor-fold>
 
                     // <editor-fold desc="Assert">
-                    .then(function(response) {
+                    .then(function (response) {
                       t.equals(
                         response.result.name,
                         'test',
@@ -299,13 +299,13 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Restore">
-                    .then(function() {
+                    .then(function () {
                       Decache('../../rest-hapi')
 
-                      Object.keys(Mongoose.models).forEach(function(key) {
+                      Object.keys(Mongoose.models).forEach(function (key) {
                         delete Mongoose.models[key]
                       })
-                      Object.keys(Mongoose.modelSchemas).forEach(function(key) {
+                      Object.keys(Mongoose.modelSchemas).forEach(function (key) {
                         delete Mongoose.modelSchemas[key]
                       })
                     })
@@ -314,8 +314,8 @@ Test('end to end tests', function(t) {
               })
             })
             // basic "Update" works
-            .then(function() {
-              return t.test('basic "Update" works', function(t) {
+            .then(function () {
+              return t.test('basic "Update" works', function (t) {
                 // <editor-fold desc="Arrange">
                 const RestHapi = require('../../rest-hapi')
                 const server = new Hapi.Server()
@@ -341,7 +341,7 @@ Test('end to end tests', function(t) {
                         config: config
                       }
                     })
-                    .then(function() {
+                    .then(function () {
                       server.start()
 
                       const method = 'PUT'
@@ -374,13 +374,13 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Act">
-                    .then(function(injectOptions) {
+                    .then(function (injectOptions) {
                       return server.inject(injectOptions)
                     })
                     // </editor-fold>
 
                     // <editor-fold desc="Assert">
-                    .then(function(response) {
+                    .then(function (response) {
                       t.equals(
                         response.result.name,
                         'test_updated',
@@ -391,13 +391,13 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Restore">
-                    .then(function(response) {
+                    .then(function (response) {
                       Decache('../../rest-hapi')
 
-                      Object.keys(Mongoose.models).forEach(function(key) {
+                      Object.keys(Mongoose.models).forEach(function (key) {
                         delete Mongoose.models[key]
                       })
-                      Object.keys(Mongoose.modelSchemas).forEach(function(key) {
+                      Object.keys(Mongoose.modelSchemas).forEach(function (key) {
                         delete Mongoose.modelSchemas[key]
                       })
                     })
@@ -406,8 +406,8 @@ Test('end to end tests', function(t) {
               })
             })
             // basic "Soft Delete" works
-            .then(function() {
-              return t.test('basic "Delete" works', function(t) {
+            .then(function () {
+              return t.test('basic "Delete" works', function (t) {
                 // <editor-fold desc="Arrange">
                 const RestHapi = require('../../rest-hapi')
                 const server = new Hapi.Server()
@@ -433,7 +433,7 @@ Test('end to end tests', function(t) {
                         config: config
                       }
                     })
-                    .then(function() {
+                    .then(function () {
                       server.start()
 
                       const method = 'DELETE'
@@ -464,29 +464,29 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Act">
-                    .then(function(injectOptions) {
+                    .then(function (injectOptions) {
                       return server.inject(injectOptions)
                     })
                     // </editor-fold>
 
                     // <editor-fold desc="Assert">
-                    .then(function(response) {
+                    .then(function (response) {
                       return Mongoose.model('role')
                         .find()
-                        .then(function(response) {
+                        .then(function (response) {
                           t.deepEquals(response, [], 'role deleted')
                         })
                     })
                     // </editor-fold>
 
                     // <editor-fold desc="Restore">
-                    .then(function(response) {
+                    .then(function (response) {
                       Decache('../../rest-hapi')
 
-                      Object.keys(Mongoose.models).forEach(function(key) {
+                      Object.keys(Mongoose.models).forEach(function (key) {
                         delete Mongoose.models[key]
                       })
-                      Object.keys(Mongoose.modelSchemas).forEach(function(key) {
+                      Object.keys(Mongoose.modelSchemas).forEach(function (key) {
                         delete Mongoose.modelSchemas[key]
                       })
 
@@ -499,14 +499,14 @@ Test('end to end tests', function(t) {
         )
       })
     })
-    .then(function() {
-      return t.test('document authorization tests', function(t) {
+    .then(function () {
+      return t.test('document authorization tests', function (t) {
         const userId = new Mongoose.Types.ObjectId()
         return (
           Q.when()
             // average user unauthorized
-            .then(function() {
-              return t.test('average user unauthorized', function(t) {
+            .then(function () {
+              return t.test('average user unauthorized', function (t) {
                 // <editor-fold desc="Arrange">
                 const RestHapi = require('../../rest-hapi')
                 const server = new Hapi.Server()
@@ -537,7 +537,7 @@ Test('end to end tests', function(t) {
                         config: config
                       }
                     })
-                    .then(function() {
+                    .then(function () {
                       server.start()
 
                       const request = {
@@ -560,7 +560,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       internals.previous = response.result
 
                       const request = {
@@ -585,25 +585,25 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Act">
-                    .then(function(injectOptions) {
+                    .then(function (injectOptions) {
                       return server.inject(injectOptions)
                     })
                     // </editor-fold>
 
                     // <editor-fold desc="Assert">
-                    .then(function(response) {
+                    .then(function (response) {
                       t.equals(response.result.statusCode, 403, 'access denied')
                     })
                     // </editor-fold>
 
                     // <editor-fold desc="Restore">
-                    .then(function() {
+                    .then(function () {
                       Decache('../../rest-hapi')
 
-                      Object.keys(Mongoose.models).forEach(function(key) {
+                      Object.keys(Mongoose.models).forEach(function (key) {
                         delete Mongoose.models[key]
                       })
-                      Object.keys(Mongoose.modelSchemas).forEach(function(key) {
+                      Object.keys(Mongoose.modelSchemas).forEach(function (key) {
                         delete Mongoose.modelSchemas[key]
                       })
                     })
@@ -612,8 +612,8 @@ Test('end to end tests', function(t) {
               })
             })
             // root user authorized
-            .then(function() {
-              return t.test('root user authorized', function(t) {
+            .then(function () {
+              return t.test('root user authorized', function (t) {
                 // <editor-fold desc="Arrange">
                 const RestHapi = require('../../rest-hapi')
                 const server = new Hapi.Server()
@@ -644,7 +644,7 @@ Test('end to end tests', function(t) {
                         config: config
                       }
                     })
-                    .then(function() {
+                    .then(function () {
                       server.start()
 
                       const request = {
@@ -671,25 +671,25 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Act">
-                    .then(function(injectOptions) {
+                    .then(function (injectOptions) {
                       return server.inject(injectOptions)
                     })
                     // </editor-fold>
 
                     // <editor-fold desc="Assert">
-                    .then(function(response) {
+                    .then(function (response) {
                       t.equals(response.result.name, 'test', 'user authorized')
                     })
                     // </editor-fold>
 
                     // <editor-fold desc="Restore">
-                    .then(function() {
+                    .then(function () {
                       Decache('../../rest-hapi')
 
-                      Object.keys(Mongoose.models).forEach(function(key) {
+                      Object.keys(Mongoose.models).forEach(function (key) {
                         delete Mongoose.models[key]
                       })
-                      Object.keys(Mongoose.modelSchemas).forEach(function(key) {
+                      Object.keys(Mongoose.modelSchemas).forEach(function (key) {
                         delete Mongoose.modelSchemas[key]
                       })
                     })
@@ -698,8 +698,8 @@ Test('end to end tests', function(t) {
               })
             })
             // owner user authorized
-            .then(function() {
-              return t.test('owner user authorized', function(t) {
+            .then(function () {
+              return t.test('owner user authorized', function (t) {
                 // <editor-fold desc="Arrange">
                 const RestHapi = require('../../rest-hapi')
                 const server = new Hapi.Server()
@@ -730,7 +730,7 @@ Test('end to end tests', function(t) {
                         config: config
                       }
                     })
-                    .then(function() {
+                    .then(function () {
                       server.start()
 
                       const request = {
@@ -757,27 +757,27 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Act">
-                    .then(function(injectOptions) {
+                    .then(function (injectOptions) {
                       return server.inject(injectOptions)
                     })
                     // </editor-fold>
 
                     // <editor-fold desc="Assert">
-                    .then(function(response) {
+                    .then(function (response) {
                       t.equals(response.result.name, 'test', 'user authorized')
                     })
                     // </editor-fold>
 
                     // <editor-fold desc="Restore">
-                    .then(function() {
+                    .then(function () {
                       Decache('../../rest-hapi')
 
                       Decache('../../config')
                       Decache('hapi')
-                      Object.keys(Mongoose.models).forEach(function(key) {
+                      Object.keys(Mongoose.models).forEach(function (key) {
                         delete Mongoose.models[key]
                       })
-                      Object.keys(Mongoose.modelSchemas).forEach(function(key) {
+                      Object.keys(Mongoose.modelSchemas).forEach(function (key) {
                         delete Mongoose.modelSchemas[key]
                       })
 
@@ -790,8 +790,8 @@ Test('end to end tests', function(t) {
         )
       })
     })
-    .then(function() {
-      return t.test('basic embedded association tests', function(t) {
+    .then(function () {
+      return t.test('basic embedded association tests', function (t) {
         let users = []
         let userProfiles = []
         let roles = []
@@ -800,8 +800,8 @@ Test('end to end tests', function(t) {
         return (
           Q.when()
             // ONE_ONE associations work
-            .then(function() {
-              return t.test('ONE_ONE associations work', function(t) {
+            .then(function () {
+              return t.test('ONE_ONE associations work', function (t) {
                 // <editor-fold desc="Arrange">
                 const RestHapi = require('../../rest-hapi')
                 const server = Hapi.Server()
@@ -831,7 +831,7 @@ Test('end to end tests', function(t) {
                         config: config
                       }
                     })
-                    .then(function() {
+                    .then(function () {
                       server.start()
 
                       let payload = {
@@ -853,7 +853,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       user = response.result
 
                       let payload = {
@@ -875,7 +875,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       userProfile = response.result
                       userProfiles.push(userProfiles)
 
@@ -897,7 +897,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       user = response.result
                       users.push(user)
 
@@ -919,13 +919,13 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Act">
-                    .then(function(injectOptions) {
+                    .then(function (injectOptions) {
                       return server.inject(injectOptions)
                     })
                     // </editor-fold>
 
                     // <editor-fold desc="Assert">
-                    .then(function(response) {
+                    .then(function (response) {
                       t.deepEquals(
                         response.result.docs[0].profile,
                         userProfile,
@@ -935,14 +935,14 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Restore">
-                    .then(function() {
+                    .then(function () {
                       Decache('../../rest-hapi')
 
                       Decache('../config')
-                      Object.keys(Mongoose.models).forEach(function(key) {
+                      Object.keys(Mongoose.models).forEach(function (key) {
                         delete Mongoose.models[key]
                       })
-                      Object.keys(Mongoose.modelSchemas).forEach(function(key) {
+                      Object.keys(Mongoose.modelSchemas).forEach(function (key) {
                         delete Mongoose.modelSchemas[key]
                       })
                     })
@@ -951,10 +951,10 @@ Test('end to end tests', function(t) {
               })
             })
             // adding and retrieving ONE_MANY/MANY_ONE associations works
-            .then(function() {
+            .then(function () {
               return t.test(
                 'adding and retrieving ONE_MANY/MANY_ONE associations works',
-                function(t) {
+                function (t) {
                   // <editor-fold desc="Arrange">
                   const RestHapi = require('../../rest-hapi')
                   const server = new Hapi.Server()
@@ -983,7 +983,7 @@ Test('end to end tests', function(t) {
                           config: config
                         }
                       })
-                      .then(function() {
+                      .then(function () {
                         server.start()
 
                         let payload = [
@@ -1015,7 +1015,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         roles = roles.concat(response.result)
 
                         let payload = [
@@ -1048,7 +1048,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         users = users.concat(response.result)
 
                         const request = {
@@ -1068,7 +1068,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         let payload = [users[1]._id, users[2]._id]
 
                         const request = {
@@ -1085,7 +1085,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/role/{_id}',
@@ -1100,7 +1100,7 @@ Test('end to end tests', function(t) {
 
                         promises.push(server.inject(injectOptions))
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/role/{ownerId}/people',
@@ -1115,7 +1115,7 @@ Test('end to end tests', function(t) {
 
                         promises.push(server.inject(injectOptions))
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/user',
@@ -1137,7 +1137,7 @@ Test('end to end tests', function(t) {
 
                         promises.push(server.inject(injectOptions))
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/user',
@@ -1161,26 +1161,26 @@ Test('end to end tests', function(t) {
                       // </editor-fold>
 
                       // <editor-fold desc="Act">
-                      .then(function() {
+                      .then(function () {
                         return Promise.all(promises)
                       })
                       // </editor-fold>
 
                       // <editor-fold desc="Assert">
-                      .then(function(response) {
+                      .then(function (response) {
                         // EXPL: rearrange results to match order
                         let result1 = []
-                        response[0].result.users.forEach(function(user) {
+                        response[0].result.users.forEach(function (user) {
                           result1.push(
-                            response[3].result.docs.find(function(u) {
+                            response[3].result.docs.find(function (u) {
                               return u.email === user.email
                             })
                           )
                         })
                         let result2 = []
-                        response[1].result.docs.forEach(function(user) {
+                        response[1].result.docs.forEach(function (user) {
                           result2.push(
-                            response[2].result.docs.find(function(u) {
+                            response[2].result.docs.find(function (u) {
                               return u.email === user.email
                             })
                           )
@@ -1219,7 +1219,7 @@ Test('end to end tests', function(t) {
                       // </editor-fold>
 
                       // <editor-fold desc="Restore">
-                      .then(function() {
+                      .then(function () {
                         Decache('../../rest-hapi')
 
                         Decache('../config')
@@ -1235,10 +1235,10 @@ Test('end to end tests', function(t) {
               )
             })
             // adding and retrieving MANY_MANY associations works
-            .then(function() {
+            .then(function () {
               return t.test(
                 'adding and retrieving MANY_MANY associations works',
-                function(t) {
+                function (t) {
                   // <editor-fold desc="Arrange">
                   Mongoose = require('mongoose')
                   Mongoose.Promise = Promise
@@ -1269,7 +1269,7 @@ Test('end to end tests', function(t) {
                           config: config
                         }
                       })
-                      .then(function() {
+                      .then(function () {
                         server.start()
 
                         let payload = [
@@ -1317,20 +1317,20 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         permissions = permissions.concat(response.result)
 
                         let payload = [
-                          permissions.find(function(p) {
+                          permissions.find(function (p) {
                             return p.name === 'create'
                           })._id,
-                          permissions.find(function(p) {
+                          permissions.find(function (p) {
                             return p.name === 'read'
                           })._id,
-                          permissions.find(function(p) {
+                          permissions.find(function (p) {
                             return p.name === 'update'
                           })._id,
-                          permissions.find(function(p) {
+                          permissions.find(function (p) {
                             return p.name === 'delete'
                           })._id
                         ]
@@ -1349,17 +1349,17 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         let payload = [
                           {
                             enabled: true,
-                            childId: permissions.find(function(p) {
+                            childId: permissions.find(function (p) {
                               return p.name === 'nothing'
                             })._id
                           },
                           {
                             enabled: false,
-                            childId: permissions.find(function(p) {
+                            childId: permissions.find(function (p) {
                               return p.name === 'associate'
                             })._id
                           }
@@ -1379,8 +1379,8 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
-                        let childId = permissions.find(function(p) {
+                      .then(function (response) {
+                        let childId = permissions.find(function (p) {
                           return p.name === 'root'
                         })._id
 
@@ -1398,8 +1398,8 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
-                        let childId = permissions.find(function(p) {
+                      .then(function (response) {
+                        let childId = permissions.find(function (p) {
                           return p.name === 'root'
                         })._id
                         let payload = { enabled: false }
@@ -1417,7 +1417,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/role/{_id}',
@@ -1432,7 +1432,7 @@ Test('end to end tests', function(t) {
 
                         promises.push(server.inject(injectOptions))
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/role/{ownerId}/permission',
@@ -1447,7 +1447,7 @@ Test('end to end tests', function(t) {
 
                         promises.push(server.inject(injectOptions))
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/user/{_id}',
@@ -1462,7 +1462,7 @@ Test('end to end tests', function(t) {
 
                         promises.push(server.inject(injectOptions))
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/user/{ownerId}/permissions',
@@ -1477,7 +1477,7 @@ Test('end to end tests', function(t) {
 
                         promises.push(server.inject(injectOptions))
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         promises.push(
                           Mongoose.model('user')
                             .find({ _id: users[0]._id })
@@ -1487,20 +1487,20 @@ Test('end to end tests', function(t) {
                       // </editor-fold>
 
                       // <editor-fold desc="Act">
-                      .then(function() {
+                      .then(function () {
                         return Promise.all(promises)
                       })
                       // </editor-fold>
 
                       // <editor-fold desc="Assert">
-                      .then(function(response) {
+                      .then(function (response) {
                         let result1Orig = response[0].result.permissions.map(
-                          function(obj) {
+                          function (obj) {
                             return obj.permission
                           }
                         )
                         let result2Orig = response[2].result.permissions.map(
-                          function(obj) {
+                          function (obj) {
                             obj.permission.user_permission = {
                               enabled: obj.enabled
                             }
@@ -1509,17 +1509,17 @@ Test('end to end tests', function(t) {
                         )
                         // EXPL: rearrange results to match order
                         let result1 = []
-                        response[1].result.docs.forEach(function(permission) {
+                        response[1].result.docs.forEach(function (permission) {
                           result1.push(
-                            result1Orig.find(function(perm) {
+                            result1Orig.find(function (perm) {
                               return perm.name === permission.name
                             })
                           )
                         })
                         let result2 = []
-                        response[3].result.docs.forEach(function(permission) {
+                        response[3].result.docs.forEach(function (permission) {
                           result2.push(
-                            result2Orig.find(function(perm) {
+                            result2Orig.find(function (perm) {
                               return perm.name === permission.name
                             })
                           )
@@ -1543,13 +1543,13 @@ Test('end to end tests', function(t) {
                       // </editor-fold>
 
                       // <editor-fold desc="Restore">
-                      .then(function() {
+                      .then(function () {
                         Decache('../../rest-hapi')
 
-                        Object.keys(Mongoose.models).forEach(function(key) {
+                        Object.keys(Mongoose.models).forEach(function (key) {
                           delete Mongoose.models[key]
                         })
-                        Object.keys(Mongoose.modelSchemas).forEach(function(
+                        Object.keys(Mongoose.modelSchemas).forEach(function (
                           key
                         ) {
                           delete Mongoose.modelSchemas[key]
@@ -1561,10 +1561,10 @@ Test('end to end tests', function(t) {
               )
             })
             // adding and retrieving _MANY associations works
-            .then(function() {
+            .then(function () {
               return t.test(
                 'adding and retrieving _MANY associations works',
-                function(t) {
+                function (t) {
                   // <editor-fold desc="Arrange">
                   const RestHapi = require('../../rest-hapi')
                   const server = new Hapi.Server()
@@ -1593,7 +1593,7 @@ Test('end to end tests', function(t) {
                           config: config
                         }
                       })
-                      .then(function() {
+                      .then(function () {
                         server.start()
 
                         let payload = [
@@ -1628,7 +1628,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         hashtags = hashtags.concat(response.result)
 
                         let payload = {
@@ -1649,7 +1649,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         let payload = {
                           tags: [
                             hashtags[0]._id,
@@ -1672,7 +1672,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'PUT',
                           url: '/user/{ownerId}/hashtag/{childId}',
@@ -1690,7 +1690,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         let payload = [
                           hashtags[2]._id, // NOTE: duplicate, should only be added once
                           hashtags[3]._id
@@ -1710,7 +1710,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/user/{_id}',
@@ -1725,7 +1725,7 @@ Test('end to end tests', function(t) {
 
                         promises.push(server.inject(injectOptions))
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/user/{ownerId}/hashtag',
@@ -1743,13 +1743,13 @@ Test('end to end tests', function(t) {
                       // </editor-fold>
 
                       // <editor-fold desc="Act">
-                      .then(function() {
+                      .then(function () {
                         return Promise.all(promises)
                       })
                       // </editor-fold>
 
                       // <editor-fold desc="Assert">
-                      .then(function(response) {
+                      .then(function (response) {
                         let result1 = [
                           hashtags[0],
                           hashtags[1],
@@ -1771,14 +1771,14 @@ Test('end to end tests', function(t) {
                       // </editor-fold>
 
                       // <editor-fold desc="Restore">
-                      .then(function() {
+                      .then(function () {
                         Decache('../../rest-hapi')
 
                         Decache('../config')
-                        Object.keys(Mongoose.models).forEach(function(key) {
+                        Object.keys(Mongoose.models).forEach(function (key) {
                           delete Mongoose.models[key]
                         })
-                        Object.keys(Mongoose.modelSchemas).forEach(function(
+                        Object.keys(Mongoose.modelSchemas).forEach(function (
                           key
                         ) {
                           delete Mongoose.modelSchemas[key]
@@ -1790,10 +1790,10 @@ Test('end to end tests', function(t) {
               )
             })
             // removing ONE_MANY/MANY_ONE associations works
-            .then(function() {
+            .then(function () {
               return t.test(
                 'removing ONE_MANY/MANY_ONE associations works',
-                function(t) {
+                function (t) {
                   // <editor-fold desc="Arrange">
                   const RestHapi = require('../../rest-hapi')
                   const server = new Hapi.Server()
@@ -1822,7 +1822,7 @@ Test('end to end tests', function(t) {
                           config: config
                         }
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'DELETE',
                           url: '/role/{ownerId}/people/{childId}',
@@ -1840,7 +1840,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         let payload = [
                           users[1]._id,
                           users[2]._id,
@@ -1861,7 +1861,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/role/{ownerId}/people',
@@ -1876,7 +1876,7 @@ Test('end to end tests', function(t) {
 
                         promises.push(server.inject(injectOptions))
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/user',
@@ -1894,16 +1894,16 @@ Test('end to end tests', function(t) {
                       // </editor-fold>
 
                       // <editor-fold desc="Act">
-                      .then(function() {
+                      .then(function () {
                         return Promise.all(promises)
                       })
                       // </editor-fold>
 
                       // <editor-fold desc="Assert">
-                      .then(function(response) {
+                      .then(function (response) {
                         let result2 = true
                         let result3 = false
-                        response[1].result.docs.forEach(function(user) {
+                        response[1].result.docs.forEach(function (user) {
                           if (
                             user.title &&
                             user.title.toString() !== roles[1]._id.toString()
@@ -1928,15 +1928,15 @@ Test('end to end tests', function(t) {
                       // </editor-fold>
 
                       // <editor-fold desc="Restore">
-                      .then(function() {
+                      .then(function () {
                         Decache('../../rest-hapi')
 
                         Decache('../config')
                         delete Mongoose.models.role
-                        Object.keys(Mongoose.models).forEach(function(key) {
+                        Object.keys(Mongoose.models).forEach(function (key) {
                           delete Mongoose.models[key]
                         })
-                        Object.keys(Mongoose.modelSchemas).forEach(function(
+                        Object.keys(Mongoose.modelSchemas).forEach(function (
                           key
                         ) {
                           delete Mongoose.modelSchemas[key]
@@ -1948,8 +1948,8 @@ Test('end to end tests', function(t) {
               )
             })
             // removing MANY_MANY associations works
-            .then(function() {
-              return t.test('removing MANY_MANY associations works', function(
+            .then(function () {
+              return t.test('removing MANY_MANY associations works', function (
                 t
               ) {
                 // <editor-fold desc="Arrange">
@@ -1980,8 +1980,8 @@ Test('end to end tests', function(t) {
                         config: config
                       }
                     })
-                    .then(function(response) {
-                      let childId = permissions.find(function(p) {
+                    .then(function (response) {
+                      let childId = permissions.find(function (p) {
                         return p.name === 'root'
                       })._id
 
@@ -1999,8 +1999,8 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
-                      let childId = permissions.find(function(p) {
+                    .then(function (response) {
+                      let childId = permissions.find(function (p) {
                         return p.name === 'root'
                       })._id
                       let payload = { enabled: false }
@@ -2018,18 +2018,18 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       let payload = [
-                        permissions.find(function(p) {
+                        permissions.find(function (p) {
                           return p.name === 'create'
                         })._id,
-                        permissions.find(function(p) {
+                        permissions.find(function (p) {
                           return p.name === 'read'
                         })._id,
-                        permissions.find(function(p) {
+                        permissions.find(function (p) {
                           return p.name === 'update'
                         })._id,
-                        permissions.find(function(p) {
+                        permissions.find(function (p) {
                           return p.name === 'delete'
                         })._id
                       ]
@@ -2048,12 +2048,12 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       let payload = [
-                        permissions.find(function(p) {
+                        permissions.find(function (p) {
                           return p.name === 'nothing'
                         })._id,
-                        permissions.find(function(p) {
+                        permissions.find(function (p) {
                           return p.name === 'associate'
                         })._id
                       ]
@@ -2072,7 +2072,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'GET',
                         url: '/role/{ownerId}/permission',
@@ -2087,7 +2087,7 @@ Test('end to end tests', function(t) {
 
                       promises.push(server.inject(injectOptions))
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'GET',
                         url: '/user/{ownerId}/permissions',
@@ -2105,13 +2105,13 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Act">
-                    .then(function() {
+                    .then(function () {
                       return Promise.all(promises)
                     })
                     // </editor-fold>
 
                     // <editor-fold desc="Assert">
-                    .then(function(response) {
+                    .then(function (response) {
                       t.deepEquals(
                         response[0].result.docs,
                         [],
@@ -2126,14 +2126,14 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Restore">
-                    .then(function() {
+                    .then(function () {
                       Decache('../../rest-hapi')
 
                       Decache('../config')
-                      Object.keys(Mongoose.models).forEach(function(key) {
+                      Object.keys(Mongoose.models).forEach(function (key) {
                         delete Mongoose.models[key]
                       })
-                      Object.keys(Mongoose.modelSchemas).forEach(function(key) {
+                      Object.keys(Mongoose.modelSchemas).forEach(function (key) {
                         delete Mongoose.modelSchemas[key]
                       })
                     })
@@ -2142,10 +2142,10 @@ Test('end to end tests', function(t) {
               })
             })
             // removing _MANY associations works
-            .then(function() {
+            .then(function () {
               return t.test(
                 'removing ONE_MANY/MANY_ONE associations works',
-                function(t) {
+                function (t) {
                   // <editor-fold desc="Arrange">
                   const RestHapi = require('../../rest-hapi')
                   const server = new Hapi.Server()
@@ -2174,7 +2174,7 @@ Test('end to end tests', function(t) {
                           config: config
                         }
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'DELETE',
                           url: '/user/{ownerId}/hashtag/{childId}',
@@ -2192,7 +2192,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         let payload = [
                           hashtags[1]._id,
                           hashtags[2]._id,
@@ -2213,7 +2213,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/user/{ownerId}/hashtag',
@@ -2231,13 +2231,13 @@ Test('end to end tests', function(t) {
                       // </editor-fold>
 
                       // <editor-fold desc="Act">
-                      .then(function() {
+                      .then(function () {
                         return Promise.all(promises)
                       })
                       // </editor-fold>
 
                       // <editor-fold desc="Assert">
-                      .then(function(response) {
+                      .then(function (response) {
                         t.deepEquals(
                           response[0].result.docs,
                           [],
@@ -2247,14 +2247,14 @@ Test('end to end tests', function(t) {
                       // </editor-fold>
 
                       // <editor-fold desc="Restore">
-                      .then(function() {
+                      .then(function () {
                         Decache('../../rest-hapi')
 
                         Decache('../config')
-                        Object.keys(Mongoose.models).forEach(function(key) {
+                        Object.keys(Mongoose.models).forEach(function (key) {
                           delete Mongoose.models[key]
                         })
-                        Object.keys(Mongoose.modelSchemas).forEach(function(
+                        Object.keys(Mongoose.modelSchemas).forEach(function (
                           key
                         ) {
                           delete Mongoose.modelSchemas[key]
@@ -2270,8 +2270,8 @@ Test('end to end tests', function(t) {
         )
       })
     })
-    .then(function() {
-      return t.test('basic non-embedded association tests', function(t) {
+    .then(function () {
+      return t.test('basic non-embedded association tests', function (t) {
         let users = []
         let userProfiles = []
         let roles = []
@@ -2280,8 +2280,8 @@ Test('end to end tests', function(t) {
         return (
           Q.when()
             // ONE_ONE associations work
-            .then(function() {
-              return t.test('ONE_ONE associations work', function(t) {
+            .then(function () {
+              return t.test('ONE_ONE associations work', function (t) {
                 // <editor-fold desc="Arrange">
                 const RestHapi = require('../../rest-hapi')
                 const server = new Hapi.Server()
@@ -2311,7 +2311,7 @@ Test('end to end tests', function(t) {
                         config: config
                       }
                     })
-                    .then(function() {
+                    .then(function () {
                       server.start()
 
                       let payload = {
@@ -2333,7 +2333,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       user = response.result
 
                       let payload = {
@@ -2355,7 +2355,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       userProfile = response.result
                       userProfiles.push(userProfiles)
 
@@ -2377,7 +2377,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       user = response.result
                       users.push(user)
 
@@ -2399,13 +2399,13 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Act">
-                    .then(function(injectOptions) {
+                    .then(function (injectOptions) {
                       return server.inject(injectOptions)
                     })
                     // </editor-fold>
 
                     // <editor-fold desc="Assert">
-                    .then(function(response) {
+                    .then(function (response) {
                       t.deepEquals(
                         response.result.docs[0].profile,
                         userProfile,
@@ -2415,14 +2415,14 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Restore">
-                    .then(function() {
+                    .then(function () {
                       Decache('../../rest-hapi')
 
                       Decache('../config')
-                      Object.keys(Mongoose.models).forEach(function(key) {
+                      Object.keys(Mongoose.models).forEach(function (key) {
                         delete Mongoose.models[key]
                       })
-                      Object.keys(Mongoose.modelSchemas).forEach(function(key) {
+                      Object.keys(Mongoose.modelSchemas).forEach(function (key) {
                         delete Mongoose.modelSchemas[key]
                       })
                     })
@@ -2431,10 +2431,10 @@ Test('end to end tests', function(t) {
               })
             })
             // adding and retrieving ONE_MANY/MANY_ONE associations works
-            .then(function() {
+            .then(function () {
               return t.test(
                 'adding and retrieving ONE_MANY/MANY_ONE associations works',
-                function(t) {
+                function (t) {
                   // <editor-fold desc="Arrange">
                   const RestHapi = require('../../rest-hapi')
                   const server = new Hapi.Server()
@@ -2463,7 +2463,7 @@ Test('end to end tests', function(t) {
                           config: config
                         }
                       })
-                      .then(function() {
+                      .then(function () {
                         server.start()
 
                         let payload = [
@@ -2495,7 +2495,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         roles = roles.concat(response.result)
 
                         let payload = [
@@ -2528,7 +2528,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         users = users.concat(response.result)
 
                         const request = {
@@ -2548,7 +2548,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         let payload = [users[1]._id, users[2]._id]
 
                         const request = {
@@ -2565,7 +2565,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/role/{_id}',
@@ -2580,7 +2580,7 @@ Test('end to end tests', function(t) {
 
                         promises.push(server.inject(injectOptions))
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/role/{ownerId}/people',
@@ -2595,7 +2595,7 @@ Test('end to end tests', function(t) {
 
                         promises.push(server.inject(injectOptions))
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/user',
@@ -2617,7 +2617,7 @@ Test('end to end tests', function(t) {
 
                         promises.push(server.inject(injectOptions))
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/user',
@@ -2641,26 +2641,26 @@ Test('end to end tests', function(t) {
                       // </editor-fold>
 
                       // <editor-fold desc="Act">
-                      .then(function() {
+                      .then(function () {
                         return Promise.all(promises)
                       })
                       // </editor-fold>
 
                       // <editor-fold desc="Assert">
-                      .then(function(response) {
+                      .then(function (response) {
                         // EXPL: rearrange results to match order
                         let result1 = []
-                        response[0].result.users.forEach(function(user) {
+                        response[0].result.users.forEach(function (user) {
                           result1.push(
-                            response[3].result.docs.find(function(u) {
+                            response[3].result.docs.find(function (u) {
                               return u.email === user.email
                             })
                           )
                         })
                         let result2 = []
-                        response[1].result.docs.forEach(function(user) {
+                        response[1].result.docs.forEach(function (user) {
                           result2.push(
-                            response[2].result.docs.find(function(u) {
+                            response[2].result.docs.find(function (u) {
                               return u.email === user.email
                             })
                           )
@@ -2699,14 +2699,14 @@ Test('end to end tests', function(t) {
                       // </editor-fold>
 
                       // <editor-fold desc="Restore">
-                      .then(function() {
+                      .then(function () {
                         Decache('../../rest-hapi')
 
                         Decache('../config')
-                        Object.keys(Mongoose.models).forEach(function(key) {
+                        Object.keys(Mongoose.models).forEach(function (key) {
                           delete Mongoose.models[key]
                         })
-                        Object.keys(Mongoose.modelSchemas).forEach(function(
+                        Object.keys(Mongoose.modelSchemas).forEach(function (
                           key
                         ) {
                           delete Mongoose.modelSchemas[key]
@@ -2718,10 +2718,10 @@ Test('end to end tests', function(t) {
               )
             })
             // adding and retrieving MANY_MANY associations works
-            .then(function() {
+            .then(function () {
               return t.test(
                 'adding and retrieving MANY_MANY associations works',
-                function(t) {
+                function (t) {
                   // <editor-fold desc="Arrange">
                   const RestHapi = require('../../rest-hapi')
                   const server = new Hapi.Server()
@@ -2750,7 +2750,7 @@ Test('end to end tests', function(t) {
                           config: config
                         }
                       })
-                      .then(function() {
+                      .then(function () {
                         server.start()
 
                         let payload = [
@@ -2798,20 +2798,20 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         permissions = permissions.concat(response.result)
 
                         let payload = [
-                          permissions.find(function(p) {
+                          permissions.find(function (p) {
                             return p.name === 'create'
                           })._id,
-                          permissions.find(function(p) {
+                          permissions.find(function (p) {
                             return p.name === 'read'
                           })._id,
-                          permissions.find(function(p) {
+                          permissions.find(function (p) {
                             return p.name === 'update'
                           })._id,
-                          permissions.find(function(p) {
+                          permissions.find(function (p) {
                             return p.name === 'delete'
                           })._id
                         ]
@@ -2830,17 +2830,17 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         let payload = [
                           {
                             enabled: true,
-                            childId: permissions.find(function(p) {
+                            childId: permissions.find(function (p) {
                               return p.name === 'nothing'
                             })._id
                           },
                           {
                             enabled: false,
-                            childId: permissions.find(function(p) {
+                            childId: permissions.find(function (p) {
                               return p.name === 'associate'
                             })._id
                           }
@@ -2860,8 +2860,8 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
-                        let childId = permissions.find(function(p) {
+                      .then(function (response) {
+                        let childId = permissions.find(function (p) {
                           return p.name === 'root'
                         })._id
 
@@ -2879,8 +2879,8 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
-                        let childId = permissions.find(function(p) {
+                      .then(function (response) {
+                        let childId = permissions.find(function (p) {
                           return p.name === 'root'
                         })._id
                         let payload = { enabled: false }
@@ -2898,7 +2898,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/role/{_id}',
@@ -2913,7 +2913,7 @@ Test('end to end tests', function(t) {
 
                         promises.push(server.inject(injectOptions))
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/role/{ownerId}/permission',
@@ -2928,7 +2928,7 @@ Test('end to end tests', function(t) {
 
                         promises.push(server.inject(injectOptions))
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/user/{_id}',
@@ -2943,7 +2943,7 @@ Test('end to end tests', function(t) {
 
                         promises.push(server.inject(injectOptions))
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/user/{ownerId}/permissions',
@@ -2958,7 +2958,7 @@ Test('end to end tests', function(t) {
 
                         promises.push(server.inject(injectOptions))
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         promises.push(
                           Mongoose.model('user_permission')
                             .find({
@@ -2971,20 +2971,20 @@ Test('end to end tests', function(t) {
                       // </editor-fold>
 
                       // <editor-fold desc="Act">
-                      .then(function() {
+                      .then(function () {
                         return Promise.all(promises)
                       })
                       // </editor-fold>
 
                       // <editor-fold desc="Assert">
-                      .then(function(response) {
+                      .then(function (response) {
                         let result1Orig = response[0].result.permissions.map(
-                          function(obj) {
+                          function (obj) {
                             return obj.permission
                           }
                         )
                         let result2Orig = response[2].result.permissions.map(
-                          function(obj) {
+                          function (obj) {
                             obj.permission.user_permission = {
                               user: response[2].result._id,
                               enabled: obj.enabled
@@ -2994,17 +2994,17 @@ Test('end to end tests', function(t) {
                         )
                         // EXPL: rearrange results to match order
                         let result1 = []
-                        response[1].result.docs.forEach(function(permission) {
+                        response[1].result.docs.forEach(function (permission) {
                           result1.push(
-                            result1Orig.find(function(perm) {
+                            result1Orig.find(function (perm) {
                               return perm.name === permission.name
                             })
                           )
                         })
                         let result2 = []
-                        response[3].result.docs.forEach(function(permission) {
+                        response[3].result.docs.forEach(function (permission) {
                           result2.push(
-                            result2Orig.find(function(perm) {
+                            result2Orig.find(function (perm) {
                               return perm.name === permission.name
                             })
                           )
@@ -3028,14 +3028,14 @@ Test('end to end tests', function(t) {
                       // </editor-fold>
 
                       // <editor-fold desc="Restore">
-                      .then(function() {
+                      .then(function () {
                         Decache('../../rest-hapi')
 
                         delete Mongoose.models.role
-                        Object.keys(Mongoose.models).forEach(function(key) {
+                        Object.keys(Mongoose.models).forEach(function (key) {
                           delete Mongoose.models[key]
                         })
-                        Object.keys(Mongoose.modelSchemas).forEach(function(
+                        Object.keys(Mongoose.modelSchemas).forEach(function (
                           key
                         ) {
                           delete Mongoose.modelSchemas[key]
@@ -3047,10 +3047,10 @@ Test('end to end tests', function(t) {
               )
             })
             // adding and retrieving _MANY associations works
-            .then(function() {
+            .then(function () {
               return t.test(
                 'adding and retrieving _MANY associations works',
-                function(t) {
+                function (t) {
                   // <editor-fold desc="Arrange">
                   const RestHapi = require('../../rest-hapi')
                   const server = new Hapi.Server()
@@ -3079,7 +3079,7 @@ Test('end to end tests', function(t) {
                           config: config
                         }
                       })
-                      .then(function() {
+                      .then(function () {
                         server.start()
 
                         let payload = [
@@ -3114,7 +3114,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         hashtags = hashtags.concat(response.result)
 
                         let payload = {
@@ -3135,7 +3135,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         let payload = {
                           tags: [
                             hashtags[0]._id,
@@ -3158,7 +3158,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'PUT',
                           url: '/user/{ownerId}/hashtag/{childId}',
@@ -3176,7 +3176,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         let payload = [
                           hashtags[2]._id, // NOTE: duplicate, should only be added once
                           hashtags[3]._id
@@ -3196,7 +3196,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/user/{_id}',
@@ -3211,7 +3211,7 @@ Test('end to end tests', function(t) {
 
                         promises.push(server.inject(injectOptions))
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/user/{ownerId}/hashtag',
@@ -3229,13 +3229,13 @@ Test('end to end tests', function(t) {
                       // </editor-fold>
 
                       // <editor-fold desc="Act">
-                      .then(function() {
+                      .then(function () {
                         return Promise.all(promises)
                       })
                       // </editor-fold>
 
                       // <editor-fold desc="Assert">
-                      .then(function(response) {
+                      .then(function (response) {
                         let result1 = [
                           hashtags[0],
                           hashtags[1],
@@ -3257,14 +3257,14 @@ Test('end to end tests', function(t) {
                       // </editor-fold>
 
                       // <editor-fold desc="Restore">
-                      .then(function() {
+                      .then(function () {
                         Decache('../../rest-hapi')
 
                         Decache('../config')
-                        Object.keys(Mongoose.models).forEach(function(key) {
+                        Object.keys(Mongoose.models).forEach(function (key) {
                           delete Mongoose.models[key]
                         })
-                        Object.keys(Mongoose.modelSchemas).forEach(function(
+                        Object.keys(Mongoose.modelSchemas).forEach(function (
                           key
                         ) {
                           delete Mongoose.modelSchemas[key]
@@ -3276,10 +3276,10 @@ Test('end to end tests', function(t) {
               )
             })
             // removing ONE_MANY/MANY_ONE associations works
-            .then(function() {
+            .then(function () {
               return t.test(
                 'removing ONE_MANY/MANY_ONE associations works',
-                function(t) {
+                function (t) {
                   // <editor-fold desc="Arrange">
                   const RestHapi = require('../../rest-hapi')
                   const server = new Hapi.Server()
@@ -3308,7 +3308,7 @@ Test('end to end tests', function(t) {
                           config: config
                         }
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'DELETE',
                           url: '/role/{ownerId}/people/{childId}',
@@ -3326,7 +3326,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         let payload = [
                           users[1]._id,
                           users[2]._id,
@@ -3347,7 +3347,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/role/{ownerId}/people',
@@ -3362,7 +3362,7 @@ Test('end to end tests', function(t) {
 
                         promises.push(server.inject(injectOptions))
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/user',
@@ -3380,16 +3380,16 @@ Test('end to end tests', function(t) {
                       // </editor-fold>
 
                       // <editor-fold desc="Act">
-                      .then(function() {
+                      .then(function () {
                         return Promise.all(promises)
                       })
                       // </editor-fold>
 
                       // <editor-fold desc="Assert">
-                      .then(function(response) {
+                      .then(function (response) {
                         let result2 = true
                         let result3 = false
-                        response[1].result.docs.forEach(function(user) {
+                        response[1].result.docs.forEach(function (user) {
                           if (
                             user.title &&
                             user.title.toString() !== roles[1]._id.toString()
@@ -3414,14 +3414,14 @@ Test('end to end tests', function(t) {
                       // </editor-fold>
 
                       // <editor-fold desc="Restore">
-                      .then(function() {
+                      .then(function () {
                         Decache('../../rest-hapi')
 
                         Decache('../config')
-                        Object.keys(Mongoose.models).forEach(function(key) {
+                        Object.keys(Mongoose.models).forEach(function (key) {
                           delete Mongoose.models[key]
                         })
-                        Object.keys(Mongoose.modelSchemas).forEach(function(
+                        Object.keys(Mongoose.modelSchemas).forEach(function (
                           key
                         ) {
                           delete Mongoose.modelSchemas[key]
@@ -3433,8 +3433,8 @@ Test('end to end tests', function(t) {
               )
             })
             // removing MANY_MANY associations works
-            .then(function() {
-              return t.test('removing MANY_MANY associations works', function(
+            .then(function () {
+              return t.test('removing MANY_MANY associations works', function (
                 t
               ) {
                 // <editor-fold desc="Arrange">
@@ -3465,8 +3465,8 @@ Test('end to end tests', function(t) {
                         config: config
                       }
                     })
-                    .then(function(response) {
-                      let childId = permissions.find(function(p) {
+                    .then(function (response) {
+                      let childId = permissions.find(function (p) {
                         return p.name === 'root'
                       })._id
 
@@ -3484,8 +3484,8 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
-                      let childId = permissions.find(function(p) {
+                    .then(function (response) {
+                      let childId = permissions.find(function (p) {
                         return p.name === 'root'
                       })._id
                       let payload = { enabled: false }
@@ -3503,18 +3503,18 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       let payload = [
-                        permissions.find(function(p) {
+                        permissions.find(function (p) {
                           return p.name === 'create'
                         })._id,
-                        permissions.find(function(p) {
+                        permissions.find(function (p) {
                           return p.name === 'read'
                         })._id,
-                        permissions.find(function(p) {
+                        permissions.find(function (p) {
                           return p.name === 'update'
                         })._id,
-                        permissions.find(function(p) {
+                        permissions.find(function (p) {
                           return p.name === 'delete'
                         })._id
                       ]
@@ -3533,12 +3533,12 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       let payload = [
-                        permissions.find(function(p) {
+                        permissions.find(function (p) {
                           return p.name === 'nothing'
                         })._id,
-                        permissions.find(function(p) {
+                        permissions.find(function (p) {
                           return p.name === 'associate'
                         })._id
                       ]
@@ -3557,7 +3557,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'GET',
                         url: '/role/{ownerId}/permission',
@@ -3572,7 +3572,7 @@ Test('end to end tests', function(t) {
 
                       promises.push(server.inject(injectOptions))
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'GET',
                         url: '/user/{ownerId}/permissions',
@@ -3590,13 +3590,13 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Act">
-                    .then(function() {
+                    .then(function () {
                       return Promise.all(promises)
                     })
                     // </editor-fold>
 
                     // <editor-fold desc="Assert">
-                    .then(function(response) {
+                    .then(function (response) {
                       t.deepEquals(
                         response[0].result.docs,
                         [],
@@ -3611,14 +3611,14 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Restore">
-                    .then(function() {
+                    .then(function () {
                       Decache('../../rest-hapi')
 
                       Decache('../config')
-                      Object.keys(Mongoose.models).forEach(function(key) {
+                      Object.keys(Mongoose.models).forEach(function (key) {
                         delete Mongoose.models[key]
                       })
-                      Object.keys(Mongoose.modelSchemas).forEach(function(key) {
+                      Object.keys(Mongoose.modelSchemas).forEach(function (key) {
                         delete Mongoose.modelSchemas[key]
                       })
                     })
@@ -3627,10 +3627,10 @@ Test('end to end tests', function(t) {
               })
             })
             // removing _MANY associations works
-            .then(function() {
+            .then(function () {
               return t.test(
                 'removing ONE_MANY/MANY_ONE associations works',
-                function(t) {
+                function (t) {
                   // <editor-fold desc="Arrange">
                   const RestHapi = require('../../rest-hapi')
                   const server = new Hapi.Server()
@@ -3659,7 +3659,7 @@ Test('end to end tests', function(t) {
                           config: config
                         }
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'DELETE',
                           url: '/user/{ownerId}/hashtag/{childId}',
@@ -3677,7 +3677,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         let payload = [
                           hashtags[1]._id,
                           hashtags[2]._id,
@@ -3698,7 +3698,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/user/{ownerId}/hashtag',
@@ -3716,13 +3716,13 @@ Test('end to end tests', function(t) {
                       // </editor-fold>
 
                       // <editor-fold desc="Act">
-                      .then(function() {
+                      .then(function () {
                         return Promise.all(promises)
                       })
                       // </editor-fold>
 
                       // <editor-fold desc="Assert">
-                      .then(function(response) {
+                      .then(function (response) {
                         t.deepEquals(
                           response[0].result.docs,
                           [],
@@ -3732,14 +3732,14 @@ Test('end to end tests', function(t) {
                       // </editor-fold>
 
                       // <editor-fold desc="Restore">
-                      .then(function() {
+                      .then(function () {
                         Decache('../../rest-hapi')
 
                         Decache('../config')
-                        Object.keys(Mongoose.models).forEach(function(key) {
+                        Object.keys(Mongoose.models).forEach(function (key) {
                           delete Mongoose.models[key]
                         })
-                        Object.keys(Mongoose.modelSchemas).forEach(function(
+                        Object.keys(Mongoose.modelSchemas).forEach(function (
                           key
                         ) {
                           delete Mongoose.modelSchemas[key]
@@ -3755,8 +3755,8 @@ Test('end to end tests', function(t) {
         )
       })
     })
-    .then(function() {
-      return t.test('audit log tests', function(t) {
+    .then(function () {
+      return t.test('audit log tests', function (t) {
         let users = []
         let roles = []
         let permissions = []
@@ -3764,8 +3764,8 @@ Test('end to end tests', function(t) {
         return (
           Q.when()
             // create action logged
-            .then(function() {
-              return t.test('create action logged', function(t) {
+            .then(function () {
+              return t.test('create action logged', function (t) {
                 // <editor-fold desc="Arrange">
                 const RestHapi = require('../../rest-hapi')
                 const server = new Hapi.Server({ debug: false })
@@ -3798,7 +3798,7 @@ Test('end to end tests', function(t) {
                         config: config
                       }
                     })
-                    .then(function() {
+                    .then(function () {
                       server.start()
 
                       const userId = new Mongoose.Types.ObjectId()
@@ -3850,7 +3850,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       users = users.concat(response.result)
 
                       const request = {
@@ -3873,7 +3873,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       roles = roles.concat(response.result)
 
                       const request = {
@@ -3901,7 +3901,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       roles = roles.concat(response.result)
 
                       const request = {
@@ -3925,7 +3925,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'GET',
                         url: '/auditLog',
@@ -3948,13 +3948,13 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Act">
-                    .then(function() {
+                    .then(function () {
                       return Promise.all(promises)
                     })
                     // </editor-fold>
 
                     // <editor-fold desc="Assert">
-                    .then(function(response) {
+                    .then(function (response) {
                       let now = new Date()
                       now.setUTCMinutes(0, 0, 0)
                       let log1 = response[0].result.docs[1]
@@ -4056,14 +4056,14 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Restore">
-                    .then(function() {
+                    .then(function () {
                       Decache('../../rest-hapi')
 
                       Decache('../config')
-                      Object.keys(Mongoose.models).forEach(function(key) {
+                      Object.keys(Mongoose.models).forEach(function (key) {
                         delete Mongoose.models[key]
                       })
-                      Object.keys(Mongoose.modelSchemas).forEach(function(key) {
+                      Object.keys(Mongoose.modelSchemas).forEach(function (key) {
                         delete Mongoose.modelSchemas[key]
                       })
                     })
@@ -4072,8 +4072,8 @@ Test('end to end tests', function(t) {
               })
             })
             // update action logged
-            .then(function() {
-              return t.test('update action logged', function(t) {
+            .then(function () {
+              return t.test('update action logged', function (t) {
                 // <editor-fold desc="Arrange">
                 const RestHapi = require('../../rest-hapi')
                 const server = new Hapi.Server({ debug: false })
@@ -4102,7 +4102,7 @@ Test('end to end tests', function(t) {
                         config: config
                       }
                     })
-                    .then(function() {
+                    .then(function () {
                       server.start()
 
                       const request = {
@@ -4121,7 +4121,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       users[0] = response.result
 
                       const request = {
@@ -4140,7 +4140,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'GET',
                         url: '/auditLog',
@@ -4163,13 +4163,13 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Act">
-                    .then(function() {
+                    .then(function () {
                       return Promise.all(promises)
                     })
                     // </editor-fold>
 
                     // <editor-fold desc="Assert">
-                    .then(function(response) {
+                    .then(function (response) {
                       let now = new Date()
                       now.setUTCMinutes(0, 0, 0)
                       let log1 = response[0].result.docs[4]
@@ -4255,14 +4255,14 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Restore">
-                    .then(function() {
+                    .then(function () {
                       Decache('../../rest-hapi')
 
                       Decache('../config')
-                      Object.keys(Mongoose.models).forEach(function(key) {
+                      Object.keys(Mongoose.models).forEach(function (key) {
                         delete Mongoose.models[key]
                       })
-                      Object.keys(Mongoose.modelSchemas).forEach(function(key) {
+                      Object.keys(Mongoose.modelSchemas).forEach(function (key) {
                         delete Mongoose.modelSchemas[key]
                       })
                     })
@@ -4271,8 +4271,8 @@ Test('end to end tests', function(t) {
               })
             })
             // regular delete action logged
-            .then(function() {
-              return t.test('regular delete action logged', function(t) {
+            .then(function () {
+              return t.test('regular delete action logged', function (t) {
                 // <editor-fold desc="Arrange">
                 const RestHapi = require('../../rest-hapi')
                 const server = new Hapi.Server()
@@ -4305,7 +4305,7 @@ Test('end to end tests', function(t) {
                         config: config
                       }
                     })
-                    .then(function() {
+                    .then(function () {
                       server.start()
 
                       const request = {
@@ -4326,7 +4326,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function() {
+                    .then(function () {
                       server.start()
 
                       const request = {
@@ -4347,7 +4347,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'Delete',
                         url: '/user/{_id}',
@@ -4366,7 +4366,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'GET',
                         url: '/auditLog',
@@ -4389,13 +4389,13 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Act">
-                    .then(function() {
+                    .then(function () {
                       return Promise.all(promises)
                     })
                     // </editor-fold>
 
                     // <editor-fold desc="Assert">
-                    .then(function(response) {
+                    .then(function (response) {
                       let now = new Date()
                       now.setUTCMinutes(0, 0, 0)
                       let log1 = response[0].result.docs[6]
@@ -4502,14 +4502,14 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Restore">
-                    .then(function() {
+                    .then(function () {
                       Decache('../../rest-hapi')
 
                       Decache('../config')
-                      Object.keys(Mongoose.models).forEach(function(key) {
+                      Object.keys(Mongoose.models).forEach(function (key) {
                         delete Mongoose.models[key]
                       })
-                      Object.keys(Mongoose.modelSchemas).forEach(function(key) {
+                      Object.keys(Mongoose.modelSchemas).forEach(function (key) {
                         delete Mongoose.modelSchemas[key]
                       })
                     })
@@ -4518,8 +4518,8 @@ Test('end to end tests', function(t) {
               })
             })
             // soft delete action logged
-            .then(function() {
-              return t.test('soft delete action logged', function(t) {
+            .then(function () {
+              return t.test('soft delete action logged', function (t) {
                 // <editor-fold desc="Arrange">
                 const RestHapi = require('../../rest-hapi')
                 const server = new Hapi.Server()
@@ -4553,7 +4553,7 @@ Test('end to end tests', function(t) {
                         config: config
                       }
                     })
-                    .then(function() {
+                    .then(function () {
                       server.start()
 
                       const request = {
@@ -4574,7 +4574,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function() {
+                    .then(function () {
                       server.start()
 
                       const request = {
@@ -4595,7 +4595,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'GET',
                         url: '/auditLog',
@@ -4618,13 +4618,13 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Act">
-                    .then(function() {
+                    .then(function () {
                       return Promise.all(promises)
                     })
                     // </editor-fold>
 
                     // <editor-fold desc="Assert">
-                    .then(function(response) {
+                    .then(function (response) {
                       let now = new Date()
                       now.setUTCMinutes(0, 0, 0)
                       let log1 = response[0].result.docs[9]
@@ -4696,14 +4696,14 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Restore">
-                    .then(function() {
+                    .then(function () {
                       Decache('../../rest-hapi')
 
                       Decache('../config')
-                      Object.keys(Mongoose.models).forEach(function(key) {
+                      Object.keys(Mongoose.models).forEach(function (key) {
                         delete Mongoose.models[key]
                       })
-                      Object.keys(Mongoose.modelSchemas).forEach(function(key) {
+                      Object.keys(Mongoose.modelSchemas).forEach(function (key) {
                         delete Mongoose.modelSchemas[key]
                       })
                     })
@@ -4712,8 +4712,8 @@ Test('end to end tests', function(t) {
               })
             })
             // hard delete action logged
-            .then(function() {
-              return t.test('hard delete action logged', function(t) {
+            .then(function () {
+              return t.test('hard delete action logged', function (t) {
                 // <editor-fold desc="Arrange">
                 const RestHapi = require('../../rest-hapi')
                 const server = new Hapi.Server()
@@ -4747,7 +4747,7 @@ Test('end to end tests', function(t) {
                         config: config
                       }
                     })
-                    .then(function() {
+                    .then(function () {
                       server.start()
 
                       const request = {
@@ -4768,7 +4768,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function() {
+                    .then(function () {
                       server.start()
 
                       const request = {
@@ -4792,7 +4792,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'GET',
                         url: '/auditLog',
@@ -4815,13 +4815,13 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Act">
-                    .then(function() {
+                    .then(function () {
                       return Promise.all(promises)
                     })
                     // </editor-fold>
 
                     // <editor-fold desc="Assert">
-                    .then(function(response) {
+                    .then(function (response) {
                       let now = new Date()
                       now.setUTCMinutes(0, 0, 0)
                       let log1 = response[0].result.docs[11]
@@ -4900,14 +4900,14 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Restore">
-                    .then(function() {
+                    .then(function () {
                       Decache('../../rest-hapi')
 
                       Decache('../config')
-                      Object.keys(Mongoose.models).forEach(function(key) {
+                      Object.keys(Mongoose.models).forEach(function (key) {
                         delete Mongoose.models[key]
                       })
-                      Object.keys(Mongoose.modelSchemas).forEach(function(key) {
+                      Object.keys(Mongoose.modelSchemas).forEach(function (key) {
                         delete Mongoose.modelSchemas[key]
                       })
                     })
@@ -4916,8 +4916,8 @@ Test('end to end tests', function(t) {
               })
             })
             // add action logged
-            .then(function() {
-              return t.test('add action logged', function(t) {
+            .then(function () {
+              return t.test('add action logged', function (t) {
                 // <editor-fold desc="Arrange">
                 const RestHapi = require('../../rest-hapi')
                 const server = new Hapi.Server()
@@ -4950,7 +4950,7 @@ Test('end to end tests', function(t) {
                         config: config
                       }
                     })
-                    .then(function() {
+                    .then(function () {
                       server.start()
 
                       const userId = new Mongoose.Types.ObjectId()
@@ -4998,7 +4998,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       users = [users[0]].concat(response.result)
 
                       const userId = new Mongoose.Types.ObjectId()
@@ -5040,7 +5040,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       permissions = permissions.concat(response.result)
 
                       const userId = new Mongoose.Types.ObjectId()
@@ -5079,7 +5079,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       hashtags = hashtags.concat(response.result)
 
                       const request = {
@@ -5103,7 +5103,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'POST',
                         url: '/role/{ownerId}/people',
@@ -5122,7 +5122,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'PUT',
                         url: '/role/{ownerId}/permission/{childId}',
@@ -5144,7 +5144,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'POST',
                         url: '/role/{ownerId}/permission',
@@ -5166,7 +5166,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'PUT',
                         url: '/user/{ownerId}/permissions/{childId}',
@@ -5188,7 +5188,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'POST',
                         url: '/user/{ownerId}/permissions',
@@ -5210,7 +5210,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'PUT',
                         url: '/user/{ownerId}/hashtag/{childId}',
@@ -5232,7 +5232,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'POST',
                         url: '/user/{ownerId}/hashtag',
@@ -5251,7 +5251,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'POST',
                         url: '/user/{ownerId}/hashtag',
@@ -5270,7 +5270,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'GET',
                         url: '/auditLog',
@@ -5293,13 +5293,13 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Act">
-                    .then(function() {
+                    .then(function () {
                       return Promise.all(promises)
                     })
                     // </editor-fold>
 
                     // <editor-fold desc="Assert">
-                    .then(function(response) {
+                    .then(function (response) {
                       let now = new Date()
                       now.setUTCMinutes(0, 0, 0)
                       let log1 = response[0].result.docs[16]
@@ -5325,9 +5325,9 @@ Test('end to end tests', function(t) {
                       t.deepEqual(
                         log1.endpoint,
                         '/role/' +
-                          roles[0]._id.toString() +
-                          '/people/' +
-                          users[0]._id.toString(),
+                        roles[0]._id.toString() +
+                        '/people/' +
+                        users[0]._id.toString(),
                         'endpoint correct'
                       )
                       t.deepEqual(
@@ -5423,9 +5423,9 @@ Test('end to end tests', function(t) {
                       t.deepEqual(
                         log3.endpoint,
                         '/role/' +
-                          roles[0]._id.toString() +
-                          '/permission/' +
-                          permissions[0]._id.toString(),
+                        roles[0]._id.toString() +
+                        '/permission/' +
+                        permissions[0]._id.toString(),
                         'endpoint correct'
                       )
                       t.deepEqual(
@@ -5524,9 +5524,9 @@ Test('end to end tests', function(t) {
                       t.deepEqual(
                         log5.endpoint,
                         '/user/' +
-                          users[0]._id.toString() +
-                          '/permissions/' +
-                          permissions[0]._id.toString(),
+                        users[0]._id.toString() +
+                        '/permissions/' +
+                        permissions[0]._id.toString(),
                         'endpoint correct'
                       )
                       t.deepEqual(
@@ -5635,9 +5635,9 @@ Test('end to end tests', function(t) {
                       t.deepEqual(
                         log7.endpoint,
                         '/user/' +
-                          users[0]._id.toString() +
-                          '/hashtag/' +
-                          hashtags[0]._id.toString(),
+                        users[0]._id.toString() +
+                        '/hashtag/' +
+                        hashtags[0]._id.toString(),
                         'endpoint correct'
                       )
                       t.deepEqual(
@@ -5785,14 +5785,14 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Restore">
-                    .then(function() {
+                    .then(function () {
                       Decache('../../rest-hapi')
 
                       Decache('../config')
-                      Object.keys(Mongoose.models).forEach(function(key) {
+                      Object.keys(Mongoose.models).forEach(function (key) {
                         delete Mongoose.models[key]
                       })
-                      Object.keys(Mongoose.modelSchemas).forEach(function(key) {
+                      Object.keys(Mongoose.modelSchemas).forEach(function (key) {
                         delete Mongoose.modelSchemas[key]
                       })
                     })
@@ -5801,8 +5801,8 @@ Test('end to end tests', function(t) {
               })
             })
             // remove action logged
-            .then(function() {
-              return t.test('remove action logged', function(t) {
+            .then(function () {
+              return t.test('remove action logged', function (t) {
                 // <editor-fold desc="Arrange">
                 const RestHapi = require('../../rest-hapi')
                 const server = new Hapi.Server()
@@ -5835,7 +5835,7 @@ Test('end to end tests', function(t) {
                         config: config
                       }
                     })
-                    .then(function() {
+                    .then(function () {
                       server.start()
 
                       const request = {
@@ -5859,7 +5859,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'DELETE',
                         url: '/role/{ownerId}/people',
@@ -5878,7 +5878,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'DELETE',
                         url: '/role/{ownerId}/permission/{childId}',
@@ -5900,7 +5900,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'DELETE',
                         url: '/role/{ownerId}/permission',
@@ -5919,7 +5919,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'DELETE',
                         url: '/user/{ownerId}/permissions/{childId}',
@@ -5941,7 +5941,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'DELETE',
                         url: '/user/{ownerId}/permissions',
@@ -5960,7 +5960,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'DELETE',
                         url: '/user/{ownerId}/hashtag/{childId}',
@@ -5982,7 +5982,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'DELETE',
                         url: '/user/{ownerId}/hashtag',
@@ -6001,7 +6001,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'DELETE',
                         url: '/user/{ownerId}/hashtag',
@@ -6020,7 +6020,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'GET',
                         url: '/auditLog',
@@ -6043,13 +6043,13 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Act">
-                    .then(function() {
+                    .then(function () {
                       return Promise.all(promises)
                     })
                     // </editor-fold>
 
                     // <editor-fold desc="Assert">
-                    .then(function(response) {
+                    .then(function (response) {
                       let now = new Date()
                       now.setUTCMinutes(0, 0, 0)
                       let log1 = response[0].result.docs[25]
@@ -6075,9 +6075,9 @@ Test('end to end tests', function(t) {
                       t.deepEqual(
                         log1.endpoint,
                         '/role/' +
-                          roles[0]._id.toString() +
-                          '/people/' +
-                          users[0]._id.toString(),
+                        roles[0]._id.toString() +
+                        '/people/' +
+                        users[0]._id.toString(),
                         'endpoint correct'
                       )
                       t.deepEqual(
@@ -6173,9 +6173,9 @@ Test('end to end tests', function(t) {
                       t.deepEqual(
                         log3.endpoint,
                         '/role/' +
-                          roles[0]._id.toString() +
-                          '/permission/' +
-                          permissions[0]._id.toString(),
+                        roles[0]._id.toString() +
+                        '/permission/' +
+                        permissions[0]._id.toString(),
                         'endpoint correct'
                       )
                       t.deepEqual(
@@ -6274,9 +6274,9 @@ Test('end to end tests', function(t) {
                       t.deepEqual(
                         log5.endpoint,
                         '/user/' +
-                          users[0]._id.toString() +
-                          '/permissions/' +
-                          permissions[0]._id.toString(),
+                        users[0]._id.toString() +
+                        '/permissions/' +
+                        permissions[0]._id.toString(),
                         'endpoint correct'
                       )
                       t.deepEqual(
@@ -6375,9 +6375,9 @@ Test('end to end tests', function(t) {
                       t.deepEqual(
                         log7.endpoint,
                         '/user/' +
-                          users[0]._id.toString() +
-                          '/hashtag/' +
-                          hashtags[0]._id.toString(),
+                        users[0]._id.toString() +
+                        '/hashtag/' +
+                        hashtags[0]._id.toString(),
                         'endpoint correct'
                       )
                       t.deepEqual(
@@ -6525,14 +6525,14 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Restore">
-                    .then(function() {
+                    .then(function () {
                       Decache('../../rest-hapi')
 
                       Decache('../config')
-                      Object.keys(Mongoose.models).forEach(function(key) {
+                      Object.keys(Mongoose.models).forEach(function (key) {
                         delete Mongoose.models[key]
                       })
-                      Object.keys(Mongoose.modelSchemas).forEach(function(key) {
+                      Object.keys(Mongoose.modelSchemas).forEach(function (key) {
                         delete Mongoose.modelSchemas[key]
                       })
 
@@ -6545,14 +6545,14 @@ Test('end to end tests', function(t) {
         )
       })
     })
-    .then(function() {
-      return t.test('advanced association tests', function(t) {
+    .then(function () {
+      return t.test('advanced association tests', function (t) {
         return (
           Q.when()
             // implied association embeddings work
             // NOTE: implied associations are those listed with a 'ref' property but not listed under 'associations'
-            .then(function() {
-              return t.test('implied associations work', function(t) {
+            .then(function () {
+              return t.test('implied associations work', function (t) {
                 // <editor-fold desc="Arrange">
                 const RestHapi = require('../../rest-hapi')
                 const server = new Hapi.Server()
@@ -6583,7 +6583,7 @@ Test('end to end tests', function(t) {
                         config: config
                       }
                     })
-                    .then(function() {
+                    .then(function () {
                       server.start()
 
                       let payload = [
@@ -6612,7 +6612,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       facilities = response.result
 
                       let payload = {
@@ -6638,7 +6638,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'GET',
                         url: '/building',
@@ -6657,13 +6657,13 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Act">
-                    .then(function(injectOptions) {
+                    .then(function (injectOptions) {
                       return Promise.all(promises)
                     })
                     // </editor-fold>
 
                     // <editor-fold desc="Assert">
-                    .then(function(response) {
+                    .then(function (response) {
                       let building = response[0].result.docs[0]
                       let kitchen = building.facilitiesPerFloor.find(
                         facility => facility.name === 'kitchen'
@@ -6682,14 +6682,14 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Restore">
-                    .then(function() {
+                    .then(function () {
                       Decache('../../rest-hapi')
 
                       Decache('../config')
-                      Object.keys(Mongoose.models).forEach(function(key) {
+                      Object.keys(Mongoose.models).forEach(function (key) {
                         delete Mongoose.models[key]
                       })
-                      Object.keys(Mongoose.modelSchemas).forEach(function(key) {
+                      Object.keys(Mongoose.modelSchemas).forEach(function (key) {
                         delete Mongoose.modelSchemas[key]
                       })
                     })
@@ -6700,8 +6700,8 @@ Test('end to end tests', function(t) {
         )
       })
     })
-    .then(function() {
-      return t.test('duplicate field tests', function(t) {
+    .then(function () {
+      return t.test('duplicate field tests', function (t) {
         let users = []
         let userProfiles = []
         let roles = []
@@ -6709,8 +6709,8 @@ Test('end to end tests', function(t) {
         return (
           Q.when()
             // duplicate fields populate upon creation
-            .then(function() {
-              return t.test('duplicate fields populate upon creation', function(
+            .then(function () {
+              return t.test('duplicate fields populate upon creation', function (
                 t
               ) {
                 // <editor-fold desc="Arrange">
@@ -6742,7 +6742,7 @@ Test('end to end tests', function(t) {
                         config: config
                       }
                     })
-                    .then(function() {
+                    .then(function () {
                       server.start()
 
                       let payload = [
@@ -6770,7 +6770,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       businesses = response.result
 
                       let payload = [
@@ -6804,7 +6804,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       roles = response.result
 
                       let payload = [
@@ -6844,7 +6844,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       users = response.result
 
                       let payload = {
@@ -6866,7 +6866,7 @@ Test('end to end tests', function(t) {
 
                       return server.inject(injectOptions)
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       userProfiles.push(response.result)
 
                       const request = {
@@ -6883,7 +6883,7 @@ Test('end to end tests', function(t) {
 
                       promises.push(server.inject(injectOptions))
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'GET',
                         url: '/user-profile',
@@ -6902,13 +6902,13 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Act">
-                    .then(function() {
+                    .then(function () {
                       return Promise.all(promises)
                     })
                     // </editor-fold>
 
                     // <editor-fold desc="Assert">
-                    .then(function(response) {
+                    .then(function (response) {
                       t.deepEquals(
                         response[0].result.docs[0].titleName,
                         'User',
@@ -6978,14 +6978,14 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Restore">
-                    .then(function() {
+                    .then(function () {
                       Decache('../../rest-hapi')
 
                       Decache('../config')
-                      Object.keys(Mongoose.models).forEach(function(key) {
+                      Object.keys(Mongoose.models).forEach(function (key) {
                         delete Mongoose.models[key]
                       })
-                      Object.keys(Mongoose.modelSchemas).forEach(function(key) {
+                      Object.keys(Mongoose.modelSchemas).forEach(function (key) {
                         delete Mongoose.modelSchemas[key]
                       })
                     })
@@ -6994,8 +6994,8 @@ Test('end to end tests', function(t) {
               })
             })
             // duplicate fields populate upon update
-            .then(function() {
-              return t.test('duplicate fields populate upon update', function(
+            .then(function () {
+              return t.test('duplicate fields populate upon update', function (
                 t
               ) {
                 // <editor-fold desc="Arrange">
@@ -7027,7 +7027,7 @@ Test('end to end tests', function(t) {
                         config: config
                       }
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       server.start()
 
                       let payload = {
@@ -7050,7 +7050,7 @@ Test('end to end tests', function(t) {
                       promises.push(promise)
                       return promise
                     })
-                    .then(function() {
+                    .then(function () {
                       let payload = {
                         profile: userProfiles[0]._id
                       }
@@ -7071,7 +7071,7 @@ Test('end to end tests', function(t) {
                       promises.push(promise)
                       return promise
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                       const request = {
                         method: 'GET',
                         url: '/user/{_id}',
@@ -7090,13 +7090,13 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Act">
-                    .then(function() {
+                    .then(function () {
                       return Promise.all(promises)
                     })
                     // </editor-fold>
 
                     // <editor-fold desc="Assert">
-                    .then(function(response) {
+                    .then(function (response) {
                       t.deepEquals(
                         response[0].result.companyName,
                         'testBiz1',
@@ -7116,14 +7116,14 @@ Test('end to end tests', function(t) {
                     // </editor-fold>
 
                     // <editor-fold desc="Restore">
-                    .then(function() {
+                    .then(function () {
                       Decache('../../rest-hapi')
 
                       Decache('../config')
-                      Object.keys(Mongoose.models).forEach(function(key) {
+                      Object.keys(Mongoose.models).forEach(function (key) {
                         delete Mongoose.models[key]
                       })
-                      Object.keys(Mongoose.modelSchemas).forEach(function(key) {
+                      Object.keys(Mongoose.modelSchemas).forEach(function (key) {
                         delete Mongoose.modelSchemas[key]
                       })
                     })
@@ -7132,10 +7132,10 @@ Test('end to end tests', function(t) {
               })
             })
             // duplicated fields track original field upon update
-            .then(function() {
+            .then(function () {
               return t.test(
                 'duplicated fields track original field upon update',
-                function(t) {
+                function (t) {
                   // <editor-fold desc="Arrange">
                   const RestHapi = require('../../rest-hapi')
                   const server = new Hapi.Server()
@@ -7165,7 +7165,7 @@ Test('end to end tests', function(t) {
                           config: config
                         }
                       })
-                      .then(function() {
+                      .then(function () {
                         server.start()
 
                         let payload = {
@@ -7186,7 +7186,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const payload = {
                           name: 'testBizChanged'
                         }
@@ -7205,7 +7205,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/user',
@@ -7220,7 +7220,7 @@ Test('end to end tests', function(t) {
 
                         promises.push(server.inject(injectOptions))
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/role',
@@ -7239,27 +7239,27 @@ Test('end to end tests', function(t) {
                       // </editor-fold>
 
                       // <editor-fold desc="Act">
-                      .then(function() {
+                      .then(function () {
                         return Promise.all(promises)
                       })
                       // </editor-fold>
 
                       // <editor-fold desc="Assert">
-                      .then(function(response) {
+                      .then(function (response) {
                         // rearrange results to match original order
                         let result1 = []
-                        roles.forEach(function(role) {
+                        roles.forEach(function (role) {
                           result1.push(
-                            response[1].result.docs.find(function(doc) {
+                            response[1].result.docs.find(function (doc) {
                               return doc._id.toString() === role._id.toString()
                             })
                           )
                         })
 
                         let result2 = []
-                        users.forEach(function(user) {
+                        users.forEach(function (user) {
                           result2.push(
-                            response[0].result.docs.find(function(doc) {
+                            response[0].result.docs.find(function (doc) {
                               return doc._id.toString() === user._id.toString()
                             })
                           )
@@ -7320,14 +7320,14 @@ Test('end to end tests', function(t) {
                       // </editor-fold>
 
                       // <editor-fold desc="Restore">
-                      .then(function() {
+                      .then(function () {
                         Decache('../../rest-hapi')
 
                         Decache('../config')
-                        Object.keys(Mongoose.models).forEach(function(key) {
+                        Object.keys(Mongoose.models).forEach(function (key) {
                           delete Mongoose.models[key]
                         })
-                        Object.keys(Mongoose.modelSchemas).forEach(function(
+                        Object.keys(Mongoose.modelSchemas).forEach(function (
                           key
                         ) {
                           delete Mongoose.modelSchemas[key]
@@ -7339,10 +7339,10 @@ Test('end to end tests', function(t) {
               )
             })
             // duplicated fields don't track original field when tracking is disabled
-            .then(function() {
+            .then(function () {
               return t.test(
                 "duplicated fields don't track original field when tracking is disabled",
-                function(t) {
+                function (t) {
                   // <editor-fold desc="Arrange">
                   const RestHapi = require('../../rest-hapi')
                   const server = new Hapi.Server()
@@ -7372,7 +7372,7 @@ Test('end to end tests', function(t) {
                           config: config
                         }
                       })
-                      .then(function() {
+                      .then(function () {
                         server.start()
 
                         const payload = {
@@ -7393,7 +7393,7 @@ Test('end to end tests', function(t) {
 
                         return server.inject(injectOptions)
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/user',
@@ -7408,7 +7408,7 @@ Test('end to end tests', function(t) {
 
                         promises.push(server.inject(injectOptions))
                       })
-                      .then(function(response) {
+                      .then(function (response) {
                         const request = {
                           method: 'GET',
                           url: '/role',
@@ -7427,27 +7427,27 @@ Test('end to end tests', function(t) {
                       // </editor-fold>
 
                       // <editor-fold desc="Act">
-                      .then(function() {
+                      .then(function () {
                         return Promise.all(promises)
                       })
                       // </editor-fold>
 
                       // <editor-fold desc="Assert">
-                      .then(function(response) {
+                      .then(function (response) {
                         // rearrange results to match original order
                         let result1 = []
-                        roles.forEach(function(role) {
+                        roles.forEach(function (role) {
                           result1.push(
-                            response[1].result.docs.find(function(doc) {
+                            response[1].result.docs.find(function (doc) {
                               return doc._id.toString() === role._id.toString()
                             })
                           )
                         })
 
                         let result2 = []
-                        users.forEach(function(user) {
+                        users.forEach(function (user) {
                           result2.push(
-                            response[0].result.docs.find(function(doc) {
+                            response[0].result.docs.find(function (doc) {
                               return doc._id.toString() === user._id.toString()
                             })
                           )
@@ -7488,14 +7488,14 @@ Test('end to end tests', function(t) {
                       // </editor-fold>
 
                       // <editor-fold desc="Restore">
-                      .then(function() {
+                      .then(function () {
                         Decache('../../rest-hapi')
 
                         Decache('../config')
-                        Object.keys(Mongoose.models).forEach(function(key) {
+                        Object.keys(Mongoose.models).forEach(function (key) {
                           delete Mongoose.models[key]
                         })
-                        Object.keys(Mongoose.modelSchemas).forEach(function(
+                        Object.keys(Mongoose.modelSchemas).forEach(function (
                           key
                         ) {
                           delete Mongoose.modelSchemas[key]
@@ -7509,10 +7509,10 @@ Test('end to end tests', function(t) {
         )
       })
     })
-    .then(function() {
-      return t.test('clearing cache', function(t) {
-        return Q.when().then(function() {
-          Object.keys(require.cache).forEach(function(key) {
+    .then(function () {
+      return t.test('clearing cache', function (t) {
+        return Q.when().then(function () {
+          Object.keys(require.cache).forEach(function (key) {
             delete require.cache[key]
           })
 

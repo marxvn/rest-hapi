@@ -1,6 +1,6 @@
 'use strict'
 
-let Boom = require('boom')
+let Boom = require('@hapi/boom')
 let handlerHelper = require('./handler-helper')
 
 // TODO: add bulk delete/delete many
@@ -26,7 +26,7 @@ let handlerHelper = require('./handler-helper')
 // TODO: abstract mongoose logic into CRUD utility methods that can be called directly with rest-hapi plugin
 // TODO:(cont) This will allow users to CRUD data in extra endpoints using rest-hapi functions.
 
-module.exports = function() {
+module.exports = function () {
   return {
     /**
      * Handles incoming GET requests to /RESOURCE
@@ -136,7 +136,7 @@ function generateListHandler(model, options, logger) {
   const Log = logger.bind()
   options = options || {}
 
-  return async function(request, h) {
+  return async function (request, h) {
     try {
       Log.log(
         'params(%s), query(%s), payload(%s)',
@@ -165,7 +165,7 @@ function generateFindHandler(model, options, logger) {
   const Log = logger.bind()
   options = options || {}
 
-  return async function(request, h) {
+  return async function (request, h) {
     try {
       Log.log(
         'params(%s), query(%s), payload(%s)',
@@ -198,7 +198,7 @@ function generateCreateHandler(model, options, logger) {
   const Log = logger.bind()
   options = options || {}
 
-  return async function(request, h) {
+  return async function (request, h) {
     try {
       Log.log(
         'params(%s), query(%s), payload(%s)',
@@ -226,7 +226,7 @@ function generateUpdateHandler(model, options, logger) {
   const Log = logger.bind()
   options = options || {}
 
-  return async function(request, h) {
+  return async function (request, h) {
     try {
       Log.log(
         'params(%s), query(%s), payload(%s)',
@@ -259,7 +259,7 @@ function generateDeleteHandler(model, options, logger) {
   const Log = logger.bind()
   options = options || {}
 
-  return async function(request, h) {
+  return async function (request, h) {
     try {
       Log.log(
         'params(%s), query(%s), payload(%s)',
@@ -308,7 +308,7 @@ function generateAssociationAddOneHandler(
   let addMethodName =
     'addOne' + associationName[0].toUpperCase() + associationName.slice(1, -1)
 
-  return async function(request, h) {
+  return async function (request, h) {
     try {
       Log.log(
         addMethodName + ' + params(%s), query(%s), payload(%s)',
@@ -355,7 +355,7 @@ function generateAssociationRemoveOneHandler(
     associationName[0].toUpperCase() +
     associationName.slice(1, -1)
 
-  return async function(request, h) {
+  return async function (request, h) {
     try {
       Log.log(
         removeMethodName + ' + params(%s), query(%s), payload(%s)',
@@ -400,7 +400,7 @@ function generateAssociationAddManyHandler(
   let addMethodName =
     'addMany' + associationName[0].toUpperCase() + associationName.slice(1)
 
-  return async function(request, h) {
+  return async function (request, h) {
     try {
       Log.log(
         addMethodName + ' + params(%s), query(%s), payload(%s)',
@@ -445,7 +445,7 @@ function generateAssociationRemoveManyHandler(
   let removeMethodName =
     'removeMany' + associationName[0].toUpperCase() + associationName.slice(1)
 
-  return async function(request, h) {
+  return async function (request, h) {
     try {
       Log.log(
         removeMethodName + ' + params(%s), query(%s), payload(%s)',
@@ -490,7 +490,7 @@ function generateAssociationGetAllHandler(
     association.getAllMethodName ||
     'get' + associationName[0].toUpperCase() + associationName.slice(1)
 
-  return async function(request, h) {
+  return async function (request, h) {
     try {
       Log.log(
         getAllMethodName + ' + params(%s), query(%s), payload(%s)',

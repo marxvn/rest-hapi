@@ -18,11 +18,11 @@ let Log = logging.getLogger('tests')
 Log.logLevel = 'DEBUG'
 Log = Log.bind('joi-mongoose-helper')
 let testHelper = require('../../utilities/test-helper')
-let Joi = require('joi')
+let Joi = require('@hapi/joi')
 
 sinon.test = sinonTest
 
-test('joi-mongoose-helper exists and has expected members', function(t) {
+test('joi-mongoose-helper exists and has expected members', function (t) {
   // <editor-fold desc="Arrange">
   let joiMongooseHelper = require('../../utilities/joi-mongoose-helper')
 
@@ -62,7 +62,7 @@ test('joi-mongoose-helper exists and has expected members', function(t) {
   // </editor-fold>
 })
 
-test('joi-mongoose-helper.generateJoiReadModel', function(t) {
+test('joi-mongoose-helper.generateJoiReadModel', function (t) {
   let joiMongooseHelper = require('../../utilities/joi-mongoose-helper')
   testHelper.testModelParameter(
     t,
@@ -74,11 +74,11 @@ test('joi-mongoose-helper.generateJoiReadModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiReadModel calls generateJoiFieldModel for regular readable fields.',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(2)
 
-      let generateJoiFieldModel = sinon.spy(function() {
+      let generateJoiFieldModel = sinon.spy(function () {
         return Joi.any()
       })
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
@@ -130,11 +130,11 @@ test('joi-mongoose-helper.generateJoiReadModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiReadModel uses readModel if it exists.',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(3)
 
-      let generateJoiFieldModel = sinon.spy(function() {
+      let generateJoiFieldModel = sinon.spy(function () {
         return Joi.any()
       })
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
@@ -190,11 +190,11 @@ test('joi-mongoose-helper.generateJoiReadModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiReadModel ignores fields where exclude is true or allowOnRead is false.',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(2)
 
-      let generateJoiFieldModel = sinon.spy(function() {
+      let generateJoiFieldModel = sinon.spy(function () {
         return Joi.any()
       })
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
@@ -257,11 +257,11 @@ test('joi-mongoose-helper.generateJoiReadModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiReadModel ignores fields that are invalid.',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
-      let generateJoiFieldModel = sinon.spy(function() {
+      let generateJoiFieldModel = sinon.spy(function () {
         return Joi.any()
       })
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
@@ -271,7 +271,7 @@ test('joi-mongoose-helper.generateJoiReadModel', function(t) {
       )
       joiMongooseHelper.__set__(
         'internals.isValidField',
-        sinon.spy(function() {
+        sinon.spy(function () {
           return false
         })
       )
@@ -314,11 +314,11 @@ test('joi-mongoose-helper.generateJoiReadModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiReadModel returns Joi object that rejects excluded fields.',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(4)
 
-      let generateJoiFieldModel = sinon.spy(function() {
+      let generateJoiFieldModel = sinon.spy(function () {
         return Joi.any()
       })
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
@@ -378,11 +378,11 @@ test('joi-mongoose-helper.generateJoiReadModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiReadModel returns Joi object that requires fields with "requireOnRead" set to true.',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(2)
 
-      let generateJoiFieldModel = sinon.spy(function() {
+      let generateJoiFieldModel = sinon.spy(function () {
         return Joi.any()
       })
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
@@ -424,14 +424,14 @@ test('joi-mongoose-helper.generateJoiReadModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiReadModel includes associations.',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(19)
 
-      let generateJoiFieldModel = sinon.spy(function() {
+      let generateJoiFieldModel = sinon.spy(function () {
         return Joi.any()
       })
-      let generateJoiReadModel = sinon.spy(function() {
+      let generateJoiReadModel = sinon.spy(function () {
         return Joi.object()
       })
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
@@ -576,11 +576,11 @@ test('joi-mongoose-helper.generateJoiReadModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiReadModel returns Joi object with appropriate className.',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
-      let generateJoiFieldModel = sinon.spy(function() {
+      let generateJoiFieldModel = sinon.spy(function () {
         return Joi.any()
       })
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
@@ -614,7 +614,7 @@ test('joi-mongoose-helper.generateJoiReadModel', function(t) {
   t.end()
 })
 
-test('joi-mongoose-helper.generateJoiUpdateModel', function(t) {
+test('joi-mongoose-helper.generateJoiUpdateModel', function (t) {
   let joiMongooseHelper = require('../../utilities/joi-mongoose-helper')
   testHelper.testModelParameter(
     t,
@@ -626,11 +626,11 @@ test('joi-mongoose-helper.generateJoiUpdateModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiUpdateModel calls generateJoiFieldModel for regular fields.',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(2)
 
-      let generateJoiFieldModel = sinon.spy(function() {
+      let generateJoiFieldModel = sinon.spy(function () {
         return Joi.any()
       })
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
@@ -681,11 +681,11 @@ test('joi-mongoose-helper.generateJoiUpdateModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiUpdateModel uses updateModel if it exists.',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(3)
 
-      let generateJoiFieldModel = sinon.spy(function() {
+      let generateJoiFieldModel = sinon.spy(function () {
         return Joi.any()
       })
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
@@ -741,11 +741,11 @@ test('joi-mongoose-helper.generateJoiUpdateModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiUpdateModel ignores fields where allowOnUpdate is false.',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
-      let generateJoiFieldModel = sinon.spy(function() {
+      let generateJoiFieldModel = sinon.spy(function () {
         return Joi.any()
       })
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
@@ -793,11 +793,11 @@ test('joi-mongoose-helper.generateJoiUpdateModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiUpdateModel returns Joi object that rejects fields not listed.',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(3)
 
-      let generateJoiFieldModel = sinon.spy(function() {
+      let generateJoiFieldModel = sinon.spy(function () {
         return Joi.any()
       })
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
@@ -849,11 +849,11 @@ test('joi-mongoose-helper.generateJoiUpdateModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiUpdateModel returns Joi object that requires fields with "requireOnUpdate" set to true.',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(2)
 
-      let generateJoiFieldModel = sinon.spy(function() {
+      let generateJoiFieldModel = sinon.spy(function () {
         return Joi.any()
       })
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
@@ -895,11 +895,11 @@ test('joi-mongoose-helper.generateJoiUpdateModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiUpdateModel includes associations.',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(5)
 
-      let generateJoiFieldModel = sinon.spy(function() {
+      let generateJoiFieldModel = sinon.spy(function () {
         return Joi.any()
       })
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
@@ -1024,11 +1024,11 @@ test('joi-mongoose-helper.generateJoiUpdateModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiUpdateModel returns Joi object with appropriate className.',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
-      let generateJoiFieldModel = sinon.spy(function() {
+      let generateJoiFieldModel = sinon.spy(function () {
         return Joi.any()
       })
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
@@ -1062,7 +1062,7 @@ test('joi-mongoose-helper.generateJoiUpdateModel', function(t) {
   t.end()
 })
 
-test('joi-mongoose-helper.generateJoiCreateModel', function(t) {
+test('joi-mongoose-helper.generateJoiCreateModel', function (t) {
   let joiMongooseHelper = require('../../utilities/joi-mongoose-helper')
   testHelper.testModelParameter(
     t,
@@ -1074,11 +1074,11 @@ test('joi-mongoose-helper.generateJoiCreateModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiCreateModel calls generateJoiFieldModel for regular fields.',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(2)
 
-      let generateJoiFieldModel = sinon.spy(function() {
+      let generateJoiFieldModel = sinon.spy(function () {
         return Joi.any()
       })
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
@@ -1129,11 +1129,11 @@ test('joi-mongoose-helper.generateJoiCreateModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiCreateModel uses createModel if it exists.',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(3)
 
-      let generateJoiFieldModel = sinon.spy(function() {
+      let generateJoiFieldModel = sinon.spy(function () {
         return Joi.any()
       })
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
@@ -1189,11 +1189,11 @@ test('joi-mongoose-helper.generateJoiCreateModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiCreateModel ignores fields where allowOnCreate is false.',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
-      let generateJoiFieldModel = sinon.spy(function() {
+      let generateJoiFieldModel = sinon.spy(function () {
         return Joi.any()
       })
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
@@ -1241,11 +1241,11 @@ test('joi-mongoose-helper.generateJoiCreateModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiCreateModel returns Joi object that rejects fields not listed.',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(3)
 
-      let generateJoiFieldModel = sinon.spy(function() {
+      let generateJoiFieldModel = sinon.spy(function () {
         return Joi.any()
       })
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
@@ -1297,11 +1297,11 @@ test('joi-mongoose-helper.generateJoiCreateModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiCreateModel returns Joi object that requires fields with "required" set to true.',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(2)
 
-      let generateJoiFieldModel = sinon.spy(function() {
+      let generateJoiFieldModel = sinon.spy(function () {
         return Joi.any()
       })
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
@@ -1343,11 +1343,11 @@ test('joi-mongoose-helper.generateJoiCreateModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiCreateModel includes associations.',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(5)
 
-      let generateJoiFieldModel = sinon.spy(function() {
+      let generateJoiFieldModel = sinon.spy(function () {
         return Joi.any()
       })
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
@@ -1478,7 +1478,7 @@ test('joi-mongoose-helper.generateJoiCreateModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiCreateModel returns Joi object with appropriate className.',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       let joiMongooseHelper = require('../../utilities/joi-mongoose-helper')
 
@@ -1509,10 +1509,10 @@ test('joi-mongoose-helper.generateJoiCreateModel', function(t) {
   t.end()
 })
 
-test('joi-mongoose-helper.generateJoiModelFromFieldType', function(t) {
+test('joi-mongoose-helper.generateJoiModelFromFieldType', function (t) {
   t.test(
     'joi-mongoose-helper.generateJoiModelFromFieldType returns correct models for types.',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(16)
 
@@ -1680,10 +1680,10 @@ test('joi-mongoose-helper.generateJoiModelFromFieldType', function(t) {
   t.end()
 })
 
-test('joi-mongoose-helper.joiObjectId', function(t) {
+test('joi-mongoose-helper.joiObjectId', function (t) {
   t.test(
     'joi-mongoose-helper.joiObjectId returns correct models for objectIds.',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       let joiMongooseHelper = require('../../utilities/joi-mongoose-helper')
 
@@ -1733,10 +1733,10 @@ test('joi-mongoose-helper.joiObjectId', function(t) {
   t.end()
 })
 
-test('joi-mongoose-helper.isValidField', function(t) {
+test('joi-mongoose-helper.isValidField', function (t) {
   t.test(
     'joi-mongoose-helper.isValidField returns false for non-objects.',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(3)
 
@@ -1772,7 +1772,7 @@ test('joi-mongoose-helper.isValidField', function(t) {
 
   t.test(
     'joi-mongoose-helper.isValidField returns false for mongoose "type" fields.',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(2)
 
@@ -1804,7 +1804,7 @@ test('joi-mongoose-helper.isValidField', function(t) {
 
   t.test(
     "joi-mongoose-helper.isValidField returns false for nested _id fields that aren't in an array.",
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(3)
 
@@ -1840,7 +1840,7 @@ test('joi-mongoose-helper.isValidField', function(t) {
 
   t.test(
     'joi-mongoose-helper.isValidField returns false for pre-defined invalid fields.',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(4)
 
@@ -1881,15 +1881,15 @@ test('joi-mongoose-helper.isValidField', function(t) {
   t.end()
 })
 
-test('joi-mongoose-helper.generateJoiFieldModel', function(t) {
+test('joi-mongoose-helper.generateJoiFieldModel', function (t) {
   t.test(
     'joi-mongoose-helper.generateJoiFieldModel calls generateJoiReadModel on a nested field with the "read" modelType parameter',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
-      let generateJoiReadModel = sinon.spy(function() {
+      let generateJoiReadModel = sinon.spy(function () {
         return Joi.any()
       })
       joiMongooseHelper.__set__(
@@ -1936,12 +1936,12 @@ test('joi-mongoose-helper.generateJoiFieldModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiFieldModel calls generateJoiCreateModel on a nested field with the "create" modelType parameter',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
-      let generateJoiCreateModel = sinon.spy(function() {
+      let generateJoiCreateModel = sinon.spy(function () {
         return Joi.any()
       })
       joiMongooseHelper.__set__(
@@ -1988,12 +1988,12 @@ test('joi-mongoose-helper.generateJoiFieldModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiFieldModel calls generateJoiUpdateModel on a nested field with the "create" modelType parameter',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
-      let generateJoiUpdateModel = sinon.spy(function() {
+      let generateJoiUpdateModel = sinon.spy(function () {
         return Joi.any()
       })
       joiMongooseHelper.__set__(
@@ -2040,12 +2040,12 @@ test('joi-mongoose-helper.generateJoiFieldModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiFieldModel throws an error with an incorrect modelType parameter',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
-      let generateJoiUpdateModel = sinon.spy(function() {
+      let generateJoiUpdateModel = sinon.spy(function () {
         return Joi.any()
       })
       joiMongooseHelper.__set__(
@@ -2102,12 +2102,12 @@ test('joi-mongoose-helper.generateJoiFieldModel', function(t) {
 
   t.test(
     "joi-mongoose-helper.generateJoiFieldModel removes all properties of the nested field that aren't objects",
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(3)
 
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
-      let generateJoiUpdateModel = sinon.spy(function() {
+      let generateJoiUpdateModel = sinon.spy(function () {
         return Joi.any()
       })
       joiMongooseHelper.__set__(
@@ -2160,12 +2160,12 @@ test('joi-mongoose-helper.generateJoiFieldModel', function(t) {
 
   t.test(
     "joi-mongoose-helper.generateJoiFieldModel makes a copy of the nested field before deleting so original properties aren't affected",
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
-      let generateJoiUpdateModel = sinon.spy(function() {
+      let generateJoiUpdateModel = sinon.spy(function () {
         return Joi.any()
       })
       joiMongooseHelper.__set__(
@@ -2218,12 +2218,12 @@ test('joi-mongoose-helper.generateJoiFieldModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiFieldModel creates correct nestedModel out of fields',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(9)
 
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
-      let generateJoiUpdateModel = sinon.spy(function() {
+      let generateJoiUpdateModel = sinon.spy(function () {
         return Joi.any()
       })
       joiMongooseHelper.__set__(
@@ -2285,12 +2285,12 @@ test('joi-mongoose-helper.generateJoiFieldModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiFieldModel creates correct joi model for nested fields',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(6)
 
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
-      let generateJoiUpdateModel = sinon.spy(function() {
+      let generateJoiUpdateModel = sinon.spy(function () {
         return Joi.any().valid('test')
       })
       joiMongooseHelper.__set__(
@@ -2375,12 +2375,12 @@ test('joi-mongoose-helper.generateJoiFieldModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiFieldModel calls generateJoiModelFromFieldType for non-nested fields',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
-      let generateJoiModelFromFieldType = sinon.spy(function() {
+      let generateJoiModelFromFieldType = sinon.spy(function () {
         return Joi.any()
       })
       joiMongooseHelper.__set__(
@@ -2429,12 +2429,12 @@ test('joi-mongoose-helper.generateJoiFieldModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiFieldModel calls generateJoiModelFromFieldType for "Object" field types',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
-      let generateJoiModelFromFieldType = sinon.spy(function() {
+      let generateJoiModelFromFieldType = sinon.spy(function () {
         return Joi.any()
       })
       joiMongooseHelper.__set__(
@@ -2485,10 +2485,10 @@ test('joi-mongoose-helper.generateJoiFieldModel', function(t) {
   t.end()
 })
 
-test('joi-mongoose-helper.generateJoiListQueryModel', function(t) {
+test('joi-mongoose-helper.generateJoiListQueryModel', function (t) {
   t.test(
     'joi-mongoose-helper.generateJoiListQueryModel calls queryHelper.getQueryableFields, getReadableFields, and getSortableFields',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(3)
 
@@ -2528,25 +2528,25 @@ test('joi-mongoose-helper.generateJoiListQueryModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiListQueryModel returns correct queryModel for model with no associations and queryValidation enabled',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(30)
 
       let queryHelperStub = this.stub(require('../../utilities/query-helper'))
-      queryHelperStub.getQueryableFields = this.spy(function() {
+      queryHelperStub.getQueryableFields = this.spy(function () {
         return ['queryable']
       })
-      queryHelperStub.getReadableFields = this.spy(function() {
+      queryHelperStub.getReadableFields = this.spy(function () {
         return ['readable']
       })
-      queryHelperStub.getSortableFields = this.spy(function() {
+      queryHelperStub.getSortableFields = this.spy(function () {
         return ['sortable']
       })
 
-      let generateJoiModelFromFieldType = sinon.spy(function(test) {
+      let generateJoiModelFromFieldType = sinon.spy(function (test) {
         return Joi.any()
       })
-      let joiObjectId = sinon.spy(function() {
+      let joiObjectId = sinon.spy(function () {
         return Joi.any().valid('objectId')
       })
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
@@ -2651,12 +2651,12 @@ test('joi-mongoose-helper.generateJoiListQueryModel', function(t) {
       )
       t.ok(
         Joi.validate({ $searchFields: ['queryable'] }, queryModel).error ===
-          null,
+        null,
         "$searchFields: ['queryable'] allowed"
       )
       t.ok(
         Joi.validate({ $searchFields: 'notqueryable' }, queryModel).error !==
-          null,
+        null,
         "$searchFields: 'notqueryable' not allowed"
       )
 
@@ -2729,25 +2729,25 @@ test('joi-mongoose-helper.generateJoiListQueryModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiListQueryModel returns correct queryModel for model with no associations and $where queries enabled',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let queryHelperStub = this.stub(require('../../utilities/query-helper'))
-      queryHelperStub.getQueryableFields = this.spy(function() {
+      queryHelperStub.getQueryableFields = this.spy(function () {
         return ['queryable']
       })
-      queryHelperStub.getReadableFields = this.spy(function() {
+      queryHelperStub.getReadableFields = this.spy(function () {
         return ['readable']
       })
-      queryHelperStub.getSortableFields = this.spy(function() {
+      queryHelperStub.getSortableFields = this.spy(function () {
         return ['sortable']
       })
 
-      let generateJoiModelFromFieldType = sinon.spy(function(test) {
+      let generateJoiModelFromFieldType = sinon.spy(function (test) {
         return Joi.any()
       })
-      let joiObjectId = sinon.spy(function() {
+      let joiObjectId = sinon.spy(function () {
         return Joi.any().valid('objectId')
       })
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
@@ -2803,25 +2803,25 @@ test('joi-mongoose-helper.generateJoiListQueryModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiListQueryModel returns correct queryModel for model with no associations and queryValidation disabled',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(28)
 
       let queryHelperStub = this.stub(require('../../utilities/query-helper'))
-      queryHelperStub.getQueryableFields = this.spy(function() {
+      queryHelperStub.getQueryableFields = this.spy(function () {
         return ['queryable']
       })
-      queryHelperStub.getReadableFields = this.spy(function() {
+      queryHelperStub.getReadableFields = this.spy(function () {
         return ['readable']
       })
-      queryHelperStub.getSortableFields = this.spy(function() {
+      queryHelperStub.getSortableFields = this.spy(function () {
         return ['sortable']
       })
 
-      let generateJoiModelFromFieldType = sinon.spy(function(test) {
+      let generateJoiModelFromFieldType = sinon.spy(function (test) {
         return Joi.any()
       })
-      let joiObjectId = sinon.spy(function() {
+      let joiObjectId = sinon.spy(function () {
         return Joi.any().valid('objectId')
       })
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
@@ -2926,12 +2926,12 @@ test('joi-mongoose-helper.generateJoiListQueryModel', function(t) {
       )
       t.ok(
         Joi.validate({ $searchFields: ['queryable'] }, queryModel).error ===
-          null,
+        null,
         "$searchFields: ['queryable'] allowed"
       )
       t.ok(
         Joi.validate({ $searchFields: 'notqueryable' }, queryModel).error !==
-          null,
+        null,
         "$searchFields: 'notqueryable' not allowed"
       )
 
@@ -2994,25 +2994,25 @@ test('joi-mongoose-helper.generateJoiListQueryModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiListQueryModel returns correct queryModel for model with no associations and queryValidation enabled',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(5)
 
       let queryHelperStub = this.stub(require('../../utilities/query-helper'))
-      queryHelperStub.getQueryableFields = this.spy(function() {
+      queryHelperStub.getQueryableFields = this.spy(function () {
         return ['queryable']
       })
-      queryHelperStub.getReadableFields = this.spy(function() {
+      queryHelperStub.getReadableFields = this.spy(function () {
         return ['readable']
       })
-      queryHelperStub.getSortableFields = this.spy(function() {
+      queryHelperStub.getSortableFields = this.spy(function () {
         return ['sortable']
       })
 
-      let generateJoiModelFromFieldType = sinon.spy(function(test) {
+      let generateJoiModelFromFieldType = sinon.spy(function (test) {
         return Joi.any()
       })
-      let joiObjectId = sinon.spy(function() {
+      let joiObjectId = sinon.spy(function () {
         return Joi.any().valid('objectId')
       })
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
@@ -3083,10 +3083,10 @@ test('joi-mongoose-helper.generateJoiListQueryModel', function(t) {
   t.end()
 })
 
-test('joi-mongoose-helper.generateJoiFindQueryModel', function(t) {
+test('joi-mongoose-helper.generateJoiFindQueryModel', function (t) {
   t.test(
     'joi-mongoose-helper.generateJoiFindQueryModel calls queryHelper.getReadableFields',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
@@ -3121,25 +3121,25 @@ test('joi-mongoose-helper.generateJoiFindQueryModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiFindQueryModel returns correct queryModel for model with no associations and queryValidation enabled',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(6)
 
       let queryHelperStub = this.stub(require('../../utilities/query-helper'))
-      queryHelperStub.getQueryableFields = this.spy(function() {
+      queryHelperStub.getQueryableFields = this.spy(function () {
         return ['queryable']
       })
-      queryHelperStub.getReadableFields = this.spy(function() {
+      queryHelperStub.getReadableFields = this.spy(function () {
         return ['readable']
       })
-      queryHelperStub.getSortableFields = this.spy(function() {
+      queryHelperStub.getSortableFields = this.spy(function () {
         return ['sortable']
       })
 
-      let generateJoiModelFromFieldType = sinon.spy(function(test) {
+      let generateJoiModelFromFieldType = sinon.spy(function (test) {
         return Joi.any()
       })
-      let joiObjectId = sinon.spy(function() {
+      let joiObjectId = sinon.spy(function () {
         return Joi.any().valid('objectId')
       })
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
@@ -3215,25 +3215,25 @@ test('joi-mongoose-helper.generateJoiFindQueryModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiFindQueryModel returns correct queryModel for model with no associations and queryValidation disabled',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(4)
 
       let queryHelperStub = this.stub(require('../../utilities/query-helper'))
-      queryHelperStub.getQueryableFields = this.spy(function() {
+      queryHelperStub.getQueryableFields = this.spy(function () {
         return ['queryable']
       })
-      queryHelperStub.getReadableFields = this.spy(function() {
+      queryHelperStub.getReadableFields = this.spy(function () {
         return ['readable']
       })
-      queryHelperStub.getSortableFields = this.spy(function() {
+      queryHelperStub.getSortableFields = this.spy(function () {
         return ['sortable']
       })
 
-      let generateJoiModelFromFieldType = sinon.spy(function(test) {
+      let generateJoiModelFromFieldType = sinon.spy(function (test) {
         return Joi.any()
       })
-      let joiObjectId = sinon.spy(function() {
+      let joiObjectId = sinon.spy(function () {
         return Joi.any().valid('objectId')
       })
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')
@@ -3299,25 +3299,25 @@ test('joi-mongoose-helper.generateJoiFindQueryModel', function(t) {
 
   t.test(
     'joi-mongoose-helper.generateJoiFindQueryModel returns correct queryModel for model with no associations and queryValidation enabled',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(5)
 
       let queryHelperStub = this.stub(require('../../utilities/query-helper'))
-      queryHelperStub.getQueryableFields = this.spy(function() {
+      queryHelperStub.getQueryableFields = this.spy(function () {
         return ['queryable']
       })
-      queryHelperStub.getReadableFields = this.spy(function() {
+      queryHelperStub.getReadableFields = this.spy(function () {
         return ['readable']
       })
-      queryHelperStub.getSortableFields = this.spy(function() {
+      queryHelperStub.getSortableFields = this.spy(function () {
         return ['sortable']
       })
 
-      let generateJoiModelFromFieldType = sinon.spy(function(test) {
+      let generateJoiModelFromFieldType = sinon.spy(function (test) {
         return Joi.any()
       })
-      let joiObjectId = sinon.spy(function() {
+      let joiObjectId = sinon.spy(function () {
         return Joi.any().valid('objectId')
       })
       let joiMongooseHelper = rewire('../../utilities/joi-mongoose-helper')

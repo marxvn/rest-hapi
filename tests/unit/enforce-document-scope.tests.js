@@ -10,7 +10,7 @@ const sinonTestFactory = require('sinon-test')
 const sinonTest = sinonTestFactory(sinon)
 const rewire = require('rewire')
 const logging = require('loggin')
-const Boom = require('boom')
+const Boom = require('@hapi/boom')
 const Q = require('q')
 
 let Log = logging.getLogger('tests')
@@ -19,7 +19,7 @@ Log = Log.bind('enforce-document-scope')
 
 sinon.test = sinonTest
 
-test('enforce-document-scope exists and has expected members', function(t) {
+test('enforce-document-scope exists and has expected members', function (t) {
   // <editor-fold desc="Arrange">
   let enforceDocumentScope = require('../../policies/enforce-document-scope')
 
@@ -39,10 +39,10 @@ test('enforce-document-scope exists and has expected members', function(t) {
   // </editor-fold>
 })
 
-test('enforce-document-scope.compareScopes', function(t) {
+test('enforce-document-scope.compareScopes', function (t) {
   t.test(
     'enforce-document-scope.compareScopes fails if user scope contains forbidden values.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
@@ -71,7 +71,7 @@ test('enforce-document-scope.compareScopes', function(t) {
 
   t.test(
     'enforce-document-scope.compareScopes passes if user scope does not contain forbidden values.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
@@ -100,7 +100,7 @@ test('enforce-document-scope.compareScopes', function(t) {
 
   t.test(
     'enforce-document-scope.compareScopes fails if user scope does not contain required values.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
@@ -129,7 +129,7 @@ test('enforce-document-scope.compareScopes', function(t) {
 
   t.test(
     'enforce-document-scope.compareScopes passes if user scope does contain required values.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
@@ -158,7 +158,7 @@ test('enforce-document-scope.compareScopes', function(t) {
 
   t.test(
     'enforce-document-scope.compareScopes fails if user scope does not contain any of the general scope values.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
@@ -187,7 +187,7 @@ test('enforce-document-scope.compareScopes', function(t) {
 
   t.test(
     'enforce-document-scope.compareScopes passes if user scope contains at least one general scope value.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
@@ -216,7 +216,7 @@ test('enforce-document-scope.compareScopes', function(t) {
 
   t.test(
     'enforce-document-scope.compareScopes passes if user scope contains at least one general scope value.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
@@ -245,7 +245,7 @@ test('enforce-document-scope.compareScopes', function(t) {
 
   t.test(
     'enforce-document-scope.compareScopes passes a complex scope.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
@@ -274,7 +274,7 @@ test('enforce-document-scope.compareScopes', function(t) {
 
   t.test(
     'enforce-document-scope.compareScopes fails a complex scope.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
@@ -304,15 +304,15 @@ test('enforce-document-scope.compareScopes', function(t) {
   t.end()
 })
 
-test('enforce-document-scope.verifyScope', function(t) {
+test('enforce-document-scope.verifyScope', function (t) {
   t.test(
     'enforce-document-scope.verifyScope calls compareScope with correct read scope.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let enforceDocumentScope = rewire('../../policies/enforce-document-scope')
-      let compareScopes = this.spy(function() {
+      let compareScopes = this.spy(function () {
         return true
       })
       enforceDocumentScope.__set__('internals.compareScopes', compareScopes)
@@ -355,12 +355,12 @@ test('enforce-document-scope.verifyScope', function(t) {
 
   t.test(
     'enforce-document-scope.verifyScope calls compareScope with correct update scope.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let enforceDocumentScope = rewire('../../policies/enforce-document-scope')
-      let compareScopes = this.spy(function() {
+      let compareScopes = this.spy(function () {
         return true
       })
       enforceDocumentScope.__set__('internals.compareScopes', compareScopes)
@@ -403,12 +403,12 @@ test('enforce-document-scope.verifyScope', function(t) {
 
   t.test(
     'enforce-document-scope.verifyScope calls compareScope with correct delete scope.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let enforceDocumentScope = rewire('../../policies/enforce-document-scope')
-      let compareScopes = this.spy(function() {
+      let compareScopes = this.spy(function () {
         return true
       })
       enforceDocumentScope.__set__('internals.compareScopes', compareScopes)
@@ -451,12 +451,12 @@ test('enforce-document-scope.verifyScope', function(t) {
 
   t.test(
     'enforce-document-scope.verifyScope calls compareScope with correct associate scope.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let enforceDocumentScope = rewire('../../policies/enforce-document-scope')
-      let compareScopes = this.spy(function() {
+      let compareScopes = this.spy(function () {
         return true
       })
       enforceDocumentScope.__set__('internals.compareScopes', compareScopes)
@@ -499,12 +499,12 @@ test('enforce-document-scope.verifyScope', function(t) {
 
   t.test(
     'enforce-document-scope.verifyScope calls compareScope with just action scope if no root scope exists.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let enforceDocumentScope = rewire('../../policies/enforce-document-scope')
-      let compareScopes = this.spy(function() {
+      let compareScopes = this.spy(function () {
         return true
       })
       enforceDocumentScope.__set__('internals.compareScopes', compareScopes)
@@ -542,12 +542,12 @@ test('enforce-document-scope.verifyScope', function(t) {
 
   t.test(
     'enforce-document-scope.verifyScope calls compareScope with just root scope if no action scope exists.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let enforceDocumentScope = rewire('../../policies/enforce-document-scope')
-      let compareScopes = this.spy(function() {
+      let compareScopes = this.spy(function () {
         return true
       })
       enforceDocumentScope.__set__('internals.compareScopes', compareScopes)
@@ -582,12 +582,12 @@ test('enforce-document-scope.verifyScope', function(t) {
 
   t.test(
     'enforce-document-scope.verifyScope returns authorized if no document scope is defined.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let enforceDocumentScope = rewire('../../policies/enforce-document-scope')
-      let compareScopes = this.spy(function() {
+      let compareScopes = this.spy(function () {
         return true
       })
       enforceDocumentScope.__set__('internals.compareScopes', compareScopes)
@@ -617,12 +617,12 @@ test('enforce-document-scope.verifyScope', function(t) {
 
   t.test(
     'enforce-document-scope.verifyScope returns authorized false with no docs if compareScopes fails and config.enableDocumentScopeFail is true.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let enforceDocumentScope = rewire('../../policies/enforce-document-scope')
-      let compareScopes = this.spy(function() {
+      let compareScopes = this.spy(function () {
         return false
       })
       enforceDocumentScope.__set__('internals.compareScopes', compareScopes)
@@ -663,12 +663,12 @@ test('enforce-document-scope.verifyScope', function(t) {
 
   t.test(
     'enforce-document-scope.verifyScope returns authorized false with unauthorized docs if compareScopes fails and config.enableDocumentScopeFail is false.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let enforceDocumentScope = rewire('../../policies/enforce-document-scope')
-      let compareScopes = this.spy(function() {
+      let compareScopes = this.spy(function () {
         return false
       })
       enforceDocumentScope.__set__('internals.compareScopes', compareScopes)
@@ -710,15 +710,15 @@ test('enforce-document-scope.verifyScope', function(t) {
   t.end()
 })
 
-test('enforce-document-scope.verifyScopeById', function(t) {
+test('enforce-document-scope.verifyScopeById', function (t) {
   t.test(
     'enforce-document-scope.verifyScopeById calls model.find with the list of document ids.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let enforceDocumentScope = rewire('../../policies/enforce-document-scope')
-      let verifyScope = this.spy(function() {
+      let verifyScope = this.spy(function () {
         return true
       })
       enforceDocumentScope.__set__('internals.verifyScope', verifyScope)
@@ -727,7 +727,7 @@ test('enforce-document-scope.verifyScopeById', function(t) {
       )
 
       let model = {
-        find: this.spy(function() {
+        find: this.spy(function () {
           return Q.when()
         })
       }
@@ -762,13 +762,13 @@ test('enforce-document-scope.verifyScopeById', function(t) {
 
   t.test(
     'enforce-document-scope.verifyScopeById calls verifyScope with correct args.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let deferred = Q.defer()
       let enforceDocumentScope = rewire('../../policies/enforce-document-scope')
-      let verifyScope = this.spy(function() {
+      let verifyScope = this.spy(function () {
         deferred.resolve()
         return true
       })
@@ -779,7 +779,7 @@ test('enforce-document-scope.verifyScopeById', function(t) {
 
       let docs = ['doc1', 'doc2']
       let model = {
-        find: this.spy(function() {
+        find: this.spy(function () {
           return Q.when(docs)
         })
       }
@@ -795,7 +795,7 @@ test('enforce-document-scope.verifyScopeById', function(t) {
       // </editor-fold>
 
       // <editor-fold desc="Assert">
-      deferred.promise.then(function(response) {
+      deferred.promise.then(function (response) {
         t.ok(
           verifyScope.calledWithExactly(docs, 'read', userScope, Log),
           'verifyScope called with correct args'
@@ -810,15 +810,15 @@ test('enforce-document-scope.verifyScopeById', function(t) {
   t.end()
 })
 
-test('enforce-document-scope.enforceDocumentScopePostForModel', function(t) {
+test('enforce-document-scope.enforceDocumentScopePostForModel', function (t) {
   t.test(
     'enforce-document-scope.enforceDocumentScopePostForModel returns authorized if request method is not "get".',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let enforceDocumentScope = rewire('../../policies/enforce-document-scope')
-      let verifyScope = this.spy(function() {
+      let verifyScope = this.spy(function () {
         throw new Error('ERROR')
       })
       enforceDocumentScope.__set__('internals.verifyScope', verifyScope)
@@ -854,12 +854,12 @@ test('enforce-document-scope.enforceDocumentScopePostForModel', function(t) {
 
   t.test(
     'enforce-document-scope.enforceDocumentScopePostForModel calls verifyScope if request method is get and "_id" is in request params (a "find" endpoint).',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let enforceDocumentScope = rewire('../../policies/enforce-document-scope')
-      let verifyScope = this.spy(function() {
+      let verifyScope = this.spy(function () {
         return { authorized: true }
       })
       enforceDocumentScope.__set__('internals.verifyScope', verifyScope)
@@ -910,12 +910,12 @@ test('enforce-document-scope.enforceDocumentScopePostForModel', function(t) {
 
   t.test(
     'enforce-document-scope.enforceDocumentScopePostForModel calls verifyScope if request method is get and "_id" is not in request params (a "list" endpoint).',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let enforceDocumentScope = rewire('../../policies/enforce-document-scope')
-      let verifyScope = this.spy(function() {
+      let verifyScope = this.spy(function () {
         return { authorized: true }
       })
       enforceDocumentScope.__set__('internals.verifyScope', verifyScope)
@@ -966,12 +966,12 @@ test('enforce-document-scope.enforceDocumentScopePostForModel', function(t) {
 
   t.test(
     'enforce-document-scope.enforceDocumentScopePostForModel returns authorized if verifyScope returns authorized.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let enforceDocumentScope = rewire('../../policies/enforce-document-scope')
-      let verifyScope = this.spy(function() {
+      let verifyScope = this.spy(function () {
         return { authorized: true }
       })
       enforceDocumentScope.__set__('internals.verifyScope', verifyScope)
@@ -1018,12 +1018,12 @@ test('enforce-document-scope.enforceDocumentScopePostForModel', function(t) {
 
   t.test(
     'enforce-document-scope.enforceDocumentScopePostForModel returns forbidden error if verifyScope returns not authorized and "request.params._id" exists.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let enforceDocumentScope = rewire('../../policies/enforce-document-scope')
-      let verifyScope = this.spy(function() {
+      let verifyScope = this.spy(function () {
         return { authorized: false }
       })
       enforceDocumentScope.__set__('internals.verifyScope', verifyScope)
@@ -1082,12 +1082,12 @@ test('enforce-document-scope.enforceDocumentScopePostForModel', function(t) {
 
   t.test(
     'enforce-document-scope.enforceDocumentScopePostForModel returns forbidden error if verifyScope returns not authorized and "config.enableDocumentScopeFail" is true.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let enforceDocumentScope = rewire('../../policies/enforce-document-scope')
-      let verifyScope = this.spy(function() {
+      let verifyScope = this.spy(function () {
         return { authorized: false }
       })
       enforceDocumentScope.__set__('internals.verifyScope', verifyScope)
@@ -1144,12 +1144,12 @@ test('enforce-document-scope.enforceDocumentScopePostForModel', function(t) {
 
   t.test(
     'enforce-document-scope.enforceDocumentScopePostForModel replaces unauthorized docs for "list" requests that fail if "config.enableDocumentScopeFail" is false.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(2)
 
       let enforceDocumentScope = rewire('../../policies/enforce-document-scope')
-      let verifyScope = this.spy(function() {
+      let verifyScope = this.spy(function () {
         return { authorized: false, unauthorizedDocs: [{ _id: 'failed doc' }] }
       })
       enforceDocumentScope.__set__('internals.verifyScope', verifyScope)
@@ -1207,15 +1207,15 @@ test('enforce-document-scope.enforceDocumentScopePostForModel', function(t) {
   t.end()
 })
 
-test('enforce-document-scope.enforceDocumentScopePreForModel', function(t) {
+test('enforce-document-scope.enforceDocumentScopePreForModel', function (t) {
   t.test(
     'enforce-document-scope.enforceDocumentScopePreForModel returns authorized if request is not an update, association call, or a delete.',
-    sinon.test(async function(t) {
+    sinon.test(async function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let enforceDocumentScope = rewire('../../policies/enforce-document-scope')
-      let verifyScopeById = this.spy(function() {
+      let verifyScopeById = this.spy(function () {
         throw new Error('ERROR')
       })
       enforceDocumentScope.__set__('internals.verifyScopeById', verifyScopeById)
@@ -1252,12 +1252,12 @@ test('enforce-document-scope.enforceDocumentScopePreForModel', function(t) {
 
   t.test(
     'enforce-document-scope.enforceDocumentScopePreForModel calls verifyScopeById with "update" action if relevant.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let enforceDocumentScope = rewire('../../policies/enforce-document-scope')
-      let verifyScopeById = this.spy(function() {
+      let verifyScopeById = this.spy(function () {
         return Q.when({ authorized: true })
       })
       enforceDocumentScope.__set__('internals.verifyScopeById', verifyScopeById)
@@ -1305,12 +1305,12 @@ test('enforce-document-scope.enforceDocumentScopePreForModel', function(t) {
 
   t.test(
     'enforce-document-scope.enforceDocumentScopePreForModel calls verifyScopeById with "read" action if relevant.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let enforceDocumentScope = rewire('../../policies/enforce-document-scope')
-      let verifyScopeById = this.spy(function() {
+      let verifyScopeById = this.spy(function () {
         return Q.when({ authorized: true })
       })
       enforceDocumentScope.__set__('internals.verifyScopeById', verifyScopeById)
@@ -1358,12 +1358,12 @@ test('enforce-document-scope.enforceDocumentScopePreForModel', function(t) {
 
   t.test(
     'enforce-document-scope.enforceDocumentScopePreForModel calls verifyScopeById with "associate" action if relevant.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let enforceDocumentScope = rewire('../../policies/enforce-document-scope')
-      let verifyScopeById = this.spy(function() {
+      let verifyScopeById = this.spy(function () {
         return Q.when({ authorized: true })
       })
       enforceDocumentScope.__set__('internals.verifyScopeById', verifyScopeById)
@@ -1411,12 +1411,12 @@ test('enforce-document-scope.enforceDocumentScopePreForModel', function(t) {
 
   t.test(
     'enforce-document-scope.enforceDocumentScopePreForModel calls verifyScopeById with "delete" action and "_id" param if relevant.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let enforceDocumentScope = rewire('../../policies/enforce-document-scope')
-      let verifyScopeById = this.spy(function() {
+      let verifyScopeById = this.spy(function () {
         return Q.when({ authorized: true })
       })
       enforceDocumentScope.__set__('internals.verifyScopeById', verifyScopeById)
@@ -1464,12 +1464,12 @@ test('enforce-document-scope.enforceDocumentScopePreForModel', function(t) {
 
   t.test(
     'enforce-document-scope.enforceDocumentScopePreForModel calls verifyScopeById with "delete" action and payload _ids if relevant.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let enforceDocumentScope = rewire('../../policies/enforce-document-scope')
-      let verifyScopeById = this.spy(function() {
+      let verifyScopeById = this.spy(function () {
         return Q.when({ authorized: true })
       })
       enforceDocumentScope.__set__('internals.verifyScopeById', verifyScopeById)
@@ -1516,13 +1516,13 @@ test('enforce-document-scope.enforceDocumentScopePreForModel', function(t) {
 
   t.test(
     'enforce-document-scope.enforceDocumentScopePreForModel calls returns authorized if verifyScopeById returns authorized.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let deferred = Q.defer()
       let enforceDocumentScope = rewire('../../policies/enforce-document-scope')
-      let verifyScopeById = this.spy(function() {
+      let verifyScopeById = this.spy(function () {
         return Q.when({ authorized: true })
       })
       enforceDocumentScope.__set__('internals.verifyScopeById', verifyScopeById)
@@ -1555,7 +1555,7 @@ test('enforce-document-scope.enforceDocumentScopePreForModel', function(t) {
       // </editor-fold>
 
       // <editor-fold desc="Assert">
-      result.then(function(result) {
+      result.then(function (result) {
         t.deepEqual(result, 'test', 'h.continue returned')
       })
       // </editor-fold>
@@ -1567,13 +1567,13 @@ test('enforce-document-scope.enforceDocumentScopePreForModel', function(t) {
 
   t.test(
     'enforce-document-scope.enforceDocumentScopePreForModel calls returns forbidden error if verifyScopeById returns unauthorized and config.enableDocumentScopeFail is true.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let deferred = Q.defer()
       let enforceDocumentScope = rewire('../../policies/enforce-document-scope')
-      let verifyScopeById = this.spy(function() {
+      let verifyScopeById = this.spy(function () {
         return Q.when({ authorized: false })
       })
       enforceDocumentScope.__set__('internals.verifyScopeById', verifyScopeById)
@@ -1607,7 +1607,7 @@ test('enforce-document-scope.enforceDocumentScopePreForModel', function(t) {
       // </editor-fold>
 
       // <editor-fold desc="Assert">
-      result.catch(function(err) {
+      result.catch(function (err) {
         t.deepEqual(
           err,
           Boom.forbidden('Insufficient document scope.'),
@@ -1623,13 +1623,13 @@ test('enforce-document-scope.enforceDocumentScopePreForModel', function(t) {
 
   t.test(
     'enforce-document-scope.enforceDocumentScopePreForModel calls returns forbidden error if verifyScopeById returns unauthorized and action is not "delete".',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let deferred = Q.defer()
       let enforceDocumentScope = rewire('../../policies/enforce-document-scope')
-      let verifyScopeById = this.spy(function() {
+      let verifyScopeById = this.spy(function () {
         return Q.when({ authorized: false })
       })
       enforceDocumentScope.__set__('internals.verifyScopeById', verifyScopeById)
@@ -1664,7 +1664,7 @@ test('enforce-document-scope.enforceDocumentScopePreForModel', function(t) {
       // </editor-fold>
 
       // <editor-fold desc="Assert">
-      result.catch(function(err) {
+      result.catch(function (err) {
         t.deepEqual(
           err,
           Boom.forbidden('Insufficient document scope.'),
@@ -1680,13 +1680,13 @@ test('enforce-document-scope.enforceDocumentScopePreForModel', function(t) {
 
   t.test(
     'enforce-document-scope.enforceDocumentScopePreForModel calls returns forbidden error if verifyScopeById returns unauthorized and request.params._id exists',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let deferred = Q.defer()
       let enforceDocumentScope = rewire('../../policies/enforce-document-scope')
-      let verifyScopeById = this.spy(function() {
+      let verifyScopeById = this.spy(function () {
         return Q.when({ authorized: false })
       })
       enforceDocumentScope.__set__('internals.verifyScopeById', verifyScopeById)
@@ -1721,7 +1721,7 @@ test('enforce-document-scope.enforceDocumentScopePreForModel', function(t) {
       // </editor-fold>
 
       // <editor-fold desc="Assert">
-      result.catch(function(err) {
+      result.catch(function (err) {
         t.deepEqual(
           err,
           Boom.forbidden('Insufficient document scope.'),
@@ -1737,13 +1737,13 @@ test('enforce-document-scope.enforceDocumentScopePreForModel', function(t) {
 
   t.test(
     'enforce-document-scope.enforceDocumentScopePreForModel modifies payload if verifyScopeById returns unauthorized and action is "delete" and config.enableDocumentScopeFail is false.',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       t.plan(1)
 
       let deferred = Q.defer()
       let enforceDocumentScope = rewire('../../policies/enforce-document-scope')
-      let verifyScopeById = this.spy(function() {
+      let verifyScopeById = this.spy(function () {
         return Q.when({
           authorized: false,
           unauthorizedDocs: [{ _id: 'failedId' }]
@@ -1780,7 +1780,7 @@ test('enforce-document-scope.enforceDocumentScopePreForModel', function(t) {
       // </editor-fold>
 
       // <editor-fold desc="Assert">
-      result.then(function(result) {
+      result.then(function (result) {
         t.deepEqual(
           request.payload,
           [{ _id: 'authorizedId' }],

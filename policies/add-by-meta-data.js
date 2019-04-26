@@ -1,6 +1,6 @@
 'use strict'
 
-const Boom = require('boom')
+const Boom = require('@hapi/boom')
 const _ = require('lodash')
 const config = require('../config')
 
@@ -12,7 +12,7 @@ const internals = {}
  * @param logger
  * @returns {addCreatedByForModel}
  */
-internals.addCreatedBy = function(model, logger) {
+internals.addCreatedBy = function (model, logger) {
   const addCreatedByForModel = function addCreatedByForModel(request, h) {
     const Log = logger.bind('addCreatedBy')
 
@@ -30,7 +30,7 @@ internals.addCreatedBy.applyPoint = 'onPreHandler'
  * @param logger
  * @returns {addUpdatedByForModel}
  */
-internals.addUpdatedBy = function(model, logger) {
+internals.addUpdatedBy = function (model, logger) {
   const addUpdatedByForModel = function addUpdatedByForModel(request, h) {
     const Log = logger.bind('addUpdatedBy')
 
@@ -48,12 +48,12 @@ internals.addUpdatedBy.applyPoint = 'onPreHandler'
  * @param logger
  * @returns {addDeletedByForModel}
  */
-internals.addDeletedBy = function(model, logger) {
+internals.addDeletedBy = function (model, logger) {
   const addDeletedByForModel = function addDeletedByForModel(request, h) {
     const Log = logger.bind('addDeletedBy')
 
     if (_.isArray(request.payload)) {
-      request.payload = request.payload.map(function(data) {
+      request.payload = request.payload.map(function (data) {
         if (_.isString(data)) {
           return { _id: data, hardDelete: false }
         } else {
@@ -78,7 +78,7 @@ internals.addDeletedBy.applyPoint = 'onPreHandler'
  * @param logger
  * @returns {*}
  */
-internals.addMeta = function(action, request, h, logger) {
+internals.addMeta = function (action, request, h, logger) {
   const Log = logger.bind()
 
   try {
@@ -107,7 +107,7 @@ internals.addMeta = function(action, request, h, logger) {
     }
 
     if (_.isArray(request.payload)) {
-      request.payload.forEach(function(document) {
+      request.payload.forEach(function (document) {
         document[metaType] = userId
       })
     } else {

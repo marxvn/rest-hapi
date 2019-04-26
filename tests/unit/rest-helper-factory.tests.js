@@ -18,7 +18,7 @@ let Log = logging.getLogger('tests')
 Log.logLevel = 'ERROR'
 Log = Log.bind('rest-helper-factory')
 let testHelper = require('../../utilities/test-helper')
-let Joi = require('joi')
+let Joi = require('@hapi/joi')
 let fs = require('fs')
 
 sinon.test = sinonTest
@@ -29,7 +29,7 @@ sinon.test = sinonTest
 // TODO: test DeleteMany endpoint
 // TODO: test scope functionality
 
-test('rest-helper-factory exists and has expected members', function(t) {
+test('rest-helper-factory exists and has expected members', function (t) {
   // <editor-fold desc="Arrange">
   let server = sinon.spy()
   let restHelperFactory = require('../../utilities/rest-helper-factory')(
@@ -94,10 +94,10 @@ test('rest-helper-factory exists and has expected members', function(t) {
   // </editor-fold>
 })
 
-test('rest-helper-factory.defaultHeadersValidation', function(t) {
+test('rest-helper-factory.defaultHeadersValidation', function (t) {
   t.test(
     'rest-helper-factory.defaultHeadersValidation requires authorization property if auth is enabled',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       let server = sinon.spy()
       let config = { authStrategy: 'token' }
@@ -136,7 +136,7 @@ test('rest-helper-factory.defaultHeadersValidation', function(t) {
 
   t.test(
     "rest-helper-factory.defaultHeadersValidation doesn't require authorization property if auth is disabled",
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       let server = sinon.spy()
       let config = { authStrategy: null }
@@ -171,7 +171,7 @@ test('rest-helper-factory.defaultHeadersValidation', function(t) {
 
   t.test(
     'rest-helper-factory.defaultHeadersValidation allows unknown header properties',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       let server = sinon.spy()
       let restHelperFactory = require('../../utilities/rest-helper-factory')(
@@ -204,10 +204,10 @@ test('rest-helper-factory.defaultHeadersValidation', function(t) {
   t.end()
 })
 
-test('rest-helper-factory.generateRoutes', function(t) {
+test('rest-helper-factory.generateRoutes', function (t) {
   let server = sinon.spy()
-  sinon.stub(Log, 'error').callsFake(function() {})
-  sinon.stub(Log, 'bind').callsFake(function() {
+  sinon.stub(Log, 'error').callsFake(function () { })
+  sinon.stub(Log, 'bind').callsFake(function () {
     return Log
   })
   let restHelperFactory = require('../../utilities/rest-helper-factory')(
@@ -225,7 +225,7 @@ test('rest-helper-factory.generateRoutes', function(t) {
 
   t.test(
     'rest-helper-factory.generateRoutes calls CRUD endpoint generators by default',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       Log.error.restore()
       Log.bind.restore()
@@ -310,7 +310,7 @@ test('rest-helper-factory.generateRoutes', function(t) {
 
   t.test(
     'rest-helper-factory.generateRoutes does not call CRUD endpoint generators if not allowed',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       let server = sinon.spy()
       let restHelperFactory = require('../../utilities/rest-helper-factory')(
@@ -398,7 +398,7 @@ test('rest-helper-factory.generateRoutes', function(t) {
 
   t.test(
     'rest-helper-factory.generateRoutes calls association endpoint generators for MANY_MANY and ONE_MANY associations',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       let server = sinon.spy()
       let restHelperFactory = require('../../utilities/rest-helper-factory')(
@@ -678,7 +678,7 @@ test('rest-helper-factory.generateRoutes', function(t) {
 
   t.test(
     'rest-helper-factory.generateRoutes does not call association endpoint generators if not allowed',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       let server = sinon.spy()
       let restHelperFactory = require('../../utilities/rest-helper-factory')(
@@ -788,7 +788,7 @@ test('rest-helper-factory.generateRoutes', function(t) {
 
   t.test(
     'rest-helper-factory.generateRoutes creates extra endpoints if they exist.',
-    function(t) {
+    function (t) {
       // <editor-fold desc="Arrange">
       let server = sinon.spy()
       let restHelperFactory = require('../../utilities/rest-helper-factory')(
@@ -853,7 +853,7 @@ test('rest-helper-factory.generateRoutes', function(t) {
   t.end()
 })
 
-test('rest-helper-factory.generateListEndpoint', function(t) {
+test('rest-helper-factory.generateListEndpoint', function (t) {
   let server = sinon.spy()
   let restHelperFactory = require('../../utilities/rest-helper-factory')(
     Log,
@@ -870,10 +870,10 @@ test('rest-helper-factory.generateListEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateListEndpoint calls handlerHelper.generateListHandler',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -885,7 +885,7 @@ test('rest-helper-factory.generateListEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -925,10 +925,10 @@ test('rest-helper-factory.generateListEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateListEndpoint calls joiMongooseHelper.generateJoiReadModel and generateJoiListQueryModel',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -940,10 +940,10 @@ test('rest-helper-factory.generateListEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
-      joiMongooseHelperStub.generateJoiListQueryModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiListQueryModel = this.spy(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -987,10 +987,10 @@ test('rest-helper-factory.generateListEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateListEndpoint calls server.route',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -1002,7 +1002,7 @@ test('rest-helper-factory.generateListEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -1039,10 +1039,10 @@ test('rest-helper-factory.generateListEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateListEndpoint calls server.route with "GET" method',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -1054,7 +1054,7 @@ test('rest-helper-factory.generateListEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -1093,10 +1093,10 @@ test('rest-helper-factory.generateListEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateListEndpoint calls server.route with correct resourceAliasForRoute',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -1108,7 +1108,7 @@ test('rest-helper-factory.generateListEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -1160,16 +1160,16 @@ test('rest-helper-factory.generateListEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateListEndpoint calls server.route with correct handler',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
         require('../../utilities/handler-helper-factory')(this.spy(), server)
       )
-      handlerHelperStub.generateListHandler = this.spy(function() {
+      handlerHelperStub.generateListHandler = this.spy(function () {
         return 'HANDLER'
       })
       let handlerHelperStubWrapper = this.stub()
@@ -1178,7 +1178,7 @@ test('rest-helper-factory.generateListEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -1217,10 +1217,10 @@ test('rest-helper-factory.generateListEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateListEndpoint calls server.route using authentication defined by config',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -1232,7 +1232,7 @@ test('rest-helper-factory.generateListEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let config = { authStrategy: 'TEST_AUTH' }
@@ -1277,10 +1277,10 @@ test('rest-helper-factory.generateListEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateListEndpoint calls server.route with correct collectionName',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -1292,7 +1292,7 @@ test('rest-helper-factory.generateListEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -1353,10 +1353,10 @@ test('rest-helper-factory.generateListEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateListEndpoint calls server.route using cors',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -1368,7 +1368,7 @@ test('rest-helper-factory.generateListEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -1411,10 +1411,10 @@ test('rest-helper-factory.generateListEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateListEndpoint calls server.route using correct queryModel',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">//<editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -1426,11 +1426,11 @@ test('rest-helper-factory.generateListEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let queryModel = Joi.any().valid('TEST')
-      joiMongooseHelperStub.generateJoiListQueryModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiListQueryModel = this.spy(function () {
         return queryModel
       })
       let restHelperFactory = proxyquire(
@@ -1472,10 +1472,10 @@ test('rest-helper-factory.generateListEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateListEndpoint calls server.route using correct header validation',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -1487,7 +1487,7 @@ test('rest-helper-factory.generateListEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let config = { authStrategy: 'TEST_AUTH' }
@@ -1540,10 +1540,10 @@ test('rest-helper-factory.generateListEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateListEndpoint calls server.route using hapi-swagger plugin',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -1555,7 +1555,7 @@ test('rest-helper-factory.generateListEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -1598,10 +1598,10 @@ test('rest-helper-factory.generateListEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateListEndpoint calls server.route with correct response schema validation',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -1614,7 +1614,7 @@ test('rest-helper-factory.generateListEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return readModel
       })
       let restHelperFactory = proxyquire(
@@ -1679,7 +1679,7 @@ test('rest-helper-factory.generateListEndpoint', function(t) {
   t.end()
 })
 
-test('rest-helper-factory.generateFindEndpoint', function(t) {
+test('rest-helper-factory.generateFindEndpoint', function (t) {
   let server = sinon.spy()
   let restHelperFactory = require('../../utilities/rest-helper-factory')(
     Log,
@@ -1696,10 +1696,10 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateFindEndpoint calls handlerHelper.generateFindHandler',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -1711,7 +1711,7 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -1751,10 +1751,10 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateFindEndpoint calls queryHelper.getReadableFields',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -1766,7 +1766,7 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -1803,10 +1803,10 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateFindEndpoint calls joiMongooseHelper.generateJoiReadModel and generateJoiFindQueryModel',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -1818,10 +1818,10 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
-      joiMongooseHelperStub.generateJoiFindQueryModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiFindQueryModel = this.spy(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -1865,10 +1865,10 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateFindEndpoint calls server.route',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -1880,7 +1880,7 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -1917,10 +1917,10 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateFindEndpoint calls server.route with "GET" method',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -1932,7 +1932,7 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -1971,10 +1971,10 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateFindEndpoint calls server.route with correct resourceAliasForRoute',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -1986,7 +1986,7 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -2038,16 +2038,16 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateFindEndpoint calls server.route with correct handler',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
         require('../../utilities/handler-helper-factory')(this.spy(), server)
       )
-      handlerHelperStub.generateFindHandler = this.spy(function() {
+      handlerHelperStub.generateFindHandler = this.spy(function () {
         return 'HANDLER'
       })
       let handlerHelperStubWrapper = this.stub()
@@ -2056,7 +2056,7 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -2095,10 +2095,10 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateFindEndpoint calls server.route using authentication defined by config',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -2110,7 +2110,7 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let config = { authStrategy: 'TEST_AUTH' }
@@ -2155,10 +2155,10 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateFindEndpoint calls server.route with correct collectionName',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -2170,7 +2170,7 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -2231,10 +2231,10 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateFindEndpoint calls server.route using cors',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -2246,7 +2246,7 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -2289,10 +2289,10 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateFindEndpoint calls server.route using correct queryModel',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">//<editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -2304,11 +2304,11 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let queryModel = Joi.any().valid('TEST')
-      joiMongooseHelperStub.generateJoiFindQueryModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiFindQueryModel = this.spy(function () {
         return queryModel
       })
       let restHelperFactory = proxyquire(
@@ -2350,10 +2350,10 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateFindEndpoint calls server.route using correct params validation',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -2365,14 +2365,14 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let joiStub = require('joi')
-      let joiObjectIdStub = function() {
-        return function() {
+      let joiObjectIdStub = function () {
+        return function () {
           return {
-            required: function() {
+            required: function () {
               return 'TEST'
             }
           }
@@ -2424,10 +2424,10 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateFindEndpoint calls server.route using correct header validation',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -2439,7 +2439,7 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let config = { authStrategy: 'TEST_AUTH' }
@@ -2488,10 +2488,10 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateFindEndpoint calls server.route using hapi-swagger plugin',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -2503,7 +2503,7 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -2542,10 +2542,10 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateFindEndpoint calls server.route with correct response schema validation',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -2558,7 +2558,7 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return readModel
       })
       let restHelperFactory = proxyquire(
@@ -2604,7 +2604,7 @@ test('rest-helper-factory.generateFindEndpoint', function(t) {
   t.end()
 })
 
-test('rest-helper-factory.generateCreateEndpoint', function(t) {
+test('rest-helper-factory.generateCreateEndpoint', function (t) {
   let server = sinon.spy()
   let restHelperFactory = require('../../utilities/rest-helper-factory')(
     Log,
@@ -2621,9 +2621,9 @@ test('rest-helper-factory.generateCreateEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateCreateEndpoint calls handlerHelper.generateCreateHandler',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
-      let server = this.stub({ route: function() {} })
+      let server = this.stub({ route: function () { } })
 
       let handlerHelperStub = this.stub(
         require('../../utilities/handler-helper-factory')(this.spy(), server)
@@ -2634,10 +2634,10 @@ test('rest-helper-factory.generateCreateEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any().label('TEST')
       })
-      joiMongooseHelperStub.generateJoiCreateModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiCreateModel = this.spy(function () {
         return Joi.any().label('TEST')
       })
       let restHelperFactory = proxyquire(
@@ -2677,9 +2677,9 @@ test('rest-helper-factory.generateCreateEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateCreateEndpoint calls joiMongooseHelper.generateJoiReadModel',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
-      let server = this.stub({ route: function() {} })
+      let server = this.stub({ route: function () { } })
 
       let handlerHelperStub = this.stub(
         require('../../utilities/handler-helper-factory')(this.spy(), server)
@@ -2690,10 +2690,10 @@ test('rest-helper-factory.generateCreateEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any().label('TEST')
       })
-      joiMongooseHelperStub.generateJoiCreateModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiCreateModel = this.spy(function () {
         return Joi.any().label('TEST')
       })
       let restHelperFactory = proxyquire(
@@ -2733,9 +2733,9 @@ test('rest-helper-factory.generateCreateEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateCreateEndpoint calls joiMongooseHelper.generateJoiCreateModel',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
-      let server = this.stub({ route: function() {} })
+      let server = this.stub({ route: function () { } })
 
       let handlerHelperStub = this.stub(
         require('../../utilities/handler-helper-factory')(this.spy(), server)
@@ -2746,10 +2746,10 @@ test('rest-helper-factory.generateCreateEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiCreateModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any().label('TEST')
       })
-      joiMongooseHelperStub.generateJoiReadModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiReadModel = this.spy(function () {
         return Joi.any().label('TES')
       })
       let restHelperFactory = proxyquire(
@@ -2789,9 +2789,9 @@ test('rest-helper-factory.generateCreateEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateCreateEndpoint calls server.route',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
-      let server = this.stub({ route: function() {} })
+      let server = this.stub({ route: function () { } })
 
       let handlerHelperStub = this.stub(
         require('../../utilities/handler-helper-factory')(this.spy(), server)
@@ -2802,10 +2802,10 @@ test('rest-helper-factory.generateCreateEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any().label('TEST')
       })
-      joiMongooseHelperStub.generateJoiCreateModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiCreateModel = this.spy(function () {
         return Joi.any().label('TEST')
       })
       let restHelperFactory = proxyquire(
@@ -2842,9 +2842,9 @@ test('rest-helper-factory.generateCreateEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateCreateEndpoint calls server.route with "POST" method',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
-      let server = this.stub({ route: function() {} })
+      let server = this.stub({ route: function () { } })
 
       let handlerHelperStub = this.stub(
         require('../../utilities/handler-helper-factory')(this.spy(), server)
@@ -2855,10 +2855,10 @@ test('rest-helper-factory.generateCreateEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any().label('TEST')
       })
-      joiMongooseHelperStub.generateJoiCreateModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiCreateModel = this.spy(function () {
         return Joi.any().label('TEST')
       })
       let restHelperFactory = proxyquire(
@@ -2897,9 +2897,9 @@ test('rest-helper-factory.generateCreateEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateCreateEndpoint calls server.route with correct resourceAliasForRoute',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
-      let server = this.stub({ route: function() {} })
+      let server = this.stub({ route: function () { } })
 
       let handlerHelperStub = this.stub(
         require('../../utilities/handler-helper-factory')(this.spy(), server)
@@ -2910,10 +2910,10 @@ test('rest-helper-factory.generateCreateEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any().label('TEST')
       })
-      joiMongooseHelperStub.generateJoiCreateModel = function() {
+      joiMongooseHelperStub.generateJoiCreateModel = function () {
         return Joi.any()
       }
       let restHelperFactory = proxyquire(
@@ -2965,14 +2965,14 @@ test('rest-helper-factory.generateCreateEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateCreateEndpoint calls server.route with correct handler',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
-      let server = this.stub({ route: function() {} })
+      let server = this.stub({ route: function () { } })
 
       let handlerHelperStub = this.stub(
         require('../../utilities/handler-helper-factory')(this.spy(), server)
       )
-      handlerHelperStub.generateCreateHandler = this.spy(function() {
+      handlerHelperStub.generateCreateHandler = this.spy(function () {
         return 'HANDLER'
       })
       let handlerHelperStubWrapper = this.stub()
@@ -2981,10 +2981,10 @@ test('rest-helper-factory.generateCreateEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any().label('TEST')
       })
-      joiMongooseHelperStub.generateJoiCreateModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiCreateModel = this.spy(function () {
         return Joi.any().label('TEST')
       })
       let restHelperFactory = proxyquire(
@@ -3023,9 +3023,9 @@ test('rest-helper-factory.generateCreateEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateCreateEndpoint calls server.route using authentication defined by config',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
-      let server = this.stub({ route: function() {} })
+      let server = this.stub({ route: function () { } })
 
       let handlerHelperStub = this.stub(
         require('../../utilities/handler-helper-factory')(this.spy(), server)
@@ -3036,10 +3036,10 @@ test('rest-helper-factory.generateCreateEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any().label('TEST')
       })
-      joiMongooseHelperStub.generateJoiCreateModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiCreateModel = this.spy(function () {
         return Joi.any().label('TEST')
       })
       let config = { authStrategy: 'TEST_AUTH' }
@@ -3084,9 +3084,9 @@ test('rest-helper-factory.generateCreateEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateCreateEndpoint calls server.route with correct collectionName',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
-      let server = this.stub({ route: function() {} })
+      let server = this.stub({ route: function () { } })
 
       let handlerHelperStub = this.stub(
         require('../../utilities/handler-helper-factory')(this.spy(), server)
@@ -3097,10 +3097,10 @@ test('rest-helper-factory.generateCreateEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any().label('TEST')
       })
-      joiMongooseHelperStub.generateJoiCreateModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiCreateModel = this.spy(function () {
         return Joi.any().label('TEST')
       })
       let restHelperFactory = proxyquire(
@@ -3161,9 +3161,9 @@ test('rest-helper-factory.generateCreateEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateCreateEndpoint calls server.route using cors',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
-      let server = this.stub({ route: function() {} })
+      let server = this.stub({ route: function () { } })
 
       let handlerHelperStub = this.stub(
         require('../../utilities/handler-helper-factory')(this.spy(), server)
@@ -3174,10 +3174,10 @@ test('rest-helper-factory.generateCreateEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any().label('TEST')
       })
-      joiMongooseHelperStub.generateJoiCreateModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiCreateModel = this.spy(function () {
         return Joi.any().label('TEST')
       })
       let restHelperFactory = proxyquire(
@@ -3220,9 +3220,9 @@ test('rest-helper-factory.generateCreateEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateCreateEndpoint calls server.route using correct payload validation',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
-      let server = this.stub({ route: function() {} })
+      let server = this.stub({ route: function () { } })
 
       let handlerHelperStub = this.stub(
         require('../../utilities/handler-helper-factory')(this.spy(), server)
@@ -3233,10 +3233,10 @@ test('rest-helper-factory.generateCreateEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any().label('TEST')
       })
-      joiMongooseHelperStub.generateJoiCreateModel = function() {
+      joiMongooseHelperStub.generateJoiCreateModel = function () {
         return Joi.any().valid('TEST')
       }
       let restHelperFactory = proxyquire(
@@ -3282,9 +3282,9 @@ test('rest-helper-factory.generateCreateEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateCreateEndpoint calls server.route using correct header validation',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
-      let server = this.stub({ route: function() {} })
+      let server = this.stub({ route: function () { } })
 
       let handlerHelperStub = this.stub(
         require('../../utilities/handler-helper-factory')(this.spy(), server)
@@ -3295,10 +3295,10 @@ test('rest-helper-factory.generateCreateEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any().label('TEST')
       })
-      joiMongooseHelperStub.generateJoiCreateModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiCreateModel = this.spy(function () {
         return Joi.any().label('TEST')
       })
       let config = { authStrategy: 'TEST_AUTH' }
@@ -3347,9 +3347,9 @@ test('rest-helper-factory.generateCreateEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateCreateEndpoint calls server.route using hapi-swagger plugin',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
-      let server = this.stub({ route: function() {} })
+      let server = this.stub({ route: function () { } })
 
       let handlerHelperStub = this.stub(
         require('../../utilities/handler-helper-factory')(this.spy(), server)
@@ -3360,10 +3360,10 @@ test('rest-helper-factory.generateCreateEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any().label('TEST')
       })
-      joiMongooseHelperStub.generateJoiCreateModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiCreateModel = this.spy(function () {
         return Joi.any().label('TEST')
       })
       let restHelperFactory = proxyquire(
@@ -3402,9 +3402,9 @@ test('rest-helper-factory.generateCreateEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateCreateEndpoint calls server.route with correct response schema validation',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
-      let server = this.stub({ route: function() {} })
+      let server = this.stub({ route: function () { } })
 
       let handlerHelperStub = this.stub(
         require('../../utilities/handler-helper-factory')(this.spy(), server)
@@ -3418,10 +3418,10 @@ test('rest-helper-factory.generateCreateEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return readModel
       })
-      joiMongooseHelperStub.generateJoiCreateModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiCreateModel = this.spy(function () {
         return Joi.any().label('TEST')
       })
       let restHelperFactory = proxyquire(
@@ -3471,7 +3471,7 @@ test('rest-helper-factory.generateCreateEndpoint', function(t) {
   t.end()
 })
 
-test('rest-helper-factory.generateDeleteOneEndpoint', function(t) {
+test('rest-helper-factory.generateDeleteOneEndpoint', function (t) {
   let server = sinon.spy()
   let restHelperFactory = require('../../utilities/rest-helper-factory')(
     Log,
@@ -3488,10 +3488,10 @@ test('rest-helper-factory.generateDeleteOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateDeleteOneEndpoint calls handlerHelper.generateDeleteOneHandler',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -3503,7 +3503,7 @@ test('rest-helper-factory.generateDeleteOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -3543,10 +3543,10 @@ test('rest-helper-factory.generateDeleteOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateDeleteOneEndpoint calls server.route',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -3558,7 +3558,7 @@ test('rest-helper-factory.generateDeleteOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -3595,10 +3595,10 @@ test('rest-helper-factory.generateDeleteOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateDeleteOneEndpoint calls server.route with "DELETE" method',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -3610,7 +3610,7 @@ test('rest-helper-factory.generateDeleteOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -3649,10 +3649,10 @@ test('rest-helper-factory.generateDeleteOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateDeleteOneEndpoint calls server.route with correct resourceAliasForRoute',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -3664,7 +3664,7 @@ test('rest-helper-factory.generateDeleteOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -3716,16 +3716,16 @@ test('rest-helper-factory.generateDeleteOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateDeleteOneEndpoint calls server.route with correct handler',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
         require('../../utilities/handler-helper-factory')(this.spy(), server)
       )
-      handlerHelperStub.generateDeleteHandler = this.spy(function() {
+      handlerHelperStub.generateDeleteHandler = this.spy(function () {
         return 'HANDLER'
       })
       let handlerHelperStubWrapper = this.stub()
@@ -3734,7 +3734,7 @@ test('rest-helper-factory.generateDeleteOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -3773,10 +3773,10 @@ test('rest-helper-factory.generateDeleteOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateDeleteOneEndpoint calls server.route using authentication defined by config',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -3788,7 +3788,7 @@ test('rest-helper-factory.generateDeleteOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let config = { authStrategy: 'TEST_AUTH' }
@@ -3833,10 +3833,10 @@ test('rest-helper-factory.generateDeleteOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateDeleteOneEndpoint calls server.route with correct collectionName',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -3848,7 +3848,7 @@ test('rest-helper-factory.generateDeleteOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -3909,10 +3909,10 @@ test('rest-helper-factory.generateDeleteOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateDeleteOneEndpoint calls server.route using cors',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -3924,7 +3924,7 @@ test('rest-helper-factory.generateDeleteOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -3967,10 +3967,10 @@ test('rest-helper-factory.generateDeleteOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateDeleteOneEndpoint calls server.route using correct params validation',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -3982,15 +3982,15 @@ test('rest-helper-factory.generateDeleteOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let joiStub = require('joi')
 
-      let joiObjectIdStub = function() {
-        return function() {
+      let joiObjectIdStub = function () {
+        return function () {
           return {
-            required: function() {
+            required: function () {
               return 'TEST'
             }
           }
@@ -4046,10 +4046,10 @@ test('rest-helper-factory.generateDeleteOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateDeleteOneEndpoint calls server.route using correct header validation',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -4061,7 +4061,7 @@ test('rest-helper-factory.generateDeleteOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let config = { authStrategy: 'TEST_AUTH' }
@@ -4110,10 +4110,10 @@ test('rest-helper-factory.generateDeleteOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateDeleteOneEndpoint calls server.route using hapi-swagger plugin',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -4125,7 +4125,7 @@ test('rest-helper-factory.generateDeleteOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -4165,7 +4165,7 @@ test('rest-helper-factory.generateDeleteOneEndpoint', function(t) {
   t.end()
 })
 
-test('rest-helper-factory.generateUpdateEndpoint', function(t) {
+test('rest-helper-factory.generateUpdateEndpoint', function (t) {
   let server = sinon.spy()
   let restHelperFactory = require('../../utilities/rest-helper-factory')(
     Log,
@@ -4182,10 +4182,10 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateUpdateEndpoint calls handlerHelper.generateUpdateHandler',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -4197,13 +4197,13 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
-      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function () {
         return Joi.any()
       })
-      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -4243,10 +4243,10 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateUpdateEndpoint calls joiMongooseHelper.generateJoiReadModel',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -4258,10 +4258,10 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
-      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -4301,10 +4301,10 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateUpdateEndpoint calls joiMongooseHelper.generateJoiUpdateModel',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -4316,10 +4316,10 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
-      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -4359,10 +4359,10 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateUpdateEndpoint calls server.route',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -4374,10 +4374,10 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
-      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -4414,10 +4414,10 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateUpdateEndpoint calls server.route with "PUT" method',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -4429,10 +4429,10 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
-      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -4471,10 +4471,10 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateUpdateEndpoint calls server.route with correct resourceAliasForRoute',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -4486,13 +4486,13 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
-      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function () {
         return Joi.any()
       })
-      joiMongooseHelperStub.generateJoiUpdateModel = function() {
+      joiMongooseHelperStub.generateJoiUpdateModel = function () {
         return Joi.any()
       }
       let restHelperFactory = proxyquire(
@@ -4544,16 +4544,16 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateUpdateEndpoint calls server.route with correct handler',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
         require('../../utilities/handler-helper-factory')(this.spy(), server)
       )
-      handlerHelperStub.generateUpdateHandler = this.spy(function() {
+      handlerHelperStub.generateUpdateHandler = this.spy(function () {
         return 'HANDLER'
       })
       let handlerHelperStubWrapper = this.stub()
@@ -4562,10 +4562,10 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
-      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -4604,10 +4604,10 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateUpdateEndpoint calls server.route using authentication defined by config',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -4619,10 +4619,10 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
-      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function () {
         return Joi.any()
       })
       let config = { authStrategy: 'TEST_AUTH' }
@@ -4667,10 +4667,10 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateUpdateEndpoint calls server.route with correct collectionName',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -4682,10 +4682,10 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
-      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -4746,10 +4746,10 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateUpdateEndpoint calls server.route using cors',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -4761,10 +4761,10 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
-      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -4807,10 +4807,10 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateUpdateEndpoint calls server.route using correct payload validation',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -4822,13 +4822,13 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
-      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function () {
         return Joi.any()
       })
-      joiMongooseHelperStub.generateJoiUpdateModel = function() {
+      joiMongooseHelperStub.generateJoiUpdateModel = function () {
         return Joi.any().valid('TEST')
       }
       let restHelperFactory = proxyquire(
@@ -4871,10 +4871,10 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateUpdateEndpoint calls server.route using correct params validation',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -4886,18 +4886,18 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
-      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function () {
         return Joi.any()
       })
       let joiStub = require('joi')
 
-      let joiObjectIdStub = function() {
-        return function() {
+      let joiObjectIdStub = function () {
+        return function () {
           return {
-            required: function() {
+            required: function () {
               return 'TEST'
             }
           }
@@ -4949,10 +4949,10 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateUpdateEndpoint calls server.route using correct header validation',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -4964,10 +4964,10 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
-      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function () {
         return Joi.any()
       })
       let config = { authStrategy: 'TEST_AUTH' }
@@ -5016,10 +5016,10 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateUpdateEndpoint calls server.route using hapi-swagger plugin',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -5031,10 +5031,10 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
-      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -5073,10 +5073,10 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateUpdateEndpoint calls server.route with correct response schema validation',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -5089,10 +5089,10 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return readModel
       })
-      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiUpdateModel = this.spy(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -5138,7 +5138,7 @@ test('rest-helper-factory.generateUpdateEndpoint', function(t) {
   t.end()
 })
 
-test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
+test('rest-helper-factory.generateAssociationAddOneEndpoint', function (t) {
   let server = sinon.spy()
   let restHelperFactory = require('../../utilities/rest-helper-factory')(
     Log,
@@ -5155,10 +5155,10 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddOneEndpoint asserts routeOptions.associations exist',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -5170,7 +5170,7 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiCreateModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -5225,10 +5225,10 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddOneEndpoint asserts association input exists',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -5240,7 +5240,7 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiCreateModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -5297,10 +5297,10 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddOneEndpoint calls handlerHelper.generateAssociationAddOneHandler',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -5312,7 +5312,7 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiCreateModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -5369,10 +5369,10 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddOneEndpoint calls server.route',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -5384,7 +5384,7 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiCreateModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -5438,10 +5438,10 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddOneEndpoint calls server.route with "PUT" method',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -5453,7 +5453,7 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiCreateModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -5509,10 +5509,10 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddOneEndpoint calls server.route with correct ownerAlias and childAlias',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -5524,10 +5524,10 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiCreateModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
-      joiMongooseHelperStub.generateJoiUpdateModel = function() {
+      joiMongooseHelperStub.generateJoiUpdateModel = function () {
         return Joi.any()
       }
       let restHelperFactory = proxyquire(
@@ -5613,16 +5613,16 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddOneEndpoint calls server.route with correct handler',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
         require('../../utilities/handler-helper-factory')(this.spy(), server)
       )
-      handlerHelperStub.generateAssociationAddOneHandler = this.spy(function() {
+      handlerHelperStub.generateAssociationAddOneHandler = this.spy(function () {
         return 'HANDLER'
       })
       let handlerHelperStubWrapper = this.stub()
@@ -5631,7 +5631,7 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiCreateModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -5687,10 +5687,10 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddOneEndpoint calls server.route using authentication defined by config',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -5702,7 +5702,7 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiCreateModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let config = { authStrategy: 'TEST_AUTH' }
@@ -5764,10 +5764,10 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddOneEndpoint calls server.route with correct associationName and ownerModelName',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -5779,7 +5779,7 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiCreateModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -5892,10 +5892,10 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddOneEndpoint calls server.route using cors',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -5907,7 +5907,7 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiCreateModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -5967,10 +5967,10 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddOneEndpoint calls server.route using correct payload validation',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -5982,10 +5982,10 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiCreateModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
-      joiMongooseHelperStub.generateJoiCreateModel = function() {
+      joiMongooseHelperStub.generateJoiCreateModel = function () {
         return Joi.object({ test: 'test' })
       }
       let restHelperFactory = proxyquire(
@@ -6069,10 +6069,10 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddOneEndpoint calls server.route using correct params validation',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -6084,14 +6084,14 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiCreateModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let joiStub = require('joi')
-      let joiObjectIdStub = function() {
-        return function() {
+      let joiObjectIdStub = function () {
+        return function () {
           return {
-            required: function() {
+            required: function () {
               return 'TEST'
             }
           }
@@ -6161,10 +6161,10 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddOneEndpoint calls server.route using correct header validation',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -6176,7 +6176,7 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiCreateModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let config = { authStrategy: 'TEST_AUTH' }
@@ -6242,10 +6242,10 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddOneEndpoint calls server.route using hapi-swagger plugin',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -6257,7 +6257,7 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiCreateModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -6313,10 +6313,10 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddOneEndpoint calls server.route with correct response schema validation',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -6328,7 +6328,7 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiCreateModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return {}
       })
       let restHelperFactory = proxyquire(
@@ -6391,7 +6391,7 @@ test('rest-helper-factory.generateAssociationAddOneEndpoint', function(t) {
   t.end()
 })
 
-test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
+test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function (t) {
   let server = sinon.spy()
   let restHelperFactory = require('../../utilities/rest-helper-factory')(
     Log,
@@ -6408,10 +6408,10 @@ test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationRemoveOneEndpoint asserts routeOptions.associations exist',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -6423,7 +6423,7 @@ test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -6478,10 +6478,10 @@ test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationRemoveOneEndpoint asserts association input exists',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -6493,7 +6493,7 @@ test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -6550,10 +6550,10 @@ test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationRemoveOneEndpoint calls handlerHelper.generateAssociationRemoveOneHandler',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -6565,7 +6565,7 @@ test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -6622,10 +6622,10 @@ test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationRemoveOneEndpoint calls server.route',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -6637,7 +6637,7 @@ test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -6691,10 +6691,10 @@ test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationRemoveOneEndpoint calls server.route with "DELETE" method',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -6706,7 +6706,7 @@ test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -6762,10 +6762,10 @@ test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationRemoveOneEndpoint calls server.route with correct ownerAlias and childAlias',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -6777,10 +6777,10 @@ test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
-      joiMongooseHelperStub.generateJoiUpdateModel = function() {
+      joiMongooseHelperStub.generateJoiUpdateModel = function () {
         return Joi.any()
       }
       let restHelperFactory = proxyquire(
@@ -6866,17 +6866,17 @@ test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationRemoveOneEndpoint calls server.route with correct handler',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
         require('../../utilities/handler-helper-factory')(this.spy(), server)
       )
       handlerHelperStub.generateAssociationRemoveOneHandler = this.spy(
-        function() {
+        function () {
           return 'HANDLER'
         }
       )
@@ -6886,7 +6886,7 @@ test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -6942,10 +6942,10 @@ test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationRemoveOneEndpoint calls server.route using authentication defined by config',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -6957,7 +6957,7 @@ test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let config = { authStrategy: 'TEST_AUTH' }
@@ -7019,10 +7019,10 @@ test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationRemoveOneEndpoint calls server.route with correct associationName and ownerModelName',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -7034,7 +7034,7 @@ test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -7147,10 +7147,10 @@ test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationRemoveOneEndpoint calls server.route using cors',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -7162,7 +7162,7 @@ test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -7222,10 +7222,10 @@ test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationRemoveOneEndpoint calls server.route using correct params validation',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -7237,14 +7237,14 @@ test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let joiStub = require('joi')
-      let joiObjectIdStub = function() {
-        return function() {
+      let joiObjectIdStub = function () {
+        return function () {
           return {
-            required: function() {
+            required: function () {
               return 'TEST'
             }
           }
@@ -7314,10 +7314,10 @@ test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationRemoveOneEndpoint calls server.route using correct header validation',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -7329,7 +7329,7 @@ test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let config = { authStrategy: 'TEST_AUTH' }
@@ -7395,10 +7395,10 @@ test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationRemoveOneEndpoint calls server.route using hapi-swagger plugin',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -7410,7 +7410,7 @@ test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -7466,10 +7466,10 @@ test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationRemoveOneEndpoint calls server.route with correct response schema validation',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -7481,7 +7481,7 @@ test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return {}
       })
       let restHelperFactory = proxyquire(
@@ -7544,7 +7544,7 @@ test('rest-helper-factory.generateAssociationRemoveOneEndpoint', function(t) {
   t.end()
 })
 
-test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
+test('rest-helper-factory.generateAssociationAddManyEndpoint', function (t) {
   let server = sinon.spy()
   let restHelperFactory = require('../../utilities/rest-helper-factory')(
     Log,
@@ -7561,10 +7561,10 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddManyEndpoint asserts routeOptions.associations exist',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -7576,7 +7576,7 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -7631,10 +7631,10 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddManyEndpoint asserts association input exists',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -7646,7 +7646,7 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -7703,10 +7703,10 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddManyEndpoint calls handlerHelper.generateAssociationAddManyHandler',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -7718,7 +7718,7 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -7775,10 +7775,10 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddManyEndpoint calls server.route',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -7790,7 +7790,7 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -7844,10 +7844,10 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddManyEndpoint calls server.route with "POST" method',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -7859,7 +7859,7 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -7915,10 +7915,10 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddManyEndpoint calls server.route with correct ownerAlias and childAlias',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -7930,10 +7930,10 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
-      joiMongooseHelperStub.generateJoiUpdateModel = function() {
+      joiMongooseHelperStub.generateJoiUpdateModel = function () {
         return Joi.any()
       }
       let restHelperFactory = proxyquire(
@@ -8010,17 +8010,17 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddManyEndpoint calls server.route with correct handler',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
         require('../../utilities/handler-helper-factory')(this.spy(), server)
       )
       handlerHelperStub.generateAssociationAddManyHandler = this.spy(
-        function() {
+        function () {
           return 'HANDLER'
         }
       )
@@ -8030,7 +8030,7 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -8086,10 +8086,10 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddManyEndpoint calls server.route using authentication defined by config',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -8101,7 +8101,7 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let config = { authStrategy: 'TEST_AUTH' }
@@ -8163,10 +8163,10 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddManyEndpoint calls server.route with correct associationName and ownerModelName',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -8178,7 +8178,7 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -8271,10 +8271,10 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddManyEndpoint calls server.route using cors',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -8286,7 +8286,7 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -8346,10 +8346,10 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddManyEndpoint calls server.route using correct payload validation',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -8361,16 +8361,16 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
-      joiMongooseHelperStub.generateJoiCreateModel = function() {
+      joiMongooseHelperStub.generateJoiCreateModel = function () {
         return Joi.object({ test: 'test' }).unknown()
       }
       let joiStub = require('joi')
 
-      let joiObjectIdStub = function() {
-        return function() {
+      let joiObjectIdStub = function () {
+        return function () {
           return Joi.any().valid('objectId')
         }
       }
@@ -8482,10 +8482,10 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddManyEndpoint calls server.route using correct params validation',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -8497,13 +8497,13 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let joiStub = require('joi')
 
-      let joiObjectIdStub = function() {
-        return function() {
+      let joiObjectIdStub = function () {
+        return function () {
           return Joi.any().valid('objectId')
         }
       }
@@ -8576,10 +8576,10 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddManyEndpoint calls server.route using correct header validation',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -8591,7 +8591,7 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let config = { authStrategy: 'TEST_AUTH' }
@@ -8657,10 +8657,10 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddManyEndpoint calls server.route using hapi-swagger plugin',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -8672,7 +8672,7 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -8728,10 +8728,10 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationAddManyEndpoint calls server.route with correct response schema validation',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -8743,7 +8743,7 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return {}
       })
       let restHelperFactory = proxyquire(
@@ -8806,7 +8806,7 @@ test('rest-helper-factory.generateAssociationAddManyEndpoint', function(t) {
   t.end()
 })
 
-test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
+test('rest-helper-factory.generateAssociationGetAllEndpoint', function (t) {
   let server = sinon.spy()
   let restHelperFactory = require('../../utilities/rest-helper-factory')(
     Log,
@@ -8823,10 +8823,10 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationGetAllEndpoint asserts routeOptions.associations exist',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -8838,7 +8838,7 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -8893,10 +8893,10 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationGetAllEndpoint asserts association input exists',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -8908,7 +8908,7 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -8965,10 +8965,10 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationGetAllEndpoint calls handlerHelper.generateAssociationGetAllHandler',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -8980,7 +8980,7 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -9036,10 +9036,10 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationGetAllEndpoint calls queryHelper.getQueryableFields, getReadableFields, and getSortableFields',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -9051,7 +9051,7 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -9109,10 +9109,10 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationGetAllEndpoint calls joiMongooseHelper.generateJoiReadModel',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -9124,7 +9124,7 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -9180,10 +9180,10 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationGetAllEndpoint calls server.route',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -9195,7 +9195,7 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -9248,10 +9248,10 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationGetAllEndpoint calls server.route with "GET" method',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -9263,7 +9263,7 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -9318,10 +9318,10 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationGetAllEndpoint calls server.route with correct ownerAlias and childAlias',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -9333,10 +9333,10 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
-      joiMongooseHelperStub.generateJoiUpdateModel = function() {
+      joiMongooseHelperStub.generateJoiUpdateModel = function () {
         return Joi.any()
       }
       let restHelperFactory = proxyquire(
@@ -9418,16 +9418,16 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationGetAllEndpoint calls server.route with correct handler',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
         require('../../utilities/handler-helper-factory')(this.spy(), server)
       )
-      handlerHelperStub.generateAssociationGetAllHandler = this.spy(function() {
+      handlerHelperStub.generateAssociationGetAllHandler = this.spy(function () {
         return 'HANDLER'
       })
       let handlerHelperStubWrapper = this.stub()
@@ -9436,7 +9436,7 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let config = { authStrategy: 'TEST_AUTH' }
@@ -9493,10 +9493,10 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationGetAllEndpoint calls server.route using authentication defined by config',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -9508,7 +9508,7 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let config = { authStrategy: 'TEST_AUTH' }
@@ -9569,10 +9569,10 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationGetAllEndpoint calls server.route with correct associationName and ownerModelName',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -9584,7 +9584,7 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -9680,10 +9680,10 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationGetAllEndpoint calls server.route using cors',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -9695,7 +9695,7 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -9754,10 +9754,10 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationGetAllEndpoint calls server.route using correct queryValidation',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -9766,25 +9766,25 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
       let handlerHelperStubWrapper = this.stub()
       handlerHelperStubWrapper.returns(handlerHelperStub)
       let queryHelperStub = this.stub(require('../../utilities/query-helper'))
-      queryHelperStub.getQueryableFields = this.spy(function() {
+      queryHelperStub.getQueryableFields = this.spy(function () {
         return ['test']
       })
       let readableFields = ['readable']
       let sortableFields = ['sortable']
-      queryHelperStub.getReadableFields = this.spy(function() {
+      queryHelperStub.getReadableFields = this.spy(function () {
         return readableFields
       })
-      queryHelperStub.getSortableFields = this.spy(function() {
+      queryHelperStub.getSortableFields = this.spy(function () {
         return sortableFields
       })
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let queryModel = Joi.any().valid('TEST')
-      joiMongooseHelperStub.generateJoiListQueryModel = this.spy(function() {
+      joiMongooseHelperStub.generateJoiListQueryModel = this.spy(function () {
         return queryModel
       })
       let joiStub = require('joi')
@@ -9844,10 +9844,10 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationGetAllEndpoint calls server.route using correct header validation',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -9859,7 +9859,7 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let config = { authStrategy: 'TEST_AUTH' }
@@ -9924,10 +9924,10 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationGetAllEndpoint calls server.route using hapi-swagger plugin',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -9939,7 +9939,7 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return Joi.any()
       })
       let restHelperFactory = proxyquire(
@@ -9994,10 +9994,10 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
 
   t.test(
     'rest-helper-factory.generateAssociationGetAllEndpoint calls server.route with correct response schema validation',
-    sinon.test(function(t) {
+    sinon.test(function (t) {
       // <editor-fold desc="Arrange">
       let server = this.stub({
-        route: function() {}
+        route: function () { }
       })
 
       let handlerHelperStub = this.stub(
@@ -10010,7 +10010,7 @@ test('rest-helper-factory.generateAssociationGetAllEndpoint', function(t) {
       let joiMongooseHelperStub = this.stub(
         require('../../utilities/joi-mongoose-helper'),
         'generateJoiReadModel'
-      ).callsFake(function() {
+      ).callsFake(function () {
         return readModel
       })
       let restHelperFactory = proxyquire(

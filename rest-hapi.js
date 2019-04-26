@@ -3,8 +3,8 @@
 const extend = require('extend')
 const _ = require('lodash')
 const path = require('path')
-const Inert = require('inert')
-const Vision = require('vision')
+const Inert = require('@hapi/inert')
+const Vision = require('@hapi/vision')
 const HapiSwagger = require('hapi-swagger')
 const Mrhorse = require('mrhorse')
 const logging = require('loggin')
@@ -84,7 +84,7 @@ async function register(server, options) {
       if (err.message.includes('no such file')) {
         Log.error(
           'The policies directory provided does not exist. ' +
-            "Try setting the 'policyPath' property of the config file."
+          "Try setting the 'policyPath' property of the config file."
         )
       } else {
         throw err
@@ -118,7 +118,7 @@ function generateModels(mongoose) {
 
   module.exports.logger = Log
 
-  return modelGenerator(mongoose, Log, config).then(function(models) {
+  return modelGenerator(mongoose, Log, config).then(function (models) {
     internals.globalModels = models
     return models
   })

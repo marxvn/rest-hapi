@@ -1,6 +1,6 @@
 'use strict'
 
-let Boom = require('boom')
+let Boom = require('@hapi/boom')
 let QueryHelper = require('./query-helper')
 let JoiMongooseHelper = require('./joi-mongoose-helper')
 let config = require('../config')
@@ -1430,10 +1430,10 @@ async function _setAssociation(
         if (!childAssociation.include) {
           throw Boom.badRequest(
             'Missing association between ' +
-              ownerModel.modelName +
-              ' and ' +
-              childModel.modelName +
-              '.'
+            ownerModel.modelName +
+            ' and ' +
+            childModel.modelName +
+            '.'
           )
         }
 
@@ -1530,7 +1530,7 @@ async function _removeAssociation(
       if (
         childObject[association.foreignField] &&
         childObject[association.foreignField].toString() ===
-          ownerObject._id.toString()
+        ownerObject._id.toString()
       ) {
         childObject[association.foreignField] = undefined
       }
@@ -1639,7 +1639,7 @@ async function _removeAssociation(
  */
 function filterDeletedEmbeds(result, parent, parentkey, depth, Log) {
   if (_.isArray(result)) {
-    result = result.filter(function(obj) {
+    result = result.filter(function (obj) {
       let keep = filterDeletedEmbeds(obj, result, parentkey, depth + 1, Log)
       // Log.log("KEEP:", keep);
       return keep
